@@ -124,6 +124,10 @@
     // objects + player, sorted by y
     const draw = map.objs.filter(o => o.type !== 'exit').map(o => ({ y: o.y, f: () => drawObj(g, map, o, t) }));
     if (opts.player) draw.push({ y: opts.player.ry, f: () => JArt.playerSprite(g, opts.player.rx * T, opts.player.ry * T, opts.player.dir, opts.status) });
+    if (opts.encounter && opts.player) { // road encounter: its sprite steps up beside you
+      const ex = opts.player.rx + (opts.player.rx < W - 2 ? 1 : -1), ey = opts.player.ry;
+      draw.push({ y: ey, f: () => JArt.npcSprite(g, opts.encounter, ex * T, ey * T, 'left') });
+    }
     draw.sort((a, b) => a.y - b.y).forEach(d => d.f());
     if (opts.labels) for (const o of map.objs) label(g, o, opts.focus === o);
     else if (opts.focus) label(g, opts.focus, true);

@@ -169,10 +169,17 @@
   }
 
   // ---------- battle ----------
-  function enemySprite(g, id, name, w, h, t) {
-    const im = img(A.enemies[id]);
+  // Which character's bust is this enemy's picture? (named fights, road encounters, mapped enemy ids)
+  function enemyArtId(id, name, from) {
+    if (from && A.busts[from]) return from;
+    if (/^named_/.test(id || '')) return id.slice(6);
+    const m = A.enemyArt || {}; return m[id] || m[(name || '').toLowerCase()] || null;
+  }
+  function enemySprite(g, id, name, w, h, t, from) {
+    const who = enemyArtId(id, name, from);
+    const im = who && from ? null : img(A.enemies[id]);
     const cx = w * 0.7, cy = h * 0.52;
-    const who = /^named_/.test(id || '') ? id.slice(6) : null; const bust = !im && who && img(A.busts[who]);
+    const bust = !im && who && img(A.busts[who]);
     if (bust) { const S = 150, bx = cx - S / 2, by = h * 0.5 - S / 2 + Math.sin(t / 400) * 2;
       g.fillStyle = '#00000088'; g.fillRect(bx - 2, by + 4, S + 8, S + 4); g.drawImage(bust, bx, by, S, S);
       g.strokeStyle = '#ff4fd8'; g.lineWidth = 3; g.strokeRect(bx, by, S, S); return; }
@@ -215,5 +222,5 @@
     return out;
   }
   const loaded = path => !!(cache[path] && cache[path].ok && cache[path].im.naturalWidth > 0);
-  window.JArt = { T, img, loaded, hash, rng, drawTile, npcSprite, playerSprite, objectIcon, enemySprite, battleBg, person, placeholders, pal };
+  window.JArt = { T, img, loaded, hash, rng, drawTile, npcSprite, playerSprite, objectIcon, enemySprite, enemyArtId, battleBg, person, placeholders, pal };
 })();

@@ -10,6 +10,7 @@
   function applySettings() { document.body.classList.remove('fs-s', 'fs-l', 'fs-xl'); if (settings.fs !== 'm') document.body.classList.add('fs-' + settings.fs); }
   applySettings();
 
+  let encFrom = null; // road-encounter npc id while talking to it / fighting what came out of it
   let scene = null, st = null, map = null, probe = [], restorePending = false, lastName = '';
   const P = { x: 9, y: 12, rx: 9, ry: 12, dir: 'up' };
   let moving = null, path = [], pendingObj = null, clickTarget = null;
@@ -25,7 +26,9 @@
       else if (st.node === 'intro' && prevNode !== 'intro') JUI.showMsg(scene.text);
     } else {
       JUI.clearMsg();
-      JUI.showScene(scene, st, { onPick, lastName });
+      if (scene.mode === 'TALK') encFrom = /^enc_/.test(st.talk || '') ? st.talk : null;
+      else if (!/^COMBAT/.test(scene.mode)) encFrom = null;
+      JUI.showScene(scene, st, { onPick, lastName, encArt: /^COMBAT/.test(scene.mode) ? encFrom : null });
     }
   }
   function onPick(i, name) {
@@ -225,7 +228,7 @@
     } else if (!blocked() && held.size) { step([...held][held.size - 1]); }
     if (map) {
       const f = (!moving && scene && scene.mode === 'EXPLORE') ? focusObj() : null;
-      JMap.render(g, map, t, { player: P, status: st, labels: settings.labels === 'all', focus: f, target: path.length ? clickTarget : null });
+      JMap.render(g, map, t, { player: P, status: st, encounter: scene && scene.mode !== 'EXPLORE' ? encFrom : null, labels: settings.labels === 'all', focus: f, target: path.length ? clickTarget : null });
       JUI.prompt(f && !JUI.msgOpen() && !JUI.overlayOpen() ? 'Ⓐ ' + f.label + (scene.choices[f.i] && !scene.choices[f.i].enabled ? '  (unavailable)' : '') : '');
     } else { g.fillStyle = '#120b1f'; g.fillRect(0, 0, cv.width, cv.height); JUI.prompt(''); }
     requestAnimationFrame(loop);

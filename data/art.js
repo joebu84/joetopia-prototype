@@ -38,9 +38,16 @@
     // Add a character: drop the four files in, add a line here. Override one picture by setting
     // e.g. npcs.robert = 'art/npcs/robert_v2.png' after the loop below.
     characters: { robert: 'robert', ramirez: 'ramirez', rob: 'rob', joseph: 'joseph', miranda: 'miranda',
-      alex: 'alex', sean: 'sean', alec: 'alec', lydia_talk: 'lydia' },
-    npcs: {}, faces: {}, portraits: {}, busts: {},
+      alex: 'alex', sean: 'sean', alec: 'alec', lydia_talk: 'lydia',
+      // road / travel encounters (WorldNpcs.kt): same four pictures, plus a wide event picture
+      //   events     shown when the encounter starts  art/events/<stem>.webp  (512px wide)
+      enc_guard: 'enc_guard', enc_preacher: 'enc_preacher', enc_egirl: 'enc_egirl',
+      enc_trader: 'enc_trader', enc_goblins: 'enc_goblins', enc_fans: 'enc_fans' },
+    npcs: {}, faces: {}, portraits: {}, busts: {}, events: {},
     enemies: {},             // battle sprite per enemy id, e.g. wolf: 'art/enemies/wolf.png'
+    // Fights whose enemy is one of the characters above: enemy id (or street-event name) -> character id.
+    // Its bust is the enemy picture. Fights that start from a road encounter use that encounter's bust too.
+    enemyArt: { city_guard: 'enc_guard', goblin: 'enc_goblins', 'off-duty city guard': 'enc_guard' },
     objects: {               // map markers for shops, crowds and things to do
       shop: 'art/sprites/shop.png', crowd: 'art/sprites/crowd.png', fight: 'art/sprites/fight.png',
       event: 'art/sprites/event.png', drink: 'art/sprites/drink.png', dance: 'art/sprites/dance.png',
@@ -57,5 +64,6 @@
   for (const [id, stem] of Object.entries(A.characters)) {
     A.npcs[id] = A.npcs[id] || `art/npcs/${stem}.png${v}`; A.faces[id] = A.faces[id] || `art/faces/${stem}.webp${v}`;
     A.portraits[id] = A.portraits[id] || `art/portraits/${stem}.webp${v}`; A.busts[id] = A.busts[id] || `art/busts/${stem}.webp${v}`;
+    if (/^enc_/.test(id)) A.events[id] = A.events[id] || `art/events/${stem}.webp${v}`;
   }
 })();

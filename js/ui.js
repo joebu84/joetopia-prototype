@@ -48,6 +48,12 @@
       if (JOETOPIA_ART.portraits[st.talk]) im.addEventListener('click', () => lightbox(JOETOPIA_ART.portraits[st.talk], scene.title.split(':')[0]));
       head.prepend(im); p.classList.add('talk-face');
     }
+    if (scene.mode === 'TALK' && st.talk && JOETOPIA_ART.events && JOETOPIA_ART.events[st.talk]) { // road encounter: event picture
+      const ev = el('img', 'evpic'); ev.src = JOETOPIA_ART.events[st.talk]; ev.alt = scene.title.split(':')[0]; ev.title = 'Tap to enlarge';
+      ev.onerror = () => ev.remove();
+      ev.addEventListener('click', () => lightbox(JOETOPIA_ART.portraits[st.talk] || ev.src, scene.title.split(':')[0]));
+      p.appendChild(ev); p.classList.add('has-event');
+    }
     const text = el('div', 'pt', scene.text); p.appendChild(text);
     let input = null;
     if (scene.mode === 'CREATE_NAME') {
@@ -101,8 +107,10 @@
     const c = st.combat, enc = st.encounter;
     const ename = c ? c.enemy : enc ? enc.enemy : scene.title.replace(/^(Battle|Encounter):\s*/, '').replace(/\s+—.*$/, '');
     const eid = c ? c.enemyId : enc ? enc.enemyId : ename.toLowerCase();
+    const artId = JArt.enemyArtId(eid, ename, opts.encArt);
     const head = el('div', 'ph'); head.textContent = scene.mode === 'ENCOUNTER' || scene.mode === 'STREET' ? '⚠ ' + scene.title : '⚔ ' + scene.title + (c ? '  · Round ' + (c.turn + 1) : ''); p.appendChild(head);
     const arena = el('div', 'arena'); const cv = el('canvas'); cv.width = 640; cv.height = 220; arena.appendChild(cv);
+    if (artId && JOETOPIA_ART.portraits[artId]) { cv.dataset.art = artId; cv.title = 'Tap the enemy to enlarge'; cv.style.cursor = 'zoom-in'; cv.addEventListener('click', () => lightbox(JOETOPIA_ART.portraits[artId], ename)); }
     const eb = el('div', 'ebox'); eb.innerHTML = `<b>${esc(ename)}</b>` + (c ? `<br><span class="bar hp"><i style="width:${pct(c.hp, c.maxHp)}%"></i></span> ${c.hp}/${c.maxHp}` : '');
     const ch = el('div', 'chips'); chips(st).forEach(([t, k]) => ch.appendChild(el('span', 'chip ' + k, t))); eb.appendChild(ch);
     const pb = el('div', 'pbox'); pb.innerHTML = `<b>${esc(st.name)}</b> Lv${st.level}<br>HP <span class="bar hp"><i style="width:${pct(st.hp, st.maxHp)}%"></i></span> ${st.hp}/${st.maxHp}<br>MP <span class="bar mp"><i style="width:${pct(st.mp, st.maxMp)}%"></i></span> ${st.mp}/${st.maxMp}`;
@@ -136,7 +144,7 @@
     const g = cv.getContext('2d'); const biome = (JMap.info(st.node) || {}).biome || 'forest';
     cancelAnimationFrame(battleAnim);
     // draw the player bigger
-    const pframe = (t) => { if (!cv.isConnected) return; JArt.battleBg(g, biome, 640, 220); JArt.enemySprite(g, eid, ename, 640, 220, t); g.save(); g.translate(70, 60); g.scale(3, 3); JArt.playerSprite(g, 0, 10, 'right', st); g.restore(); if (c && c.ramirez > 0 && !c.spar) { g.save(); g.translate(160, 50); g.scale(2.6, 2.6); JArt.npcSprite(g, 'ramirez', 0, 10, 'right'); g.restore(); } battleAnim = requestAnimationFrame(pframe); };
+    const pframe = (t) => { if (!cv.isConnected) return; JArt.battleBg(g, biome, 640, 220); JArt.enemySprite(g, eid, ename, 640, 220, t, opts.encArt); g.save(); g.translate(70, 60); g.scale(3, 3); JArt.playerSprite(g, 0, 10, 'right', st); g.restore(); if (c && c.ramirez > 0 && !c.spar) { g.save(); g.translate(160, 50); g.scale(2.6, 2.6); JArt.npcSprite(g, 'ramirez', 0, 10, 'right'); g.restore(); } battleAnim = requestAnimationFrame(pframe); };
     battleAnim = requestAnimationFrame(pframe);
   }
   function hideOverlay() { $('#overlay').classList.add('hidden'); $('#panel').innerHTML = ''; cancelAnimationFrame(battleAnim); }
