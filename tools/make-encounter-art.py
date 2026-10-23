@@ -346,15 +346,37 @@ for sid, title in FOREST.items():
 # girlfriend behind him is cropped/shaded so only her face reads. TO SWAP: replace a jpg and re-run; tune with a DANCE_CROP line.
 DANCE = {'dance_water': 'Bro, can you buy me a water?', 'dance_dj': 'The DJ shout-out', 'dance_pickpocket': 'Pickpocket in the crowd',
          'dance_boyfriend': 'Are you looking at my girl?', 'dance_drinks': 'Complimentary drinks'}
+DANCE.update({'dance_stranger_%d' % i: 'A stranger asks you to dance' for i in range(1, 6)})
 DANCE_SRC = os.path.join(os.path.dirname(STREET_SRC), 'dance')
 DANCE_FILE = {'dance_water': 'water', 'dance_dj': 'dj', 'dance_pickpocket': 'pickpocket', 'dance_boyfriend': 'boyfriend', 'dance_drinks': 'complimentary_drinks'}
+DANCE_FILE.update({'dance_stranger_%d' % i: 'stranger_%d' % i for i in range(1, 6)})
+# Strangers: 1 alien (Groucho glasses), 2 bearded old man, 3 scarab dancer (stranger_3.jpg is ALREADY the PG-13 face + shoulders crop,
+# the top 38% of the original), 4 man in an open vest pointing, 5 man in a tunic reaching out. Sources 784x1168 (3: 784x444).
+H169 = 784 * 9 / 16 / 1168
 DANCE_CROP = {  # id: face (cx, cy, s), bust (cx, top, s), portrait box or None, event box (16:9 in source pixels)
     'dance_water': ((.50, .21, .22), (.52, .08, .55), (0, .04, 1, .62), (0, .08, 1, .08 + 1152 * 9 / 16 / 1712)),
     'dance_dj': ((.53, .30, .22), (.52, .07, .60), None, (0, .08, 1, .08 + 1264 * 9 / 16 / 1568)),
     'dance_pickpocket': ((.47, .24, .20), (.47, .03, .36), (.12, .02, .88, .35), (.12, .04, .88, .04 + .76 * 784 * 9 / 16 / 1168)),
     'dance_boyfriend': ((.37, .31, .20), (.40, .09, .50), (0, .08, .78, .62), (0, .08, 1, .08 + 784 * 9 / 16 / 1168)),
     'dance_drinks': ((.47, .22, .18), (.55, .06, .55), (.10, .04, 1, .52), (0, .14, 1, .14 + 784 * 9 / 16 / 1168)),
+    'dance_stranger_1': ((.49, .24, .26), (.48, .06, .60), (0, .02, 1, .62), (0, .08, 1, .08 + H169)),
+    'dance_stranger_2': ((.30, .27, .24), (.38, .08, .60), (0, .04, 1, .62), (0, .10, 1, .10 + H169)),
+    'dance_stranger_3': ((.43, .62, .30), (.45, 0, .56), None, (0, 0, 1, 441 / 444)),
+    'dance_stranger_4': ((.45, .18, .24), (.45, .04, .60), (0, 0, 1, .62), (0, .04, 1, .04 + H169)),
+    'dance_stranger_5': ((.42, .18, .24), (.45, .04, .60), (0, 0, 1, .62), (0, .04, 1, .04 + H169)),
 }
+# Bar drinkers ("A stranger invites you to drink"): joetopia-art-src/bar/drinker_1..6.jpg. PG-13: 1 is ALREADY cropped to face + necklace
+# (922x599), 4 to face + hair only (455x350), 5 to face + hair down to the collar (830x616); 2, 3 and 6 are as-is (784x1168, 6: 1152x1712).
+DANCE.update({'bar_drinker_%d' % i: 'A stranger invites you to drink' for i in range(1, 7)})
+DANCE_FILE.update({'bar_drinker_%d' % i: '../bar/drinker_%d' % i for i in range(1, 7)})
+DANCE_CROP.update({
+    'bar_drinker_1': ((.55, .62, .42), (.55, 0, .64), None, (0, 0, 1, 922 * 9 / 16 / 599)),
+    'bar_drinker_2': ((.62, .42, .30), (.55, .25, .60), (0, .15, 1, .75), (0, .28, 1, .28 + H169)),
+    'bar_drinker_3': ((.55, .29, .26), (.62, .05, .60), (0, 0, 1, .62), (0, .05, 1, .05 + H169)),
+    'bar_drinker_4': ((.55, .55, .55), (.50, 0, .76), None, (0, .10, 1, .10 + 455 * 9 / 16 / 350)),
+    'bar_drinker_5': ((.50, .55, .45), (.50, 0, .74), None, (0, .05, 1, .05 + 830 * 9 / 16 / 616)),
+    'bar_drinker_6': ((.47, .32, .26), (.50, .04, .60), (0, 0, 1, .62), (0, .06, 1, .06 + 1152 * 9 / 16 / 1712)),
+})
 DANCE_SHADE = {'dance_boyfriend': [(.66, .42, 1.0, .70, 235)]}  # the girlfriend's torso goes into shadow behind him
 for sid, title in DANCE.items():
     name = 'street_' + sid; sjpg = os.path.join(DANCE_SRC, DANCE_FILE[sid] + '.jpg')

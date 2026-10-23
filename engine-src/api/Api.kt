@@ -73,7 +73,7 @@ object JoetopiaApi {
                 "ramirez" to it.ramirez, "guards" to it.guards, "spar" to it.spar, "defending" to it.defending, "enraged" to it.enraged)) }),
             "encounter" to (en?.let { Raw(obj("enemy" to it.type.name, "enemyId" to it.type.id, "npc" to it.npcName)) }),
             "talk" to e.talkNpc,
-            "street" to e.streetId,
+            "street" to e.streetId, "worn" to p.equipped.keys.joinToString(",") { it.name },
             // reality-show episode id + its art id (e.g. "reality_fletcher") so the pop-up shows that host's picture
             "showEpisode" to (if (e.streetId == "reality_show") e.showEpisode else null),
             "streetArt" to (if (e.streetId == "reality_show") Street.episode(e.showEpisode).art else e.streetId),
@@ -157,8 +157,12 @@ object JoetopiaApi {
             "spirechance" -> e.spireChance = a.toInt()
             // Toadstool Forest: 'forest <troll|weirdo|unicorn|pixie|gnome>', 'forestroll [chance]', 'forestforce <unicorn angry|calm|gnome prank|merchant|weirdo 0-3|human 0-3|humangoblin red|blue|wear red|blue|none|clear>'
             "forest" -> { if (!e.inForest()) e.teleport("forest"); e.log.clear(); e.startStreet(a.ifEmpty { "troll" }) }
-            "dance" -> { if (!e.onDanceFloor()) e.teleport("rave"); e.log.clear(); e.startStreet(a.ifEmpty { Dance.WATER }) }
-            "danceroll" -> { if (!e.onDanceFloor()) e.teleport("rave"); val c = e.danceChance; val r = e.encounterRate; e.danceChance = 100; e.encounterRate = maxOf(1, r); e.danceForce = a.ifEmpty { null }; e.maybeDance(); e.danceForce = null; e.danceChance = c; e.encounterRate = r }
+            "dance" -> { if (!e.onDanceTable()) e.teleport("rave"); e.log.clear(); e.startStreet(a.ifEmpty { Dance.WATER }) }
+            "danceroll" -> { if (!e.onDanceTable()) e.teleport("rave"); val c = e.danceChance; val r = e.encounterRate; e.danceChance = 100; e.encounterRate = maxOf(1, r); e.danceForce = a.ifEmpty { null }; e.maybeDance(); e.danceForce = null; e.danceChance = c; e.encounterRate = r }
+            "bar" -> { if (!Dance.isBar(e.node)) e.teleport("bar_neon"); e.log.clear(); e.barVariantForce = if (b == "noticed" || b == "missed") 4 else b.toIntOrNull()
+                e.shadyNoticeForce = when (b) { "noticed" -> true; "missed" -> false; else -> null }; e.startStreet(a.ifEmpty { Dance.DRINKERS[0] }); e.barVariantForce = null; e.shadyNoticeForce = null }
+            "dancechance" -> e.danceChance = a.toIntOrNull() ?: Dance.DANCE_CHANCE
+            "drugforce" -> e.drugForce = when (a) { "1", "true" -> true; "0", "false" -> false; else -> null }
             "repair" -> { e.repairChance = 100; e.repairReadyAt = 0; e.teleport(a.ifEmpty { "village" }); e.debugLocals(List(3) { e.makeLocal() }); e.maybeRepairRequest(); e.repairChance = Repairs.REQUEST_CHANCE; e.log.clear(); e.mingleLocals().firstOrNull { n -> n.talks.any { it.label.contains("asks you to fix their") } }?.let { e.openTalk(it.id) } }
             "forestchance" -> { e.forestChance = a.toInt(); e.bigfootChance = b.toIntOrNull() ?: 0; e.forageEncounterScale = if (a.toInt() >= 100) 100 else GameEngine.FORAGE_ENCOUNTER_SCALE }
             "forestroll" -> { if (!e.inForest()) e.teleport("forest"); val c = e.forestChance; val r = e.encounterRate; e.forestChance = a.toIntOrNull() ?: 100; e.encounterRate = maxOf(1, r); e.maybeForest(); e.forestChance = c; e.encounterRate = r }

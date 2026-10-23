@@ -92,7 +92,10 @@
       // Dance-floor table (Dance.kt, ~9% per move onto a dance floor): REAL art joetopia-art-src/dance/{water,dj,pickpocket,boyfriend,complimentary_drinks}.jpg
       // (PG-13 crops: pickpocket = face + shoulders, the girlfriend on the boyfriend card shaded below the face, server = head, shoulders and tray).
       // TO SWAP: replace the jpg and rerun tools/make-encounter-art.py (tune DANCE_CROP).
-      street_dance_water: 'street_dance_water', street_dance_dj: 'street_dance_dj', street_dance_pickpocket: 'street_dance_pickpocket', street_dance_boyfriend: 'street_dance_boyfriend', street_dance_drinks: 'street_dance_drinks' },
+      street_dance_water: 'street_dance_water', street_dance_dj: 'street_dance_dj', street_dance_pickpocket: 'street_dance_pickpocket', street_dance_boyfriend: 'street_dance_boyfriend', street_dance_drinks: 'street_dance_drinks',
+      // "A stranger asks you to dance" (most common dance-floor/bar encounter): joetopia-art-src/dance/stranger_1..5.jpg (stranger_3 = PG-13 face + shoulders crop).
+      street_dance_stranger_1: 'street_dance_stranger_1', street_dance_stranger_2: 'street_dance_stranger_2', street_dance_stranger_3: 'street_dance_stranger_3', street_dance_stranger_4: 'street_dance_stranger_4', street_dance_stranger_5: 'street_dance_stranger_5',
+      street_bar_drinker_1: 'street_bar_drinker_1', street_bar_drinker_2: 'street_bar_drinker_2', street_bar_drinker_3: 'street_bar_drinker_3', street_bar_drinker_4: 'street_bar_drinker_4', street_bar_drinker_5: 'street_bar_drinker_5', street_bar_drinker_6: 'street_bar_drinker_6' },
     // Street kinds without their own picture borrow one: kind id -> character id.
     streetArt: { offduty: 'enc_guard', red_goblin_spot: 'street_goblin_banger', blue_goblin_spot: 'street_goblin_banger_blue' },
     // Pictures shown on the map message box when the log matches (things that happen outside a scene).

@@ -961,6 +961,75 @@ def street_dance_drinks():  # complimentary_drinks.jpg: server with braided updo
     _face(d, skin, hair=hair, mouth=(150, 70, 70)); R(d, 12, 0, 19, 3, hair); P(d, [(13, 1), (17, 1)], GOLD); P(d, [(11, 12), (20, 12)], GOLD)  # updo + gold earrings
     return im
 
+# "A stranger asks you to dance" (joetopia-art-src/dance/stranger_1..5.jpg). All fully dressed at sprite scale.
+WHITE = (240, 235, 225)
+def street_dance_stranger_1():  # grey alien, white-and-gold toga, Groucho glasses + mustache
+    im, d = canvas(); shadow(d); g = (175, 180, 185)
+    legs(d, g, top=34, shoe=GOLD_D); R(d, 10, 18, 21, 35, WHITE); R(d, 13, 18, 14, 35, GOLD)
+    R(d, 7, 19, 9, 29, g); R(d, 22, 19, 24, 29, g)
+    _face(d, g, eyes=(10, 10, 10)); R(d, 11, 9, 20, 10, BLK); R(d, 13, 12, 18, 13, (40, 30, 25))  # glasses + mustache
+    return im
+def street_dance_stranger_2():  # jolly old man, white beard, red-and-gold robe and tall hat
+    im, d = canvas(); shadow(d); red = (160, 30, 40)
+    legs(d, red, shoe=GOLD_D); R(d, 9, 18, 22, 36, red); R(d, 9, 18, 22, 19, GOLD); R(d, 15, 19, 16, 36, GOLD)
+    R(d, 6, 19, 8, 30, red); R(d, 23, 20, 28, 22, red); R(d, 28, 20, 30, 22, SK_L)
+    _face(d, SK_L, beard=(240, 240, 240)); R(d, 10, 0, 21, 4, red); R(d, 10, 4, 21, 4, GOLD)
+    return im
+def street_dance_stranger_3():  # dancer, scarab headpiece, plush Anubis backpack (covered: purple wrap top + long skirt)
+    im, d = canvas(); shadow(d); skin = (150, 95, 65); hair = (25, 18, 20)
+    legs(d, skin, top=37, shoe=GOLD_D); R(d, 10, 27, 21, 37, PURPLE); R(d, 10, 27, 21, 27, GOLD)
+    R(d, 10, 18, 21, 27, PURPLE); P(d, [(12, 20), (19, 20), (15, 24)], GOLD); R(d, 22, 14, 26, 26, BLK); P(d, [(23, 12), (25, 12)], BLK)  # Anubis plush
+    R(d, 7, 19, 9, 29, skin); _face(d, skin, hair=hair); R(d, 12, 2, 19, 4, (40, 160, 170)); P(d, [(15, 1)], GOLD)
+    return im
+def street_dance_stranger_4():  # smiling young man, gold-and-purple open vest, pointing
+    im, d = canvas(); shadow(d)
+    legs(d, PURPLE, shoe=GOLD_D); R(d, 11, 31, 20, 35, PURPLE); R(d, 11, 31, 20, 31, GOLD)
+    R(d, 10, 18, 21, 30, SK_M); R(d, 10, 18, 13, 30, GOLD); R(d, 18, 18, 21, 30, GOLD)
+    R(d, 7, 19, 9, 30, SK_M); R(d, 22, 18, 27, 20, SK_M); P(d, [(28, 18)], SK_M)
+    _face(d, SK_M, hair=(25, 18, 15), mouth=(250, 250, 250))
+    return im
+def street_dance_stranger_5():  # smiling young man, black/purple/gold tunic, reaching out a hand
+    im, d = canvas(); shadow(d); skin = (110, 70, 50)
+    legs(d, BLK, shoe=GOLD_D); R(d, 10, 18, 21, 35, BLK); R(d, 13, 18, 18, 35, PURPLE); R(d, 10, 29, 21, 30, GOLD)
+    R(d, 7, 19, 9, 30, skin); R(d, 22, 21, 28, 23, skin); R(d, 28, 20, 30, 24, skin)
+    _face(d, skin, hair=(20, 15, 12), mouth=(250, 250, 250))
+    return im
+# Bar drinkers (joetopia-art-src/bar/drinker_1..4.jpg): strangers who want to share a drink. Fully dressed at sprite scale.
+def _goblet(d, x, y): R(d, x, y, x + 3, y + 2, GOLD); R(d, x + 1, y + 3, x + 2, y + 4, GOLD_D); P(d, [(x + 1, y)], (150, 30, 90))
+def street_bar_drinker_1():  # short black hair, cream dress, goblet held out, blue goblin plush backpack
+    im, d = canvas(); shadow(d); skin = (225, 180, 145)
+    legs(d, skin, top=36, shoe=GOLD_D); R(d, 10, 18, 21, 36, (235, 225, 200)); R(d, 4, 16, 8, 26, (60, 140, 200))
+    R(d, 22, 21, 27, 23, skin); _goblet(d, 27, 18); _face(d, skin, hair=(20, 18, 30), mouth=(250, 250, 250))
+    return im
+def street_bar_drinker_2():  # sad old bearded man, white toga, goblet
+    im, d = canvas(); shadow(d)
+    legs(d, WHITE, shoe=(120, 90, 60)); R(d, 9, 18, 22, 36, WHITE); R(d, 9, 18, 22, 19, GOLD)
+    R(d, 22, 22, 25, 25, SK_L); _goblet(d, 24, 20); _face(d, SK_L, hair=(200, 200, 200), beard=(210, 210, 210)); P(d, [(12, 9), (19, 9)], (120, 120, 120))
+    return im
+def street_bar_drinker_3():  # smiling bald man, white toga with gold trim, offering a goblet
+    im, d = canvas(); shadow(d); skin = (90, 55, 40)
+    legs(d, WHITE, shoe=GOLD_D); R(d, 8, 18, 23, 36, WHITE); R(d, 8, 18, 23, 19, GOLD); R(d, 12, 19, 13, 36, GOLD)
+    R(d, 23, 21, 28, 23, skin); _goblet(d, 27, 18); _face(d, skin, mouth=(250, 250, 250))
+    return im
+def street_bar_drinker_4():  # red hair, swirl face paint, goblet (covered: emerald wrap dress)
+    im, d = canvas(); shadow(d); skin = (235, 190, 160); hair = (190, 50, 30)
+    legs(d, skin, top=36, shoe=GOLD_D); R(d, 10, 18, 21, 36, (30, 110, 80)); R(d, 10, 18, 21, 19, GOLD)
+    R(d, 22, 20, 25, 23, skin); _goblet(d, 24, 17); _face(d, skin, hair=hair); R(d, 8, 5, 10, 18, hair); R(d, 21, 5, 23, 18, hair); P(d, [(12, 12), (19, 12)], (255, 255, 255))
+    return im
+
+def street_bar_drinker_5():  # blonde, blue circuit tattoos, dark-blue high-collar outfit, glowing goblet
+    im, d = canvas(); shadow(d); skin = (240, 205, 175); hair = (235, 205, 110); blue = (60, 170, 255)
+    legs(d, (25, 35, 80), top=36, shoe=(20, 25, 60)); R(d, 10, 17, 21, 36, (25, 35, 90)); R(d, 13, 16, 18, 18, (25, 35, 90))
+    R(d, 22, 20, 25, 23, skin); _goblet(d, 24, 17); P(d, [(25, 16), (26, 15)], blue); _face(d, skin, hair=hair)
+    R(d, 8, 5, 10, 19, hair); R(d, 21, 5, 23, 19, hair); P(d, [(15, 8), (16, 9), (13, 13), (18, 13)], blue)
+    return im
+def street_bar_drinker_6():  # scarred man, yellow eyes, white coat, green goblet with a pill
+    im, d = canvas(); shadow(d); skin = (150, 120, 95); green = (90, 255, 90)
+    legs(d, (40, 35, 30), top=36, shoe=(20, 20, 20)); R(d, 9, 17, 22, 38, WHITE); R(d, 14, 17, 17, 30, (40, 60, 40))
+    R(d, 22, 20, 25, 23, skin); _goblet(d, 24, 17); P(d, [(24, 16), (25, 16), (26, 16)], green); P(d, [(25, 15)], (250, 250, 250))
+    _face(d, skin, hair=(25, 25, 25)); P(d, [(13, 11), (18, 11)], (255, 220, 0)); P(d, [(12, 13), (13, 14)], (110, 70, 60))
+    return im
+
 SPRITES = {'robert': robert, 'ramirez': ramirez, 'rob': rob, 'joseph': joseph, 'miranda': miranda,
            'alex': alex, 'sean': sean, 'alec': alec, 'lydia': lydia,
            'enc_guard': enc_guard, 'enc_preacher': enc_preacher, 'enc_egirl': enc_egirl,
@@ -974,7 +1043,9 @@ SPRITES = {'robert': robert, 'ramirez': ramirez, 'rob': rob, 'joseph': joseph, '
               'troll', 'weirdo', 'trustworthy_human', 'unicorn', 'pixie', 'gnome', 'unicorn_horn', 'pixie_wings', 'gnome_hat', 'work_jeans',
               'flannel_shirt', 'woodsman_axe', 'unicorn_wand', 'unicorn_sword', 'unicorn_heels',
               'goblin_banger', 'goblin_zapper', 'banger_bandana', 'red_shiv', 'bike_chain', 'stem_bat',
-              'goblin_banger_blue', 'goblin_revolver', 'blue_bandana', 'blue_shiv', 'goblin_slingshot', 'big_booma', 'ballistic_hat', 'goblin_unaffiliated', 'bigfoot', 'dance_water', 'dance_dj', 'dance_pickpocket', 'dance_boyfriend', 'dance_drinks')}}
+              'goblin_banger_blue', 'goblin_revolver', 'blue_bandana', 'blue_shiv', 'goblin_slingshot', 'big_booma', 'ballistic_hat', 'goblin_unaffiliated', 'bigfoot', 'dance_water', 'dance_dj', 'dance_pickpocket', 'dance_boyfriend', 'dance_drinks',
+              'dance_stranger_1', 'dance_stranger_2', 'dance_stranger_3', 'dance_stranger_4', 'dance_stranger_5',
+              'bar_drinker_1', 'bar_drinker_2', 'bar_drinker_3', 'bar_drinker_4', 'bar_drinker_5', 'bar_drinker_6')}}
 if __name__ == '__main__':
     os.makedirs(OUT, exist_ok=True)
     for name, fn in SPRITES.items(): fn().save(os.path.join(OUT, name + '.png'))
