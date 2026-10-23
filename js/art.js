@@ -175,6 +175,13 @@
     if (/^named_/.test(id || '')) return id.slice(6);
     const m = A.enemyArt || {}; return m[id] || m[(name || '').toLowerCase()] || null;
   }
+  // Art id for a street encounter kind (STREET mode), or null.
+  function streetArtId(kind) {
+    if (!kind) return null; const id = 'street_' + kind;
+    return A.characters && A.characters[id] ? id : (A.streetArt || {})[kind] || null;
+  }
+  // Picture for something that happened in the map log (temptress ban, the creep watching you), or null.
+  function logArt(text) { return text ? (A.logArt || []).find(r => r.re.test(text) && A.characters[r.id]) || null : null; }
   function enemySprite(g, id, name, w, h, t, from) {
     const who = enemyArtId(id, name, from);
     const im = who && from ? null : img(A.enemies[id]);
@@ -222,5 +229,5 @@
     return out;
   }
   const loaded = path => !!(cache[path] && cache[path].ok && cache[path].im.naturalWidth > 0);
-  window.JArt = { T, img, loaded, hash, rng, drawTile, npcSprite, playerSprite, objectIcon, enemySprite, enemyArtId, battleBg, person, placeholders, pal };
+  window.JArt = { T, img, loaded, hash, rng, drawTile, npcSprite, playerSprite, objectIcon, enemySprite, enemyArtId, streetArtId, logArt, battleBg, person, placeholders, pal };
 })();

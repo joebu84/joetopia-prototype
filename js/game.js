@@ -22,13 +22,15 @@
     JUI.hud(st); updateMenus();
     if (scene.mode === 'EXPLORE') {
       JUI.hideOverlay(); const prevNode = map && map.node; ensureMap();
-      if (log) JUI.showMsg(log);
+      if (log) JUI.showMsg(log, null, JArt.logArt(log));
       else if (st.node === 'intro' && prevNode !== 'intro') JUI.showMsg(scene.text);
     } else {
       JUI.clearMsg();
       if (scene.mode === 'TALK') encFrom = /^enc_/.test(st.talk || '') ? st.talk : null;
+      else if (scene.mode === 'STREET') encFrom = JArt.streetArtId(st.street);
       else if (!/^COMBAT/.test(scene.mode)) encFrom = null;
-      JUI.showScene(scene, st, { onPick, lastName, encArt: /^COMBAT/.test(scene.mode) ? encFrom : null });
+      else if (st.combat) { const a = JArt.enemyArtId(st.combat.enemyId, st.combat.enemy); if (a && /^street_/.test(a)) encFrom = a; } // Undercroft ambush, Kraken
+      JUI.showScene(scene, st, { onPick, lastName, encArt: /^COMBAT/.test(scene.mode) || scene.mode === 'STREET' ? encFrom : null });
     }
   }
   function onPick(i, name) {
@@ -228,7 +230,7 @@
     } else if (!blocked() && held.size) { step([...held][held.size - 1]); }
     if (map) {
       const f = (!moving && scene && scene.mode === 'EXPLORE') ? focusObj() : null;
-      JMap.render(g, map, t, { player: P, status: st, encounter: scene && scene.mode !== 'EXPLORE' ? encFrom : null, labels: settings.labels === 'all', focus: f, target: path.length ? clickTarget : null });
+      JMap.render(g, map, t, { player: P, status: st, encounter: scene && scene.mode !== 'EXPLORE' ? encFrom : (JUI.msgPic() || {}).sprite ? JUI.msgPic().id : null, labels: settings.labels === 'all', focus: f, target: path.length ? clickTarget : null });
       JUI.prompt(f && !JUI.msgOpen() && !JUI.overlayOpen() ? 'Ⓐ ' + f.label + (scene.choices[f.i] && !scene.choices[f.i].enabled ? '  (unavailable)' : '') : '');
     } else { g.fillStyle = '#120b1f'; g.fillRect(0, 0, cv.width, cv.height); JUI.prompt(''); }
     requestAnimationFrame(loop);
@@ -238,7 +240,7 @@
   window.__joetopia = {
     api: K, sync: l => sync(l), pick: (i, n) => onPick(i, n),
     state: () => ({ mode: scene && scene.mode, node: st && st.node, title: scene && scene.title, player: { x: P.x, y: P.y, dir: P.dir }, moving: !!moving,
-      overlay: JUI.overlayOpen(), msg: JUI.msgOpen(), status: st, choices: scene ? scene.choices.map(c => c.label) : [],
+      overlay: JUI.overlayOpen(), msg: JUI.msgOpen(), status: st, mapNpc: scene && scene.mode !== 'EXPLORE' ? encFrom : (JUI.msgPic() || {}).sprite ? JUI.msgPic().id : null, choices: scene ? scene.choices.map(c => c.label) : [],
       objs: map ? map.objs.map(o => ({ type: o.type, x: o.x, y: o.y, i: o.i, target: o.target, label: o.label, side: o.side, spawn: o.spawn })) : [] }),
     step, interact, goTo, escape, useObj: i => { const o = map.objs.find(o => o.i === i); if (o) useObj(o); },
     walkTo: (x, y) => goTo(x, y), placeholders: () => JArt.placeholders(),

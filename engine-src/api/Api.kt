@@ -73,6 +73,7 @@ object JoetopiaApi {
                 "ramirez" to it.ramirez, "guards" to it.guards, "spar" to it.spar, "defending" to it.defending, "enraged" to it.enraged)) }),
             "encounter" to (en?.let { Raw(obj("enemy" to it.type.name, "enemyId" to it.type.id, "npc" to it.npcName)) }),
             "talk" to e.talkNpc,
+            "street" to e.streetId,
         )
     }
 
@@ -140,6 +141,20 @@ object JoetopiaApi {
             "unflag" -> e.flags -= a
             "views" -> e.debugViews(a.toInt())
             "rates" -> { e.encounterRate = a.toInt(); e.streetRate = b.toInt() }
+            // force the country "TEMPTRESS!" ban or the city club creep: nightlife <dance|flirt>
+            "undercroft" -> { if (!e.inUndercroft()) e.teleport("d_under"); e.startUnder(a.ifEmpty { "pirates" }) }
+            "underroll" -> { if (!e.inUndercroft()) e.teleport("d_under"); e.maybeUndercroft() }
+            "scalegate" -> { if (!e.inScalegate()) e.teleport("d_scale"); e.startStreet(a.ifEmpty { "duel" }) }
+            "lantern" -> { if (!e.inLantern()) e.teleport("d_lantern"); e.startStreet(a.ifEmpty { "starving_artist" }) }
+            "chrome" -> { if (!e.inChrome()) e.teleport("d_chrome"); e.log.clear(); e.startStreet(a.ifEmpty { "courier" }) }
+            "chromeroll" -> { val c = e.chromeChance; val r = e.encounterRate; e.chromeChance = b.toIntOrNull() ?: 100; e.encounterRate = maxOf(1, r); e.maybeChrome(); e.chromeChance = c; e.encounterRate = r }
+            "cancelled" -> e.getCancelled()
+            "tolls" -> e.tollsPaid = a.toIntOrNull() ?: 0
+            "lanternroll" -> { val c = e.lanternChance; val r = e.encounterRate; e.lanternChance = b.toIntOrNull() ?: 100; e.encounterRate = maxOf(1, r); e.maybeLantern(); e.lanternChance = c; e.encounterRate = r }
+            "scaleroll" -> { if (!e.inScalegate()) e.teleport("d_scale"); val c = e.scaleChance; val r = e.encounterRate; e.scaleChance = b.toIntOrNull() ?: 100; e.encounterRate = maxOf(1, r); e.maybeScalegate(); e.scaleChance = c; e.encounterRate = r }
+            "nightlife" -> { e.log.clear(); val r = e.encounterRate; val t = e.temptressChance; val c = e.creepChance
+                e.encounterRate = maxOf(1, r); e.temptressChance = 100; e.creepChance = 100
+                e.afterNightlife(a.ifEmpty { "dance" }); e.encounterRate = r; e.temptressChance = t; e.creepChance = c }
             "nodes" -> return listOf("intro","village","inn","elder","market","crossroads","forest","shrine","hermit","cave","lake","rave","dealer","vip","castle_gate","courtyard","throne",
                 "neverland","alchemist","ziggurat","sanctum","alley","guild").joinToString(",")
             "streets" -> return Street.ALL.joinToString(",") { it.id }

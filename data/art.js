@@ -42,12 +42,47 @@
       // road / travel encounters (WorldNpcs.kt): same four pictures, plus a wide event picture
       //   events     shown when the encounter starts  art/events/<stem>.webp  (512px wide)
       enc_guard: 'enc_guard', enc_preacher: 'enc_preacher', enc_egirl: 'enc_egirl',
-      enc_trader: 'enc_trader', enc_goblins: 'enc_goblins', enc_fans: 'enc_fans' },
+      enc_trader: 'enc_trader', enc_goblins: 'enc_goblins', enc_fans: 'enc_fans',
+      // Babylon street encounters (Street.kt Kind ids, art in joetopia-art-src/street/<kind>.jpg): street_<kind>
+      street_punks: 'street_punks', street_drunk: 'street_drunk', street_party_girls: 'street_party_girls',
+      street_beggar: 'street_beggar', street_geneticist: 'street_geneticist', street_preacher: 'street_preacher',
+      street_drone: 'street_drone', street_pickpocket: 'street_pickpocket', street_megaphone: 'street_megaphone',
+      street_tourist: 'street_tourist', street_stranger: 'street_stranger', street_noble: 'street_noble',
+      street_creep: 'street_creep',
+      // country 'TEMPTRESS!' ban (GameEngine.temptress): the furious church lady
+      street_temptress: 'street_temptress',
+      // Undercroft encounters (GameEngine.maybeUndercroft) + THE KRAKEN, from joetopia-art-src/undercroft/<pirate|rats|sailor|streetwalker|kraken>.jpg:
+      // replace a jpg and rerun tools/make-encounter-art.py (crops in UNDER_CROP) and tools/make-npc-sprites.py to swap.
+      street_pirates: 'street_pirates', street_rats: 'street_rats', street_sailor: 'street_sailor',
+      street_streetwalker: 'street_streetwalker', street_kraken: 'street_kraken',
+      // Scalegate encounters (GameEngine.maybeScalegate), from joetopia-art-src/scalegate/<duelist|angry_local|parade|bald_fight|fireworks>.jpg.
+      // TO SWAP: replace a jpg, rerun tools/make-encounter-art.py (crops in SCALE_CROP) and restyle the sprite in tools/make-npc-sprites.py.
+      street_duel: 'street_duel', street_angry_local: 'street_angry_local', street_parade: 'street_parade',
+      street_fireworks: 'street_fireworks', street_bald_brawl: 'street_bald_brawl',
+      // Lantern Row encounters (GameEngine.maybeLantern): real art from joetopia-art-src/lantern/<id>.jpg (tools/make-encounter-art.py; the Tipsy Muse is cropped head-to-waist for PG-13).
+      // TO SWAP: drop joetopia-art-src/lantern/<starving_artist|tipsy_muse|acrobats>.jpg, rerun tools/make-encounter-art.py
+      // (crops in LANTERN_CROP) and restyle the sprite in tools/make-npc-sprites.py. No change needed here.
+      street_starving_artist: 'street_starving_artist', street_tipsy_muse: 'street_tipsy_muse', street_acrobats: 'street_acrobats',
+      // Chrome Quarter encounters (GameEngine.maybeChrome): PLACEHOLDER art drawn from the map sprites.
+      // TO SWAP: drop joetopia-art-src/chrome/<courier|public_pooper|discarded_tech|toll_path>.jpg, rerun tools/make-encounter-art.py
+      // (crops in CHROME_CROP) and restyle the sprite in tools/make-npc-sprites.py. No change needed here.
+      street_courier: 'street_courier', street_public_pooper: 'street_public_pooper', street_discarded_tech: 'street_discarded_tech', street_toll_path: 'street_toll_path' },
+    // Street kinds without their own picture borrow one: kind id -> character id.
+    streetArt: { offduty: 'enc_guard' },
+    // Pictures shown on the map message box when the log matches (things that happen outside a scene).
+    logArt: [
+      { re: /TEMPTRESS!|Temptress[,!.]|show your face here for/, id: 'street_temptress', sprite: true },
+      { re: /man in a dark toga watches you|Same dark toga/, id: 'street_creep', small: true },
+    ],
     npcs: {}, faces: {}, portraits: {}, busts: {}, events: {},
     enemies: {},             // battle sprite per enemy id, e.g. wolf: 'art/enemies/wolf.png'
     // Fights whose enemy is one of the characters above: enemy id (or street-event name) -> character id.
     // Its bust is the enemy picture. Fights that start from a road encounter use that encounter's bust too.
-    enemyArt: { city_guard: 'enc_guard', goblin: 'enc_goblins', 'off-duty city guard': 'enc_guard' },
+    enemyArt: { city_guard: 'enc_guard', goblin: 'enc_goblins', 'off-duty city guard': 'enc_guard',
+      street_punk: 'street_punks', angry_drunk: 'street_drunk', mad_geneticist: 'street_geneticist',
+      rogue_drone: 'street_drone', noble: 'street_noble', creep: 'street_creep',
+      undercroft_pirates: 'street_pirates', sewer_rats: 'street_rats', drunken_sailor: 'street_sailor', kraken: 'street_kraken',
+      scale_duelist: 'street_duel', bald_brawlers: 'street_bald_brawl', toll_guard: 'street_toll_path' },
     objects: {               // map markers for shops, crowds and things to do
       shop: 'art/sprites/shop.png', crowd: 'art/sprites/crowd.png', fight: 'art/sprites/fight.png',
       event: 'art/sprites/event.png', drink: 'art/sprites/drink.png', dance: 'art/sprites/dance.png',
@@ -64,6 +99,6 @@
   for (const [id, stem] of Object.entries(A.characters)) {
     A.npcs[id] = A.npcs[id] || `art/npcs/${stem}.png${v}`; A.faces[id] = A.faces[id] || `art/faces/${stem}.webp${v}`;
     A.portraits[id] = A.portraits[id] || `art/portraits/${stem}.webp${v}`; A.busts[id] = A.busts[id] || `art/busts/${stem}.webp${v}`;
-    if (/^enc_/.test(id)) A.events[id] = A.events[id] || `art/events/${stem}.webp${v}`;
+    if (/^(enc|street)_/.test(id)) A.events[id] = A.events[id] || `art/events/${stem}.webp${v}`;
   }
 })();

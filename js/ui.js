@@ -33,6 +33,14 @@
     for (const re of res) { const i = scene.choices.findIndex(c => c.enabled && re.test(c.label)); if (i >= 0) return i; }
     return -1;
   }
+  // Wide event picture (road / street encounters); tap for the full portrait.
+  function eventPic(p, who, cap) {
+    const A = JOETOPIA_ART; if (!A.events || !A.events[who]) return null;
+    const ev = el('img', 'evpic'); ev.src = A.events[who]; ev.alt = cap; ev.title = 'Tap to enlarge'; ev.dataset.art = who;
+    ev.onerror = () => ev.remove();
+    ev.addEventListener('click', () => lightbox(A.portraits[who] || ev.src, cap));
+    p.appendChild(ev); p.classList.add('has-event'); return ev;
+  }
   // Generic engine-scene panel. opts: {onPick, nameInput, kind}
   function showScene(scene, st, opts) {
     const ov = $('#overlay'), p = $('#panel'); ov.classList.remove('hidden'); p.className = ''; p.innerHTML = '';
@@ -42,18 +50,14 @@
     const ci = closeIndex(scene);
     if (ci >= 0 && !/^Continue/i.test(scene.choices[ci].label)) { const x = el('button', 'x', '✕'); x.title = scene.choices[ci].label + ' (Esc)'; x.setAttribute('aria-label', scene.choices[ci].label); x.addEventListener('click', () => opts.onPick(ci, '')); head.appendChild(x); }
     if (scene.mode === 'TITLE' && JOETOPIA_ART.title) { const im = el('img', 'title-art'); im.src = JOETOPIA_ART.title; im.alt = ''; p.insertBefore(im, head); }
-    if (scene.mode === 'TALK' && st.talk && JOETOPIA_ART.faces[st.talk]) {
-      const im = el('img', 'face'); im.src = JOETOPIA_ART.faces[st.talk]; im.alt = 'Portrait'; im.title = 'Tap to enlarge';
+    const who = scene.mode === 'TALK' ? st.talk : scene.mode === 'STREET' ? JArt.streetArtId(st.street) : null; // talk partner / street encounter
+    if (who && JOETOPIA_ART.faces[who]) {
+      const im = el('img', 'face'); im.src = JOETOPIA_ART.faces[who]; im.alt = 'Portrait'; im.title = 'Tap to enlarge';
       im.onerror = () => im.remove();
-      if (JOETOPIA_ART.portraits[st.talk]) im.addEventListener('click', () => lightbox(JOETOPIA_ART.portraits[st.talk], scene.title.split(':')[0]));
+      if (JOETOPIA_ART.portraits[who]) im.addEventListener('click', () => lightbox(JOETOPIA_ART.portraits[who], scene.title.split(':')[0]));
       head.prepend(im); p.classList.add('talk-face');
     }
-    if (scene.mode === 'TALK' && st.talk && JOETOPIA_ART.events && JOETOPIA_ART.events[st.talk]) { // road encounter: event picture
-      const ev = el('img', 'evpic'); ev.src = JOETOPIA_ART.events[st.talk]; ev.alt = scene.title.split(':')[0]; ev.title = 'Tap to enlarge';
-      ev.onerror = () => ev.remove();
-      ev.addEventListener('click', () => lightbox(JOETOPIA_ART.portraits[st.talk] || ev.src, scene.title.split(':')[0]));
-      p.appendChild(ev); p.classList.add('has-event');
-    }
+    if (who) eventPic(p, who, scene.title.split(':')[0]); // road / street encounter: event picture
     const text = el('div', 'pt', scene.text); p.appendChild(text);
     let input = null;
     if (scene.mode === 'CREATE_NAME') {
@@ -109,6 +113,7 @@
     const eid = c ? c.enemyId : enc ? enc.enemyId : ename.toLowerCase();
     const artId = JArt.enemyArtId(eid, ename, opts.encArt);
     const head = el('div', 'ph'); head.textContent = scene.mode === 'ENCOUNTER' || scene.mode === 'STREET' ? '⚠ ' + scene.title : '⚔ ' + scene.title + (c ? '  · Round ' + (c.turn + 1) : ''); p.appendChild(head);
+    if (opts.encArt && (scene.mode === 'STREET' || (c && c.turn === 0 && /^street_/.test(opts.encArt)))) { const ev = eventPic(p, opts.encArt, scene.title.split(':')[0]); if (ev) ev.classList.add('short'); }
     const arena = el('div', 'arena'); const cv = el('canvas'); cv.width = 640; cv.height = 220; arena.appendChild(cv);
     if (artId && JOETOPIA_ART.portraits[artId]) { cv.dataset.art = artId; cv.title = 'Tap the enemy to enlarge'; cv.style.cursor = 'zoom-in'; cv.addEventListener('click', () => lightbox(JOETOPIA_ART.portraits[artId], ename)); }
     const eb = el('div', 'ebox'); eb.innerHTML = `<b>${esc(ename)}</b>` + (c ? `<br><span class="bar hp"><i style="width:${pct(c.hp, c.maxHp)}%"></i></span> ${c.hp}/${c.maxHp}` : '');
@@ -174,8 +179,22 @@
       `<span>📍 ${esc(JMap.placeName(st.node))} <small>· ${esc(st.region)} (${esc(st.regionKind)})</small></span>` + (st.points ? `<span style="color:var(--ok)">+${st.points} stat pts</span>` : '');
   }
   let msgQueue = [], msgDone = null;
-  function showMsg(text, done) { if (!text) return; msgQueue.push(text); if (done) msgDone = done; if (msgQueue.length === 1) renderMsg(); }
-  function renderMsg() { const m = $('#msg'); if (!msgQueue.length) { m.classList.add('hidden'); const d = msgDone; msgDone = null; if (d) d(); return; } $('#msgText').textContent = msgQueue[0]; m.classList.remove('hidden'); m.scrollTop = 0; }
+  // pic (optional): an entry of JOETOPIA_ART.logArt, shown above the text; tap it to enlarge.
+  function showMsg(text, done, pic) { if (!text) return; msgQueue.push({ text, pic }); if (done) msgDone = done; if (msgQueue.length === 1) renderMsg(); }
+  function renderMsg() {
+    const m = $('#msg'); m.querySelectorAll('img.msgpic').forEach(i => i.remove());
+    if (!msgQueue.length) { m.classList.add('hidden'); const d = msgDone; msgDone = null; if (d) d(); return; }
+    const { text, pic } = msgQueue[0]; $('#msgText').textContent = text;
+    const A = JOETOPIA_ART;
+    if (pic && A.events[pic.id]) {
+      const im = el('img', 'msgpic' + (pic.small ? ' small' : '')); im.src = pic.small ? A.faces[pic.id] : A.events[pic.id]; im.dataset.art = pic.id; im.alt = ''; im.title = 'Tap to enlarge';
+      im.onerror = () => im.remove();
+      im.addEventListener('click', e => { e.stopPropagation(); lightbox(A.portraits[pic.id], ''); });
+      m.insertBefore(im, $('#msgText'));
+    }
+    m.classList.remove('hidden'); m.scrollTop = 0;
+  }
+  function msgPic() { return msgQueue.length && msgQueue[0].pic || null; }
   function nextMsg() { msgQueue.shift(); renderMsg(); }
   function clearMsg() { msgQueue = []; msgDone = null; $('#msg').classList.add('hidden'); }
   function msgOpen() { return msgQueue.length > 0; }
@@ -184,5 +203,5 @@
   function banner(title, sub) { const b = $('#banner'); b.innerHTML = esc(title) + (sub ? `<small>${esc(sub)}</small>` : ''); b.classList.add('show'); clearTimeout(banner.t); banner.t = setTimeout(() => b.classList.remove('show'), 2600); }
   function prompt(t) { $('#prompt').textContent = t || ''; }
 
-  window.JUI = { lightbox, closeIndex, showScene, hideOverlay, overlayOpen, fillDD, closeDD, hud, showMsg, nextMsg, msgOpen, clearMsg, toast, banner, prompt, categorize, groupTalk };
+  window.JUI = { lightbox, closeIndex, showScene, hideOverlay, overlayOpen, fillDD, closeDD, hud, showMsg, nextMsg, msgOpen, msgPic, clearMsg, toast, banner, prompt, categorize, groupTalk };
 })();

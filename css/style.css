@@ -35,6 +35,8 @@ button{font:inherit;color:inherit}
 #prompt:empty{display:none}
 #msg{position:absolute;left:3%;right:3%;bottom:3%;max-height:62%;overflow:auto;background:#0b0614f2;border:2px solid var(--acc2);border-radius:10px;padding:12px 14px;white-space:pre-wrap;cursor:pointer;z-index:5}
 #msg .hint{color:var(--dim);font-size:.8em;margin-top:6px;text-align:right}
+#msg img.msgpic{display:block;width:100%;max-height:34vh;object-fit:cover;border-radius:8px;border:2px solid #ff4fd8;margin-bottom:8px;cursor:zoom-in}
+#msg img.msgpic.small{width:72px;height:72px;float:left;margin:0 10px 4px 0;max-height:none}
 #toast{position:absolute;top:50px;left:50%;transform:translateX(-50%);pointer-events:none;display:flex;flex-direction:column;gap:4px;align-items:center;z-index:6}
 #toast div{background:#000d;border:1px solid var(--ok);border-radius:8px;padding:4px 10px;font-size:.9em;animation:fade 2.6s forwards}
 @keyframes fade{0%{opacity:0}10%{opacity:1}80%{opacity:1}100%{opacity:0}}
@@ -87,6 +89,7 @@ details.grp .gl{display:flex;flex-direction:column;gap:5px;padding:0 8px 8px}
 .big .ch{min-height:48px}
 body.fs-s{--fs:14px}body.fs-l{--fs:18px}body.fs-xl{--fs:20px}
 /* character pictures */
+#panel.battle img.evpic.short{max-height:18vh}
 #panel img.evpic{display:block;width:100%;max-height:30vh;object-fit:cover;border-radius:10px;border:2px solid #ff4fd8;margin:6px 0 8px;cursor:zoom-in;box-shadow:0 0 16px #ff4fd844}
 .ph img.face{width:56px;height:56px;border-radius:10px;border:2px solid #ff4fd8;object-fit:cover;cursor:zoom-in;flex:none}
 .dd .item img.ico{width:24px;height:24px;border-radius:6px;object-fit:cover;vertical-align:middle;margin-right:6px}
