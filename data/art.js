@@ -63,16 +63,31 @@
       // TO SWAP: drop joetopia-art-src/lantern/<starving_artist|tipsy_muse|acrobats>.jpg, rerun tools/make-encounter-art.py
       // (crops in LANTERN_CROP) and restyle the sprite in tools/make-npc-sprites.py. No change needed here.
       street_starving_artist: 'street_starving_artist', street_tipsy_muse: 'street_tipsy_muse', street_acrobats: 'street_acrobats',
-      // Chrome Quarter encounters (GameEngine.maybeChrome): PLACEHOLDER art drawn from the map sprites.
-      // TO SWAP: drop joetopia-art-src/chrome/<courier|public_pooper|discarded_tech|toll_path>.jpg, rerun tools/make-encounter-art.py
+      // Chrome Quarter encounters (GameEngine.maybeChrome): all four use REAL art (courier.jpg, rude_worker.jpg,
+      // broken_tech.jpg -> discarded tech, toll.jpg -> toll path). TO SWAP: replace joetopia-art-src/chrome/<file>.jpg, rerun tools/make-encounter-art.py
       // (crops in CHROME_CROP) and restyle the sprite in tools/make-npc-sprites.py. No change needed here.
-      street_courier: 'street_courier', street_public_pooper: 'street_public_pooper', street_discarded_tech: 'street_discarded_tech', street_toll_path: 'street_toll_path' },
+      street_courier: 'street_courier', street_rude_worker: 'street_rude_worker', street_discarded_tech: 'street_discarded_tech', street_toll_path: 'street_toll_path',
+      // Gilded Spire encounters (GameEngine.maybeSpire; the Reality Show also rolls in the megarave's Creator Corner): all four use REAL art
+      // (chariot.jpg, reality_show.jpg = the fictional celebrity Valeria Kurigalzu, cropped head-to-hips for PG-13, jewelry.jpg, charity.jpg).
+      // TO SWAP: replace joetopia-art-src/spire/<file>.jpg, rerun tools/make-encounter-art.py (crops in SPIRE_CROP) and restyle the sprite
+      // in tools/make-npc-sprites.py. No change needed here.
+      street_runaway_chariot: 'street_runaway_chariot', street_reality_show: 'street_reality_show', street_lost_jewelry: 'street_lost_jewelry',
+      street_charity_gala: 'street_charity_gala',
+      // Reality-show episodes (Street.EPISODES; status.streetArt names the one on air): togiru.jpg, blind_date_noble.jpg (PG-13 face +
+      // camera composite), bathsheba.jpg (PG-13 face/shoulders), fletcher.jpg, petyr.jpg. Crops in SPIRE_CROP.
+      street_reality_pushup: 'street_reality_pushup', street_reality_blind_date: 'street_reality_blind_date', street_reality_makeup: 'street_reality_makeup',
+      street_reality_fletcher: 'street_reality_fletcher', street_reality_petyr: 'street_reality_petyr',
+      // Wizard Couriers (Gilded Spire table): REAL art spire/wizard_courier.jpg (red-robed wizard offering an amber vial to a man in a toga).
+      // The Amber Wizard fight reuses it (enemyArt.wizard). street_adrenochrome = the vial cropped from the same picture (item picture).
+      // TO SWAP: replace joetopia-art-src/spire/wizard_courier.jpg (or add a separate vial jpg via SPIRE_FILE) and rerun tools/make-encounter-art.py.
+      street_wizard_couriers: 'street_wizard_couriers', street_adrenochrome: 'street_adrenochrome' },
     // Street kinds without their own picture borrow one: kind id -> character id.
     streetArt: { offduty: 'enc_guard' },
     // Pictures shown on the map message box when the log matches (things that happen outside a scene).
     logArt: [
       { re: /TEMPTRESS!|Temptress[,!.]|show your face here for/, id: 'street_temptress', sprite: true },
       { re: /man in a dark toga watches you|Same dark toga/, id: 'street_creep', small: true },
+      { re: /Adrenochrome Vial|ADRENOCHROME/, id: 'street_adrenochrome', small: true },
     ],
     npcs: {}, faces: {}, portraits: {}, busts: {}, events: {},
     enemies: {},             // battle sprite per enemy id, e.g. wolf: 'art/enemies/wolf.png'
@@ -82,7 +97,7 @@
       street_punk: 'street_punks', angry_drunk: 'street_drunk', mad_geneticist: 'street_geneticist',
       rogue_drone: 'street_drone', noble: 'street_noble', creep: 'street_creep',
       undercroft_pirates: 'street_pirates', sewer_rats: 'street_rats', drunken_sailor: 'street_sailor', kraken: 'street_kraken',
-      scale_duelist: 'street_duel', bald_brawlers: 'street_bald_brawl', toll_guard: 'street_toll_path' },
+      scale_duelist: 'street_duel', bald_brawlers: 'street_bald_brawl', toll_guard: 'street_toll_path', spire_guards: 'street_runaway_chariot', wizard: 'street_wizard_couriers' },  // the guards fight shows the chariot driver
     objects: {               // map markers for shops, crowds and things to do
       shop: 'art/sprites/shop.png', crowd: 'art/sprites/crowd.png', fight: 'art/sprites/fight.png',
       event: 'art/sprites/event.png', drink: 'art/sprites/drink.png', dance: 'art/sprites/dance.png',

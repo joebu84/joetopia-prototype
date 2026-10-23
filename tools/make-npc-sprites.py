@@ -599,44 +599,154 @@ def street_acrobats():  # acrobats.jpg: two acrobats in striped bodysuits doing 
         R(d, ox + 4, 1, ox + 5, 3, SK_M); R(d, ox + 7, 1, ox + 8, 3, SK_M)  # bare feet pointing up
     return im
 
-# Chrome Quarter encounters: PLACEHOLDER sprites (no art yet). TO SWAP: drop joetopia-art-src/chrome/<id>.jpg and restyle here.
+# Chrome Quarter encounters: all four sprites match their real art (courier.jpg, rude_worker.jpg, broken_tech.jpg, toll.jpg).
 NEON = [(0, 230, 255), (255, 40, 200), (120, 255, 120)]
-def street_courier():  # hover-skating courier in a neon jacket holding out a holo-envelope + stylus
-    im, d = canvas(); shadow(d); jacket, skin = (40, 40, 60), SK_M
-    R(d, 10, 44, 21, 45, (90, 90, 110)); P(d, [(11, 46), (20, 46)], NEON[0])  # hover-skates glowing underneath
-    R(d, 11, 32, 14, 43, (30, 30, 45)); R(d, 17, 32, 20, 43, (30, 30, 45))  # legs
-    R(d, 9, 19, 22, 32, jacket); d.line([(9, 25), (22, 25)], fill=NEON[1]); d.line([(15, 19), (15, 32)], fill=NEON[0])  # neon-trim jacket
-    R(d, 5, 13, 11, 25, (90, 90, 110)); P(d, [(6, 14), (9, 14)], NEON[0])  # drone backpack (behind the shoulder)
-    R(d, 22, 21, 27, 23, jacket); R(d, 26, 18, 31, 23, (150, 230, 255)); P(d, [(28, 20), (29, 21)], (255, 255, 255))  # arm out with the holo-envelope
-    d.line([(24, 24), (27, 28)], fill=(200, 200, 210))  # stylus
-    _face(d, skin, hair=(30, 25, 25), mouth=(160, 60, 60)); R(d, 10, 3, 21, 5, NEON[1])  # cap
+def street_courier():  # (matches courier.jpg) BAB-07 courier: grey armoured suit, red-lit roller skates, holding out a signature tablet
+    im, d = canvas(); shadow(d); grey, dk, skin, red = (150, 155, 165), (95, 100, 110), SK_T, (255, 40, 50)
+    R(d, 10, 43, 15, 44, (60, 60, 70)); R(d, 17, 43, 22, 44, (60, 60, 70)); P(d, [(11, 45), (14, 45), (18, 45), (21, 45)], red)  # skates, red-lit wheels
+    R(d, 11, 32, 14, 42, grey); R(d, 17, 32, 20, 42, grey); P(d, [(12, 36), (18, 36)], dk); P(d, [(13, 41), (19, 41)], red)  # armoured legs + knee pads
+    R(d, 9, 18, 22, 32, grey); R(d, 11, 20, 20, 26, dk); P(d, [(12, 22), (14, 22), (16, 22)], (230, 230, 235))  # chest plate "BAB-07"
+    R(d, 9, 29, 22, 30, (60, 60, 70)); P(d, [(10, 21), (21, 21)], red)  # belt + red suit lights
+    R(d, 5, 20, 8, 30, grey)  # arm swinging back
+    R(d, 22, 20, 26, 23, grey); R(d, 24, 22, 31, 29, (25, 25, 30)); R(d, 25, 23, 30, 25, (235, 235, 240)); R(d, 25, 27, 30, 27, red)  # signature tablet held out
+    _face(d, skin, hair=(25, 20, 20), mouth=(150, 70, 60)); R(d, 9, 15, 22, 17, dk)  # dark curls, grey hood collar
     return im
-def street_public_pooper():  # (comedic, implied) a Technomancer crouched behind a recycling drone: only head, hood and hitched robe show
-    im, d = canvas(); shadow(d); robe, skin = (70, 40, 140), SK_M
-    R(d, 9, 22, 22, 36, robe); P(d, [(11, 24), (15, 27), (20, 30)], NEON[0])  # crouched holo-robe hunched over
-    _face(d, skin, top=11, hair=(40, 30, 30), mouth=(140, 60, 60)); R(d, 9, 9, 22, 12, robe)  # hood
-    R(d, 21, 22, 26, 26, (30, 30, 40)); P(d, [(23, 23)], NEON[2])  # phone held up, he keeps scrolling
-    R(d, 3, 30, 28, 45, (90, 110, 100)); R(d, 4, 31, 27, 32, (130, 150, 140)); P(d, [(8, 37), (9, 37), (22, 37), (23, 37)], NEON[2])  # recycling drone hiding everything below the waist
-    d.text((12, 37), '♻', fill=(120, 255, 120)) if False else P(d, [(14, 38), (15, 37), (16, 38), (15, 40), (14, 39), (16, 39)], (180, 255, 180))  # recycle logo
-    for x, y in ((25, 6), (27, 4), (29, 7)): P(d, [(x, y)], (150, 200, 120))  # stink lines
-    d.line([(25, 9), (26, 6)], fill=(150, 200, 120)); d.line([(28, 10), (29, 7)], fill=(150, 200, 120))
+def street_rude_worker():  # (matches rude_worker.jpg) bald contract tech worker: big mustache, glowing red forehead implant, white shirt + wrap, red sash, chrome bracers, pointing
+    im, d = canvas(); shadow(d); white, wrap, skin, chrome = (235, 232, 225), (205, 200, 190), SK_D, (200, 205, 215)
+    R(d, 10, 34, 14, 44, (190, 170, 130)); R(d, 17, 34, 21, 44, (190, 170, 130))  # khaki trousers
+    R(d, 9, 19, 22, 34, white); d.line([(10, 19), (21, 31)], fill=wrap); d.line([(11, 19), (22, 30)], fill=wrap)  # white shirt + diagonal wrap
+    R(d, 9, 31, 22, 33, (200, 30, 40)); R(d, 15, 33, 17, 38, (200, 30, 40))  # red sash with a hanging knot
+    R(d, 6, 20, 9, 31, white); R(d, 6, 28, 9, 30, chrome); P(d, [(7, 29)], (255, 40, 40))  # left arm, chrome bracer
+    R(d, 22, 20, 28, 23, white); R(d, 24, 20, 26, 23, chrome); P(d, [(25, 21)], (255, 40, 40))  # pointing arm, bracer
+    R(d, 28, 21, 29, 23, skin); R(d, 30, 21, 31, 21, skin)  # hand + jabbing finger
+    _face(d, skin, mouth=None)  # bald: no hair
+    P(d, [(15, 8), (16, 8)], (255, 30, 30)); P(d, [(15, 7), (16, 7)], (220, 220, 230))  # glowing red forehead implant
+    R(d, 12, 14, 19, 15, (25, 20, 20)); P(d, [(11, 16), (20, 16)], (25, 20, 20))  # big mustache
+    d.line([(12, 11), (14, 12)], fill=(30, 20, 20)); d.line([(19, 11), (17, 12)], fill=(30, 20, 20))  # stern brows
     return im
-def street_discarded_tech():  # a pile of e-waste with a cracked, sparking gadget on top
+def street_discarded_tech():  # (matches broken_tech.jpg) a cracked, rune-covered phone lying in a street trash can
     im, d = canvas()
-    R(d, 2, 34, 29, 45, (60, 60, 70)); P(d, [(x, 34) for x in range(3, 29, 3)], (90, 90, 100))  # junk heap
-    for x, y, c in ((5, 38, (120, 40, 40)), (12, 41, (40, 90, 130)), (20, 39, (90, 90, 40)), (25, 42, (60, 120, 60))): R(d, x, y, x + 3, y + 2, c)  # broken boards
-    R(d, 10, 22, 21, 33, (40, 40, 55)); R(d, 11, 23, 20, 31, (20, 120, 160)); d.line([(12, 24), (19, 30)], fill=(220, 240, 255)); d.line([(18, 23), (14, 31)], fill=(220, 240, 255))  # cracked screen
-    P(d, [(22, 20), (23, 18), (24, 21), (21, 17), (25, 19)], (255, 230, 80)); P(d, [(8, 19), (7, 17)], (255, 230, 80))  # sparks
-    P(d, [(20, 25)], (255, 40, 40))  # error light
+    d.ellipse([3, 40, 28, 47], fill=(0, 0, 0, 90))
+    R(d, 5, 26, 26, 44, (55, 58, 65)); R(d, 4, 24, 27, 27, (85, 90, 100))  # metal trash can + rim
+    for x in (9, 14, 19, 23): d.line([(x, 29), (x, 43)], fill=(45, 48, 55))  # ribs
+    R(d, 6, 22, 25, 25, (30, 30, 36)); P(d, [(7, 21), (11, 20), (20, 21), (24, 22)], (70, 70, 80))  # black bags of rubbish
+    R(d, 11, 12, 20, 25, (20, 20, 28)); R(d, 12, 13, 19, 24, (35, 20, 55))  # phone + dark screen
+    P(d, [(13, 15), (14, 17), (16, 16), (18, 19), (15, 21), (17, 22), (13, 20)], (220, 80, 255))  # glowing purple runes
+    d.line([(12, 14), (19, 23)], fill=(220, 225, 240)); d.line([(18, 13), (13, 24)], fill=(220, 225, 240))  # cracks
+    R(d, 1, 2, 6, 8, (255, 50, 50)); P(d, [(2, 4), (4, 4), (3, 6), (5, 6)], (120, 0, 0))  # red holo sign
+    R(d, 24, 1, 30, 9, (60, 255, 120)); P(d, [(25, 3), (27, 3), (26, 5), (28, 7)], (0, 100, 40))  # green holo sign
     return im
-def street_toll_path():  # chrome-armoured toll guard with a shock-baton beside a glowing turnstile
-    im, d = canvas(); shadow(d); chrome, dk = (190, 200, 210), (110, 120, 135)
-    R(d, 24, 26, 30, 44, (60, 60, 75)); R(d, 23, 30, 31, 31, NEON[0]); R(d, 23, 36, 31, 37, NEON[0])  # turnstile
-    R(d, 9, 33, 13, 44, dk); R(d, 15, 33, 19, 44, dk)  # armoured legs
-    R(d, 7, 18, 21, 33, chrome); R(d, 10, 20, 18, 28, dk); P(d, [(12, 22), (16, 22)], (255, 255, 255))  # chest plate
-    R(d, 3, 19, 6, 30, chrome); R(d, 22, 19, 24, 27, chrome)  # arms
-    d.line([(2, 31), (2, 20)], fill=(40, 40, 50)); P(d, [(2, 19), (1, 18), (3, 18), (2, 17)], NEON[0])  # crackling shock-baton
-    R(d, 8, 3, 20, 16, chrome); R(d, 9, 8, 19, 10, (30, 30, 40)); R(d, 10, 9, 18, 9, (255, 50, 60))  # helmet with red visor
+def street_toll_path():  # (matches toll.jpg) chrome toll-gate arch with a red sign over a gleaming walkway between holo-signs
+    im, d = canvas(); chrome, dk = (200, 205, 215), (90, 95, 110)
+    d.polygon([(11, 47), (20, 47), (17, 30), (14, 30)], fill=(175, 180, 195)); d.line([(15, 31), (15, 46)], fill=(240, 240, 250))  # gleaming walkway
+    R(d, 7, 14, 10, 40, chrome); R(d, 21, 14, 24, 40, chrome); R(d, 8, 15, 9, 39, dk); R(d, 22, 15, 23, 39, dk)  # chrome pillars
+    R(d, 6, 11, 25, 15, chrome); R(d, 8, 12, 23, 14, (40, 20, 25)); P(d, [(9, 13), (11, 13), (13, 13), (15, 13), (18, 13), (20, 13), (22, 13)], (255, 60, 60))  # arch + red sign
+    R(d, 0, 4, 5, 12, (255, 50, 50)); P(d, [(1, 6), (3, 6), (2, 8), (4, 10)], (120, 0, 0))  # red holo sign
+    R(d, 26, 2, 31, 11, (60, 255, 120)); P(d, [(27, 4), (29, 4), (28, 7), (30, 9)], (0, 100, 40))  # green holo sign
+    P(d, [(2, 42), (4, 44), (28, 43), (26, 45)], (255, 60, 60)); P(d, [(27, 41), (29, 44)], (60, 255, 120))  # neon reflections
+    return im
+
+# Gilded Spire encounters: all four sprites match their real art (chariot.jpg, reality_show.jpg, jewelry.jpg, charity.jpg).
+GOLD, GOLD_D, IVORY, SILVER = (240, 200, 70), (180, 140, 40), (245, 240, 228), (195, 200, 210)
+def street_runaway_chariot():  # (matches chariot.jpg) man in a white toga + gold-rimmed sunglasses on a silver-and-gold hover-chariot, glowing thrusters
+    im, d = canvas()
+    d.ellipse([6, 43, 26, 47], fill=(255, 220, 120, 120))  # hover glow on the marble
+    R(d, 9, 15, 22, 25, IVORY); d.line([(10, 16), (20, 24)], fill=GOLD); R(d, 7, 17, 9, 24, SK_T); R(d, 22, 17, 24, 24, SK_T)  # toga + gold sash, arms on the rails
+    _face(d, SK_T, hair=(25, 20, 20), mouth=None); R(d, 11, 10, 20, 11, GOLD); P(d, [(12, 11), (13, 11), (18, 11), (19, 11)], (235, 240, 255))  # gold-rimmed shades
+    d.polygon([(6, 22), (26, 22), (21, 38), (16, 42), (11, 38)], fill=SILVER); d.polygon([(10, 24), (22, 24), (19, 34), (16, 37), (13, 34)], fill=(110, 115, 125))  # chariot hull
+    d.line([(16, 24), (16, 40)], fill=GOLD); P(d, [(13, 29), (19, 29)], (255, 230, 140))  # gold trim, headlamps
+    R(d, 1, 27, 6, 31, SILVER); R(d, 26, 27, 31, 31, SILVER); P(d, [(2, 29), (29, 29)], (255, 210, 90))  # side thrusters
+    d.line([(0, 33), (6, 31)], fill=(255, 210, 90)); d.line([(31, 33), (26, 31)], fill=(255, 210, 90))  # light trails
+    return im
+def street_reality_show():  # (matches reality_show.jpg, PG-13) celebrity Valeria Kurigalzu: long dark hair, gold chain gown, walking a small white dog
+    im, d = canvas(); shadow(d); hair, gown = (30, 22, 20), (225, 200, 140)
+    R(d, 9, 6, 22, 24, hair)  # long dark hair behind
+    d.polygon([(9, 45), (22, 45), (19, 22), (12, 22)], fill=gown); R(d, 11, 18, 20, 23, GOLD); R(d, 11, 25, 20, 26, GOLD)  # gold top + belt, long draped skirt
+    for y in (30, 35, 40): P(d, [(12, y), (16, y + 1), (19, y)], GOLD_D)  # chain fringe
+    R(d, 7, 19, 9, 30, SK_T); R(d, 22, 19, 24, 30, SK_T); P(d, [(8, 26), (23, 26)], GOLD)  # arms + cuffs
+    _face(d, SK_T, hair=hair, mouth=(170, 70, 80)); P(d, [(10, 12), (21, 12)], GOLD)  # earrings
+    d.line([(24, 30), (27, 40)], fill=GOLD)  # chain leash
+    R(d, 25, 40, 30, 44, (248, 248, 248)); R(d, 26, 38, 28, 40, (248, 248, 248)); P(d, [(26, 39)], (30, 30, 30))  # small white dog
+    return im
+def street_lost_jewelry():  # (matches jewelry.jpg) a glowing engraved gold ring lying on a white marble floor
+    im, d = canvas()
+    R(d, 0, 26, 31, 47, (235, 232, 228)); d.line([(2, 30), (12, 40)], fill=(200, 198, 195)); d.line([(20, 28), (30, 44)], fill=(205, 200, 198))  # marble + veins
+    d.line([(0, 34), (31, 30)], fill=(210, 180, 100))  # gold inlay line
+    d.ellipse([7, 30, 25, 42], fill=(255, 220, 120, 90))  # glow
+    d.ellipse([8, 31, 24, 40], outline=GOLD, width=3); d.ellipse([9, 32, 23, 39], outline=GOLD_D)  # ring band
+    P(d, [(11, 33), (14, 32), (18, 32), (21, 34), (12, 38), (20, 38)], (120, 80, 20))  # engraving
+    P(d, [(15, 30), (24, 28), (6, 35)], (255, 255, 210))  # sparkles
+    return im
+def street_charity_gala():  # (matches charity.jpg) man in an embroidered white-and-gold coat handing over a wax-sealed invitation
+    im, d = canvas(); shadow(d)
+    R(d, 10, 34, 14, 44, IVORY); R(d, 17, 34, 21, 44, IVORY)
+    R(d, 9, 17, 22, 36, IVORY); d.line([(15, 17), (15, 35)], fill=GOLD); P(d, [(16, 20), (16, 24), (16, 28)], GOLD); P(d, [(11, 22), (12, 27), (20, 30)], GOLD_D)  # embroidered coat
+    R(d, 13, 16, 18, 17, GOLD)  # gold collar
+    R(d, 6, 18, 9, 30, IVORY); R(d, 22, 18, 25, 24, IVORY); R(d, 24, 24, 26, 26, SK_T)  # arms, hand out
+    R(d, 23, 25, 31, 31, (240, 232, 210)); P(d, [(27, 28), (26, 28), (27, 27)], (170, 20, 30))  # invitation + red wax seal
+    _face(d, SK_T, hair=(25, 20, 20), mouth=(150, 70, 60))
+    return im
+
+# Reality-show episodes (Street.EPISODES): sprites match togiru.jpg, blind_date_noble.jpg, bathsheba.jpg, fletcher.jpg, petyr.jpg (PG-13).
+def street_reality_pushup():  # Togiru: black hair, black-and-gold winged-lion tank top and kilt, gold mic
+    im, d = canvas(); shadow(d); blk = (28, 26, 30)
+    R(d, 11, 34, 14, 44, SK_T); R(d, 17, 34, 20, 44, SK_T); R(d, 10, 44, 14, 45, GOLD_D); R(d, 17, 44, 21, 45, GOLD_D)  # legs + sandals
+    R(d, 9, 28, 22, 35, blk); P(d, [(10, 34), (13, 35), (16, 34), (19, 35), (21, 34)], GOLD); R(d, 9, 27, 22, 28, GOLD)  # kilt + gold belt/fringe
+    R(d, 10, 17, 21, 27, blk); P(d, [(14, 21), (15, 20), (16, 20), (17, 21), (15, 22), (16, 22), (13, 22), (18, 22)], GOLD)  # tank top + winged lion
+    R(d, 6, 17, 9, 28, SK_T); R(d, 22, 17, 25, 22, SK_T); R(d, 21, 13, 24, 17, SK_T)  # big arms, one raised to the mic
+    R(d, 21, 10, 23, 13, GOLD); R(d, 21, 9, 23, 10, (60, 50, 40))  # gold mic
+    _face(d, SK_T, hair=(20, 18, 22), mouth=(150, 80, 70)); P(d, [(15, 17), (16, 17)], GOLD)  # chain
+    return im
+def street_reality_blind_date():  # Lady Ysolde Carnelian: red curls, red-and-gold jewelled gown, by a table with a floating camera
+    im, d = canvas(); shadow(d); red, hair = (165, 25, 35), (175, 45, 30)
+    R(d, 9, 5, 23, 22, hair)  # red curls
+    d.polygon([(9, 45), (23, 45), (20, 21), (12, 21)], fill=red); R(d, 11, 19, 21, 23, red); P(d, [(12, 20), (20, 20), (16, 22), (14, 28), (18, 33), (16, 40)], GOLD)  # high-necked gown, gold jewels
+    R(d, 7, 20, 9, 30, SK_T); R(d, 23, 20, 25, 30, SK_T); P(d, [(8, 26), (24, 26)], GOLD)  # arms + cuffs
+    _face(d, SK_T, hair=hair, mouth=(190, 20, 40)); P(d, [(10, 12), (22, 12)], GOLD)
+    R(d, 0, 35, 6, 37, (230, 222, 210)); R(d, 2, 37, 4, 44, GOLD_D)  # little table
+    R(d, 1, 24, 6, 28, (60, 50, 40)); P(d, [(3, 26)], (190, 90, 255)); P(d, [(2, 30), (5, 30)], (190, 90, 255, 120))  # floating camera, purple lens
+    P(d, [(26, 40), (28, 42), (29, 39)], (200, 30, 50))  # rose petals
+    return im
+def street_reality_makeup():  # Bathsheba: long dark hair with pink streaks, blue dress, lipstick at a gilded vanity
+    im, d = canvas(); shadow(d); hair, blue = (30, 22, 26), (60, 95, 170)
+    R(d, 8, 5, 22, 28, hair); d.line([(9, 9), (9, 26)], fill=(225, 90, 160)); d.line([(21, 9), (21, 26)], fill=(225, 90, 160))  # hair + pink streaks
+    d.polygon([(9, 45), (21, 45), (20, 21), (10, 21)], fill=blue); R(d, 10, 19, 20, 22, blue)  # dress, covered
+    R(d, 7, 20, 9, 30, SK_T); R(d, 20, 15, 22, 21, SK_T); R(d, 20, 13, 21, 15, (200, 40, 80)); P(d, [(20, 12)], GOLD)  # arm raised with lipstick
+    _face(d, SK_T, hair=hair, mouth=(190, 70, 100)); P(d, [(10, 12), (20, 12)], GOLD)
+    R(d, 23, 30, 31, 33, (240, 236, 226)); R(d, 23, 33, 31, 34, GOLD); R(d, 24, 34, 25, 44, GOLD_D); R(d, 29, 34, 30, 44, GOLD_D)  # marble-and-gold vanity
+    R(d, 25, 27, 26, 30, (40, 30, 30)); R(d, 28, 28, 29, 30, GOLD)  # brushes, compact
+    return im
+def street_reality_fletcher():  # Fletcher: big bearded podcast host, white-and-gold toga, navy cap, wooden-spoon mic
+    im, d = canvas(); shadow(d)
+    R(d, 11, 41, 14, 44, SK_T); R(d, 18, 41, 21, 44, SK_T)
+    d.polygon([(7, 42), (25, 42), (24, 17), (8, 17)], fill=IVORY); d.line([(9, 18), (23, 40)], fill=GOLD); R(d, 8, 27, 24, 28, GOLD)  # wide toga, gold sash + belt
+    R(d, 5, 18, 8, 30, IVORY); R(d, 24, 18, 27, 26, SK_T)
+    d.line([(26, 25), (26, 36)], fill=(160, 110, 60), width=2); R(d, 25, 22, 27, 25, (40, 40, 45))  # wooden spoon + mic
+    _face(d, SK_T, hair=(30, 22, 18), beard=(30, 22, 18), mouth=None); R(d, 10, 4, 21, 7, (30, 40, 80)); R(d, 9, 7, 16, 8, (30, 40, 80)); P(d, [(15, 5)], (240, 240, 255))  # navy cap
+    return im
+def street_reality_petyr():  # Petyr: curly hair, cream-and-gold jester hat and robes, gold mic held out
+    im, d = canvas(); shadow(d); cream = (236, 226, 200)
+    d.polygon([(9, 45), (22, 45), (21, 18), (10, 18)], fill=cream); d.line([(15, 18), (15, 44)], fill=GOLD); P(d, [(11, 30), (20, 30), (12, 38), (19, 38)], GOLD_D)
+    R(d, 7, 18, 10, 30, cream); R(d, 21, 19, 28, 22, cream); R(d, 27, 18, 30, 21, SK_T); R(d, 28, 15, 31, 18, GOLD)  # arm out with gold mic
+    _face(d, SK_T, hair=(45, 30, 22), mouth=(150, 80, 70))
+    d.polygon([(8, 7), (12, 0), (15, 6), (19, 0), (23, 7)], fill=cream); R(d, 9, 6, 22, 8, GOLD); P(d, [(12, 0), (19, 0), (8, 7), (23, 7)], GOLD)  # jester hat + bells
+    return im
+
+# Wizard Couriers (matches spire/wizard_courier.jpg): white-bearded wizard, pointed red hat, crimson gold-trimmed robes, spectacles,
+# holding out a glowing amber vial. TO SWAP: replace wizard_courier.jpg + rerun make-encounter-art.py; restyle here.
+def street_wizard_couriers():
+    im, d = canvas(); shadow(d); red, redd, beard = (140, 22, 28), (95, 14, 20), (236, 234, 228)
+    d.polygon([(7, 45), (24, 45), (22, 18), (9, 18)], fill=red); d.line([(15, 19), (15, 44)], fill=GOLD); P(d, [(10, 30), (21, 30), (11, 38), (20, 38)], GOLD_D)  # robe + gold trim
+    R(d, 5, 18, 9, 32, redd); R(d, 22, 19, 29, 23, red); R(d, 27, 18, 30, 22, SK_T)  # sleeves, arm held out
+    R(d, 28, 13, 30, 17, (255, 170, 40)); P(d, [(29, 12)], (200, 190, 170)); P(d, [(27, 14), (31, 14)], (255, 200, 90, 140))  # glowing amber vial + glow
+    _face(d, SK_T, hair=(220, 220, 215), beard=beard, mouth=None); R(d, 11, 15, 20, 24, beard)  # long white beard
+    P(d, [(12, 8), (13, 8), (18, 8), (19, 8)], (200, 170, 90))  # spectacles
+    R(d, 7, 3, 24, 4, red); d.polygon([(10, 3), (21, 3), (17, -10), (13, -6)], fill=red); P(d, [(12, 2), (19, 2)], GOLD)  # wide brim + pointed hat
+    return im
+def street_adrenochrome():  # the sealed amber vial on its own (item picture)
+    im, d = canvas()
+    d.ellipse([6, 18, 26, 44], fill=(255, 190, 60, 60)); R(d, 12, 22, 19, 41, (255, 160, 30)); R(d, 13, 23, 15, 38, (255, 215, 120))  # glow, vial, highlight
+    R(d, 13, 17, 18, 21, (210, 205, 195)); R(d, 12, 15, 19, 16, GOLD)  # neck, gold seal
     return im
 
 SPRITES = {'robert': robert, 'ramirez': ramirez, 'rob': rob, 'joseph': joseph, 'miranda': miranda,
@@ -646,7 +756,9 @@ SPRITES = {'robert': robert, 'ramirez': ramirez, 'rob': rob, 'joseph': joseph, '
            **{f'street_{k}': globals()[f'street_{k}'] for k in ('punks', 'drunk', 'party_girls', 'beggar', 'geneticist', 'preacher',
               'drone', 'pickpocket', 'megaphone', 'tourist', 'stranger', 'noble', 'creep', 'temptress', 'pirates', 'rats', 'sailor', 'streetwalker', 'kraken',
               'duel', 'angry_local', 'parade', 'fireworks', 'bald_brawl', 'starving_artist', 'tipsy_muse', 'acrobats',
-              'courier', 'public_pooper', 'discarded_tech', 'toll_path')}}
+              'courier', 'rude_worker', 'discarded_tech', 'toll_path',
+              'runaway_chariot', 'reality_show', 'lost_jewelry', 'charity_gala',
+              'reality_pushup', 'reality_blind_date', 'reality_makeup', 'reality_fletcher', 'reality_petyr', 'wizard_couriers', 'adrenochrome')}}
 if __name__ == '__main__':
     os.makedirs(OUT, exist_ok=True)
     for name, fn in SPRITES.items(): fn().save(os.path.join(OUT, name + '.png'))

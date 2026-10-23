@@ -74,6 +74,9 @@ object JoetopiaApi {
             "encounter" to (en?.let { Raw(obj("enemy" to it.type.name, "enemyId" to it.type.id, "npc" to it.npcName)) }),
             "talk" to e.talkNpc,
             "street" to e.streetId,
+            // reality-show episode id + its art id (e.g. "reality_fletcher") so the pop-up shows that host's picture
+            "showEpisode" to (if (e.streetId == "reality_show") e.showEpisode else null),
+            "streetArt" to (if (e.streetId == "reality_show") Street.episode(e.showEpisode).art else e.streetId),
         )
     }
 
@@ -148,8 +151,26 @@ object JoetopiaApi {
             "lantern" -> { if (!e.inLantern()) e.teleport("d_lantern"); e.startStreet(a.ifEmpty { "starving_artist" }) }
             "chrome" -> { if (!e.inChrome()) e.teleport("d_chrome"); e.log.clear(); e.startStreet(a.ifEmpty { "courier" }) }
             "chromeroll" -> { val c = e.chromeChance; val r = e.encounterRate; e.chromeChance = b.toIntOrNull() ?: 100; e.encounterRate = maxOf(1, r); e.maybeChrome(); e.chromeChance = c; e.encounterRate = r }
+            "spire" -> { if (!e.inSpire()) e.teleport("d_spire"); e.log.clear(); e.startStreet(a.ifEmpty { "runaway_chariot" }) }
+            "spireroll" -> { if (!e.inSpire()) e.teleport("d_spire"); val c = e.spireChance; val r = e.encounterRate; e.spireChance = b.toIntOrNull() ?: 100; e.encounterRate = maxOf(1, r); e.maybeSpire(); e.spireChance = c; e.encounterRate = r }
+            // set the per-move chances directly (e.g. 'spirechance 0' / 'creatorschance 100' before walking into the Creator Corner)
+            "spirechance" -> e.spireChance = a.toInt()
+            "creatorschance" -> e.creatorsShowChance = a.toInt()
+            // reality show: force the next episode ('episode fletcher'; 'episode' alone = random), the megarave 1% roll, a Robert joke
+            "episode" -> e.showEpisodeForce = a.ifEmpty { null }
+            "raveshowchance" -> e.megaraveShowChance = a.toDouble()
+            "raveshowroll" -> { val c = e.megaraveShowChance; val r = e.encounterRate; e.megaraveShowChance = b.toDoubleOrNull() ?: 100.0; e.encounterRate = maxOf(1, r); e.maybeMegaraveShow(); e.megaraveShowChance = c; e.encounterRate = r }
+            "joke" -> e.robertJoke()
+            // wizard couriers / adrenochrome: item counts, use an item, open a buyer's sell list, talk to an NPC, base Spirit
+            "count" -> return (e.player.inventory[a] ?: 0).toString()
+            "use" -> { e.log.clear(); Items.byId(a)?.let { e.useItem(it) } }
+            "sell" -> { e.log.clear(); e.openSellForTest(a) }
+            "talk" -> { e.log.clear(); e.openTalk(a) }
+            "basespi" -> return e.player.spirit.toString()
+            "setspi" -> e.player.spirit = a.toInt()
             "cancelled" -> e.getCancelled()
-            "tolls" -> e.tollsPaid = a.toIntOrNull() ?: 0
+            "toll" -> e.tollDue = (a.toIntOrNull() ?: 1).coerceIn(GameEngine.TOLL_MIN, GameEngine.TOLL_MAX)
+            "courier" -> e.courierForce = a.ifEmpty { null }
             "lanternroll" -> { val c = e.lanternChance; val r = e.encounterRate; e.lanternChance = b.toIntOrNull() ?: 100; e.encounterRate = maxOf(1, r); e.maybeLantern(); e.lanternChance = c; e.encounterRate = r }
             "scaleroll" -> { if (!e.inScalegate()) e.teleport("d_scale"); val c = e.scaleChance; val r = e.encounterRate; e.scaleChance = b.toIntOrNull() ?: 100; e.encounterRate = maxOf(1, r); e.maybeScalegate(); e.scaleChance = c; e.encounterRate = r }
             "nightlife" -> { e.log.clear(); val r = e.encounterRate; val t = e.temptressChance; val c = e.creepChance

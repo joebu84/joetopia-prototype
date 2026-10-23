@@ -50,7 +50,7 @@
     const ci = closeIndex(scene);
     if (ci >= 0 && !/^Continue/i.test(scene.choices[ci].label)) { const x = el('button', 'x', '✕'); x.title = scene.choices[ci].label + ' (Esc)'; x.setAttribute('aria-label', scene.choices[ci].label); x.addEventListener('click', () => opts.onPick(ci, '')); head.appendChild(x); }
     if (scene.mode === 'TITLE' && JOETOPIA_ART.title) { const im = el('img', 'title-art'); im.src = JOETOPIA_ART.title; im.alt = ''; p.insertBefore(im, head); }
-    const who = scene.mode === 'TALK' ? st.talk : scene.mode === 'STREET' ? JArt.streetArtId(st.street) : null; // talk partner / street encounter
+    const who = scene.mode === 'TALK' ? st.talk : scene.mode === 'STREET' ? JArt.streetArtId(st.streetArt || st.street) : null; // talk partner / street encounter
     if (who && JOETOPIA_ART.faces[who]) {
       const im = el('img', 'face'); im.src = JOETOPIA_ART.faces[who]; im.alt = 'Portrait'; im.title = 'Tap to enlarge';
       im.onerror = () => im.remove();

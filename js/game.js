@@ -27,7 +27,7 @@
     } else {
       JUI.clearMsg();
       if (scene.mode === 'TALK') encFrom = /^enc_/.test(st.talk || '') ? st.talk : null;
-      else if (scene.mode === 'STREET') encFrom = JArt.streetArtId(st.street);
+      else if (scene.mode === 'STREET') encFrom = JArt.streetArtId(st.streetArt || st.street);
       else if (!/^COMBAT/.test(scene.mode)) encFrom = null;
       else if (st.combat) { const a = JArt.enemyArtId(st.combat.enemyId, st.combat.enemy); if (a && /^street_/.test(a)) encFrom = a; } // Undercroft ambush, Kraken
       JUI.showScene(scene, st, { onPick, lastName, encArt: /^COMBAT/.test(scene.mode) || scene.mode === 'STREET' ? encFrom : null });

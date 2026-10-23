@@ -103,6 +103,11 @@ for sid, title in UNDER.items():
         p = box(pb) if pb else im.copy(); p.thumbnail((512, 512), Image.LANCZOS); save(p, 'portraits', name)
         save(sq(im, fx, 0, fs, fy).resize((160, 160), Image.LANCZOS), 'faces', name)
         save(sq(im, bx, bt, bs).resize((256, 256), Image.LANCZOS), 'busts', name)
+        if eb == 'COMPOSITE':
+            (lb, rb) = SPIRE_COMPOSITE[sid]; L = box(lb); R = box(rb)
+            L = L.resize((round(L.size[0] * 288 / L.size[1]), 288), Image.LANCZOS); R = R.resize((round(R.size[0] * 288 / R.size[1]), 288), Image.LANCZOS)
+            e = Image.new('RGB', (L.size[0] + R.size[0], 288)); e.paste(L, (0, 0)); e.paste(R, (L.size[0], 0))
+            save(e.resize((512, 288), Image.LANCZOS), 'events', name, 80); print(name, 'from', sjpg, 'composite', e.size); continue
         e = box(eb) if eb else im.crop((0, 0, w, round(min(h, w * 9 / 16))))
         save(e.resize((512, 288), Image.LANCZOS), 'events', name, 80); print(name, 'from', ujpg); continue
     jpg = os.path.join(STREET_SRC, sid + '.jpg')
@@ -144,6 +149,11 @@ for sid, title in SCALE.items():
         p = box(pb) if pb else im.copy(); p.thumbnail((512, 512), Image.LANCZOS); save(p, 'portraits', name)
         save(sq(im, fx, 0, fs, fy).resize((160, 160), Image.LANCZOS), 'faces', name)
         save(sq(im, bx, bt, bs).resize((256, 256), Image.LANCZOS), 'busts', name)
+        if eb == 'COMPOSITE':
+            (lb, rb) = SPIRE_COMPOSITE[sid]; L = box(lb); R = box(rb)
+            L = L.resize((round(L.size[0] * 288 / L.size[1]), 288), Image.LANCZOS); R = R.resize((round(R.size[0] * 288 / R.size[1]), 288), Image.LANCZOS)
+            e = Image.new('RGB', (L.size[0] + R.size[0], 288)); e.paste(L, (0, 0)); e.paste(R, (L.size[0], 0))
+            save(e.resize((512, 288), Image.LANCZOS), 'events', name, 80); print(name, 'from', sjpg, 'composite', e.size); continue
         e = box(eb) if eb else im.crop((0, 0, w, round(min(h, w * 9 / 16))))
         save(e.resize((512, 288), Image.LANCZOS), 'events', name, 80); print(name, 'from', sjpg); continue
     spr = Image.open(os.path.join(ART, 'npcs', name + '.png')).convert('RGBA')
@@ -178,6 +188,11 @@ for sid, title in LANTERN.items():
         p = box(pb) if pb else im.copy(); p.thumbnail((512, 512), Image.LANCZOS); save(p, 'portraits', name)
         save(sq(im, fx, 0, fs, fy).resize((160, 160), Image.LANCZOS), 'faces', name)
         save(sq(im, bx, bt, bs).resize((256, 256), Image.LANCZOS), 'busts', name)
+        if eb == 'COMPOSITE':
+            (lb, rb) = SPIRE_COMPOSITE[sid]; L = box(lb); R = box(rb)
+            L = L.resize((round(L.size[0] * 288 / L.size[1]), 288), Image.LANCZOS); R = R.resize((round(R.size[0] * 288 / R.size[1]), 288), Image.LANCZOS)
+            e = Image.new('RGB', (L.size[0] + R.size[0], 288)); e.paste(L, (0, 0)); e.paste(R, (L.size[0], 0))
+            save(e.resize((512, 288), Image.LANCZOS), 'events', name, 80); print(name, 'from', sjpg, 'composite', e.size); continue
         e = box(eb) if eb else im.crop((0, 0, w, round(min(h, w * 9 / 16))))
         save(e.resize((512, 288), Image.LANCZOS), 'events', name, 80); print(name, 'from', sjpg); continue
     spr = Image.open(os.path.join(ART, 'npcs', name + '.png')).convert('RGBA')
@@ -187,14 +202,21 @@ for sid, title in LANTERN.items():
     save(card(512, 288, spr, 5, title), 'events', name, 80)
     print(name, 'placeholder')
 
-# Chrome Quarter encounters (courier, public_pooper, discarded_tech, toll_path): PLACEHOLDER cards drawn from the map sprites.
-# TO SWAP: drop joetopia-art-src/chrome/<id>.jpg (courier.jpg, public_pooper.jpg, discarded_tech.jpg, toll_path.jpg) and re-run;
-# tune with a CHROME_CROP line. Keep the public pooper implied/PG-13 (crop above the waist).
-CHROME = {'courier': 'The Courier', 'public_pooper': 'The Public Pooper', 'discarded_tech': 'Discarded Tech', 'toll_path': 'Toll Path'}
+# Chrome Quarter encounters (courier, rude_worker, discarded_tech, toll_path). All four use REAL art:
+# courier.jpg, rude_worker.jpg, broken_tech.jpg (-> discarded_tech) and toll.jpg (-> toll_path).
+# TO SWAP: replace joetopia-art-src/chrome/<file>.jpg (see CHROME_FILE for renamed sources) and re-run;
+# tune with a CHROME_CROP line.
+CHROME = {'courier': 'The Courier', 'rude_worker': 'Rude Out-of-Town Worker', 'discarded_tech': 'Discarded Tech', 'toll_path': 'Toll Path'}
 CHROME_SRC = os.path.join(os.path.dirname(STREET_SRC), 'chrome')
-CHROME_CROP = {}  # id: face (cx, cy, s), bust (cx, top, s), portrait box or None = whole, event box or None = 16:9 from the top
+CHROME_FILE = {'discarded_tech': 'broken_tech', 'toll_path': 'toll'}  # encounter id -> source jpg name, when they differ
+CHROME_CROP = {
+    'rude_worker': ((.51, .365, .33), (.5, .2, .75), None, (0, .2, 1, .5785)),
+    'discarded_tech': ((.52, .55, .45), (.5, .3, .8), None, (0, .38, 1, .7576)),
+    'courier': ((.50, .285, .3), (.55, .2, .75), None, (0, .23, 1, .6076)),
+    'toll_path': ((.53, .5, .28), (.53, .25, .5), (.25, 0, .75, 1), (0, .1, 1, .938)),
+}  # id: face (cx, cy, s), bust (cx, top, s), portrait box or None = whole, event box or None = 16:9 from the top
 for sid, title in CHROME.items():
-    name = 'street_' + sid; sjpg = os.path.join(CHROME_SRC, sid + '.jpg')
+    name = 'street_' + sid; sjpg = os.path.join(CHROME_SRC, CHROME_FILE.get(sid, sid) + '.jpg')
     if os.path.exists(sjpg):
         im = Image.open(sjpg).convert('RGB'); w, h = im.size
         (fx, fy, fs), (bx, bt, bs), pb, eb = CHROME_CROP.get(sid, ((.5, .25, .35), (.5, .05, .7), None, None))
@@ -202,6 +224,65 @@ for sid, title in CHROME.items():
         p = box(pb) if pb else im.copy(); p.thumbnail((512, 512), Image.LANCZOS); save(p, 'portraits', name)
         save(sq(im, fx, 0, fs, fy).resize((160, 160), Image.LANCZOS), 'faces', name)
         save(sq(im, bx, bt, bs).resize((256, 256), Image.LANCZOS), 'busts', name)
+        if eb == 'COMPOSITE':
+            (lb, rb) = SPIRE_COMPOSITE[sid]; L = box(lb); R = box(rb)
+            L = L.resize((round(L.size[0] * 288 / L.size[1]), 288), Image.LANCZOS); R = R.resize((round(R.size[0] * 288 / R.size[1]), 288), Image.LANCZOS)
+            e = Image.new('RGB', (L.size[0] + R.size[0], 288)); e.paste(L, (0, 0)); e.paste(R, (L.size[0], 0))
+            save(e.resize((512, 288), Image.LANCZOS), 'events', name, 80); print(name, 'from', sjpg, 'composite', e.size); continue
+        e = box(eb) if eb else im.crop((0, 0, w, round(min(h, w * 9 / 16))))
+        save(e.resize((512, 288), Image.LANCZOS), 'events', name, 80); print(name, 'from', sjpg); continue
+    spr = Image.open(os.path.join(ART, 'npcs', name + '.png')).convert('RGBA')
+    save(card(384, 512, spr, 8, title + ' (placeholder art)'), 'portraits', name)
+    save(card(160, 160, spr.crop((4, 0, 28, 24)), 6), 'faces', name)
+    save(card(256, 256, spr, 5), 'busts', name)
+    save(card(512, 288, spr, 5, title), 'events', name, 80)
+    print(name, 'placeholder')
+
+# Gilded Spire encounters (runaway_chariot, reality_show + its episodes, lost_jewelry, charity_gala). All use REAL art from
+# joetopia-art-src/spire/: chariot.jpg, reality_show.jpg (the fictional celebrity Valeria Kurigalzu; cropped head-to-hips
+# for PG-13), jewelry.jpg, charity.jpg. The private-guards fight reuses the chariot driver's picture (see art.js enemyArt).
+# TO SWAP: replace a jpg (names in SPIRE_FILE) and re-run; tune with a SPIRE_CROP line.
+SPIRE = {'runaway_chariot': 'Runaway Chariot', 'reality_show': 'Reality Show', 'lost_jewelry': 'Lost Jewelry', 'charity_gala': 'Charity Gala',
+         # reality-show EPISODES other than the Kurigalzus (Street.EPISODES art ids)
+         'reality_pushup': 'Push-Up Challenge', 'reality_blind_date': 'Blind Date a Noble', 'reality_makeup': 'Makeup Tutorial', 'reality_fletcher': 'Fletcher Chats', 'reality_petyr': "Petyr's Interview",
+         # Wizard Couriers (wizard_courier.jpg: red-robed wizard offering an amber vial to a man in a toga; the wizard fight reuses it)
+         'wizard_couriers': 'Wizard Couriers', 'adrenochrome': 'Adrenochrome Vial'}
+SPIRE_SRC = os.path.join(os.path.dirname(STREET_SRC), 'spire')
+SPIRE_FILE = {'runaway_chariot': 'chariot', 'lost_jewelry': 'jewelry', 'charity_gala': 'charity',
+              'reality_pushup': 'togiru', 'reality_blind_date': 'blind_date_noble', 'reality_makeup': 'bathsheba', 'reality_fletcher': 'fletcher', 'reality_petyr': 'petyr',
+              'wizard_couriers': 'wizard_courier', 'adrenochrome': 'wizard_courier'}  # encounter id -> source jpg name, when they differ
+SPIRE_CROP = {
+    'runaway_chariot': ((.503, .21, .1), (.5, .1, .36), (.2, 0, .8, .85), (0, .05, 1, .886)),
+    'reality_show': ((.5, .16, .22), (.5, .07, .6), (.12, .02, .88, .52), (0, .04, 1, .27)),
+    'charity_gala': ((.55, .31, .36), (.5, .2, .8), None, (0, .2, 1, .578)),
+    'lost_jewelry': ((.5, .65, .55), (.5, .45, .8), None, (0, .5, 1, .878)),
+    'reality_pushup': ((.47, .13, .28), (.5, .04, .7), None, (0, .03, 1, .407)),
+    # PG-13 like the Stranger: the noble and Bathsheba are cut at the shoulders/upper chest (no cleavage or legs)
+    'reality_blind_date': ((.79, .23, .16), (.82, .02, .26), (.66, .02, .98, .43), 'COMPOSITE'),
+    'reality_makeup': ((.53, .36, .25), (.55, .18, .48), (.1, .12, .95, .49), (0, .13, 1, .508)),
+    'reality_fletcher': ((.48, .26, .22), (.5, .15, .6), None, (0, .12, 1, .497)),
+    'reality_petyr': ((.55, .30, .3), (.5, .08, .8), None, (0, .05, 1, .427)),
+    # landscape 1712x1152: face/bust on the wizard (left), whole picture as portrait, 16:9 banner keeps wizard, vial and the toga man
+    'wizard_couriers': ((.37, .37, .2), (.33, .05, .58), None, (0, .07, 1, .906)),
+    # the vial in the wizard's hand (item picture for Adrenochrome log lines)
+    'adrenochrome': ((.52, .56, .1), (.52, .42, .2), (.40, .40, .64, .76), (.30, .38, .74, .748)),
+}
+# event banners built from two crops side by side (left box, right box), each fractions of the source
+SPIRE_COMPOSITE = {'reality_blind_date': ((.18, .32, .395, .78), (.655, 0, .968, .43))}  # floating camera + table | her face  # id: face (cx, cy, s), bust (cx, top, s), portrait box or None = whole, event box or None = 16:9 from the top
+for sid, title in SPIRE.items():
+    name = 'street_' + sid; sjpg = os.path.join(SPIRE_SRC, SPIRE_FILE.get(sid, sid) + '.jpg')
+    if os.path.exists(sjpg):
+        im = Image.open(sjpg).convert('RGB'); w, h = im.size
+        (fx, fy, fs), (bx, bt, bs), pb, eb = SPIRE_CROP.get(sid, ((.5, .25, .35), (.5, .05, .7), None, None))
+        box = lambda b: im.crop((round(b[0] * w), round(b[1] * h), round(b[2] * w), round(b[3] * h)))
+        p = box(pb) if pb else im.copy(); p.thumbnail((512, 512), Image.LANCZOS); save(p, 'portraits', name)
+        save(sq(im, fx, 0, fs, fy).resize((160, 160), Image.LANCZOS), 'faces', name)
+        save(sq(im, bx, bt, bs).resize((256, 256), Image.LANCZOS), 'busts', name)
+        if eb == 'COMPOSITE':
+            (lb, rb) = SPIRE_COMPOSITE[sid]; L = box(lb); R = box(rb)
+            L = L.resize((round(L.size[0] * 288 / L.size[1]), 288), Image.LANCZOS); R = R.resize((round(R.size[0] * 288 / R.size[1]), 288), Image.LANCZOS)
+            e = Image.new('RGB', (L.size[0] + R.size[0], 288)); e.paste(L, (0, 0)); e.paste(R, (L.size[0], 0))
+            save(e.resize((512, 288), Image.LANCZOS), 'events', name, 80); print(name, 'from', sjpg, 'composite', e.size); continue
         e = box(eb) if eb else im.crop((0, 0, w, round(min(h, w * 9 / 16))))
         save(e.resize((512, 288), Image.LANCZOS), 'events', name, 80); print(name, 'from', sjpg); continue
     spr = Image.open(os.path.join(ART, 'npcs', name + '.png')).convert('RGBA')
