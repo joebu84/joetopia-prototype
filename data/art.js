@@ -80,14 +80,46 @@
       // Wizard Couriers (Gilded Spire table): REAL art spire/wizard_courier.jpg (red-robed wizard offering an amber vial to a man in a toga).
       // The Amber Wizard fight reuses it (enemyArt.wizard). street_adrenochrome = the vial cropped from the same picture (item picture).
       // TO SWAP: replace joetopia-art-src/spire/wizard_courier.jpg (or add a separate vial jpg via SPIRE_FILE) and rerun tools/make-encounter-art.py.
-      street_wizard_couriers: 'street_wizard_couriers', street_adrenochrome: 'street_adrenochrome' },
+      street_wizard_couriers: 'street_wizard_couriers', street_adrenochrome: 'street_adrenochrome',
+      // Toadstool Forest (Forest.kt, ~20% per move in the forest): REAL art joetopia-art-src/forest/{troll,weirdo,trustworthy_human,unicorn,pixie}.jpg
+      // (pixie = PG-13 crop: head, shoulders, upper wings only). The gnome is a PLACEHOLDER card. Item pictures: horn + wings cropped from the
+      // jpgs, the rest are sprite cards. TO SWAP: drop joetopia-art-src/forest/<id>.jpg, tune FOREST_CROP, rerun tools/make-encounter-art.py.
+      street_troll: 'street_troll', street_weirdo: 'street_weirdo', street_trustworthy_human: 'street_trustworthy_human', street_unicorn: 'street_unicorn', street_pixie: 'street_pixie', street_gnome: 'street_gnome', street_unicorn_horn: 'street_unicorn_horn', street_pixie_wings: 'street_pixie_wings', street_gnome_hat: 'street_gnome_hat', street_work_jeans: 'street_work_jeans', street_flannel_shirt: 'street_flannel_shirt', street_woodsman_axe: 'street_woodsman_axe', street_unicorn_wand: 'street_unicorn_wand', street_unicorn_sword: 'street_unicorn_sword', street_unicorn_heels: 'street_unicorn_heels',
+      // Goblin Bangers: goblin_banger.jpg = RED crew (blue skin, red bandana, SMG); goblin_banger_blue.jpg = BLUE crew (red skin, blue bandana, revolver). Items = sprite cards.
+      street_goblin_banger: 'street_goblin_banger', street_goblin_banger_blue: 'street_goblin_banger_blue', street_goblin_zapper: 'street_goblin_zapper', street_banger_bandana: 'street_banger_bandana', street_red_shiv: 'street_red_shiv', street_bike_chain: 'street_bike_chain', street_stem_bat: 'street_stem_bat', street_goblin_revolver: 'street_goblin_revolver', street_blue_bandana: 'street_blue_bandana', street_blue_shiv: 'street_blue_shiv', street_goblin_slingshot: 'street_goblin_slingshot', street_big_booma: 'street_big_booma', street_ballistic_hat: 'street_ballistic_hat',
+      // goblin_unaffiliated.jpg = the three-goblin crew; bigfoot.jpg = mother Bigfoot + baby among giant mushrooms
+      street_goblin_unaffiliated: 'street_goblin_unaffiliated', street_bigfoot: 'street_bigfoot',
+      // Dance-floor table (Dance.kt, ~9% per move onto a dance floor): REAL art joetopia-art-src/dance/{water,dj,pickpocket,boyfriend,complimentary_drinks}.jpg
+      // (PG-13 crops: pickpocket = face + shoulders, the girlfriend on the boyfriend card shaded below the face, server = head, shoulders and tray).
+      // TO SWAP: replace the jpg and rerun tools/make-encounter-art.py (tune DANCE_CROP).
+      street_dance_water: 'street_dance_water', street_dance_dj: 'street_dance_dj', street_dance_pickpocket: 'street_dance_pickpocket', street_dance_boyfriend: 'street_dance_boyfriend', street_dance_drinks: 'street_dance_drinks' },
     // Street kinds without their own picture borrow one: kind id -> character id.
-    streetArt: { offduty: 'enc_guard' },
+    streetArt: { offduty: 'enc_guard', red_goblin_spot: 'street_goblin_banger', blue_goblin_spot: 'street_goblin_banger_blue' },
     // Pictures shown on the map message box when the log matches (things that happen outside a scene).
     logArt: [
       { re: /TEMPTRESS!|Temptress[,!.]|show your face here for/, id: 'street_temptress', sprite: true },
       { re: /man in a dark toga watches you|Same dark toga/, id: 'street_creep', small: true },
       { re: /Adrenochrome Vial|ADRENOCHROME/, id: 'street_adrenochrome', small: true },
+      { re: /Unicorn Horn/, id: 'street_unicorn_horn', small: true },
+      { re: /Pixie Wings/, id: 'street_pixie_wings', small: true },
+      { re: /Gnome Hat/, id: 'street_gnome_hat', small: true },
+      { re: /Worker's Jeans/, id: 'street_work_jeans', small: true },
+      { re: /Flannel Shirt/, id: 'street_flannel_shirt', small: true },
+      { re: /Woodsman's Axe/, id: 'street_woodsman_axe', small: true },
+      { re: /Unicorn Wand/, id: 'street_unicorn_wand', small: true },
+      { re: /Unicorn Sword/, id: 'street_unicorn_sword', small: true },
+      { re: /Unicorn Heels/, id: 'street_unicorn_heels', small: true },
+      { re: /Goblin Zapper SMG/, id: 'street_goblin_zapper', small: true },
+      { re: /Banger Bandana/, id: 'street_banger_bandana', small: true },
+      { re: /Red-Taped Shiv/, id: 'street_red_shiv', small: true },
+      { re: /Goblin Bike Chain/, id: 'street_bike_chain', small: true },
+      { re: /Mushroom-Stem Bat/, id: 'street_stem_bat', small: true },
+      { re: /Goblin Six-Shooter/, id: 'street_goblin_revolver', small: true },
+      { re: /Da Big Booma/, id: 'street_big_booma', small: true },
+      { re: /Ballistic Hat/, id: 'street_ballistic_hat', small: true },
+      { re: /Blue Bandana/, id: 'street_blue_bandana', small: true },
+      { re: /Blue-Taped Shiv/, id: 'street_blue_shiv', small: true },
+      { re: /Goblin Slingshot/, id: 'street_goblin_slingshot', small: true },
     ],
     npcs: {}, faces: {}, portraits: {}, busts: {}, events: {},
     enemies: {},             // battle sprite per enemy id, e.g. wolf: 'art/enemies/wolf.png'
@@ -97,7 +129,11 @@
       street_punk: 'street_punks', angry_drunk: 'street_drunk', mad_geneticist: 'street_geneticist',
       rogue_drone: 'street_drone', noble: 'street_noble', creep: 'street_creep',
       undercroft_pirates: 'street_pirates', sewer_rats: 'street_rats', drunken_sailor: 'street_sailor', kraken: 'street_kraken',
-      scale_duelist: 'street_duel', bald_brawlers: 'street_bald_brawl', toll_guard: 'street_toll_path', spire_guards: 'street_runaway_chariot', wizard: 'street_wizard_couriers' },  // the guards fight shows the chariot driver
+      scale_duelist: 'street_duel', bald_brawlers: 'street_bald_brawl', toll_guard: 'street_toll_path', spire_guards: 'street_runaway_chariot', wizard: 'street_wizard_couriers',
+      troll: 'street_troll', weirdo: 'street_weirdo', unicorn: 'street_unicorn', pixie: 'street_pixie', gnome: 'street_gnome',
+      goblin_banger: 'street_goblin_banger', goblin_banger_blue: 'street_goblin_banger_blue',
+      goblin_unaffiliated: 'street_goblin_unaffiliated', mother_bigfoot: 'street_bigfoot',
+      dance_pickpocket: 'street_dance_pickpocket', dance_boyfriend: 'street_dance_boyfriend' },  // the guards fight shows the chariot driver
     objects: {               // map markers for shops, crowds and things to do
       shop: 'art/sprites/shop.png', crowd: 'art/sprites/crowd.png', fight: 'art/sprites/fight.png',
       event: 'art/sprites/event.png', drink: 'art/sprites/drink.png', dance: 'art/sprites/dance.png',

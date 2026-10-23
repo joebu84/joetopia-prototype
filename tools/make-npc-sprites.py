@@ -749,6 +749,218 @@ def street_adrenochrome():  # the sealed amber vial on its own (item picture)
     R(d, 13, 17, 18, 21, (210, 205, 195)); R(d, 12, 15, 19, 16, GOLD)  # neck, gold seal
     return im
 
+
+# ---- Toadstool Forest (matches joetopia-art-src/forest/*.jpg; the gnome and the item icons are drawn here) ----
+MOSS, MOSS_D, BARK, BARK_D = (110, 140, 90), (75, 100, 62), (95, 62, 38), (60, 38, 24)
+def street_troll():  # green one-eyed troll, tusks, leather loincloth, spiked club over the shoulder (troll.jpg)
+    im, d = canvas(); d.ellipse([3, 44, 28, 47], fill=(0, 0, 0, 90)); g, gd = (120, 145, 105), (85, 105, 75)
+    R(d, 7, 16, 24, 34, g); R(d, 5, 18, 7, 32, gd); R(d, 24, 18, 26, 32, gd)  # huge torso + arms
+    R(d, 9, 30, 22, 36, BARK); R(d, 9, 37, 14, 44, gd); R(d, 17, 37, 22, 44, gd)  # loincloth + legs
+    R(d, 10, 5, 21, 16, g); R(d, 13, 8, 18, 10, (240, 230, 200)); P(d, [(15, 9), (16, 9)], (20, 20, 20))  # head + ONE eye
+    P(d, [(11, 14), (11, 13), (20, 14), (20, 13)], (245, 240, 220)); R(d, 13, 13, 18, 13, (60, 30, 30))  # tusks + mouth
+    d.line([(26, 31), (30, 6)], fill=BARK_D, width=3); P(d, [(28, 9), (31, 12), (27, 14), (30, 17)], (200, 200, 190))  # spiked club
+    return im
+def street_weirdo():  # long-haired bearded woodsman, green cloak, leather vest, pouches + tools, hand held out (weirdo.jpg)
+    im, d = canvas(); shadow(d); hair = (60, 40, 28)
+    d.polygon([(6, 18), (25, 18), (27, 44), (4, 44)], fill=(55, 75, 50)); R(d, 10, 18, 21, 38, (110, 75, 45))  # cloak + vest
+    R(d, 9, 30, 22, 31, BARK_D); R(d, 9, 32, 12, 36, (130, 90, 55)); R(d, 19, 32, 22, 36, (130, 90, 55)); P(d, [(15, 33), (16, 34), (15, 35)], (170, 170, 175))  # belt, pouches, tool
+    legs(d, (70, 55, 40), 39, 44); R(d, 21, 22, 30, 25, (110, 75, 45)); R(d, 28, 21, 31, 25, SK_M)  # arm out, open hand
+    _face(d, SK_M, hair=hair, beard=hair, mouth=None); R(d, 9, 4, 11, 18, hair); R(d, 20, 4, 22, 18, hair)  # long hair + big beard
+    R(d, 13, 15, 18, 15, (230, 220, 210))  # grin
+    return im
+def street_trustworthy_human():  # felt puppet "human": floppy hat, ping-pong eyes, big nose, green coat, BLUE CLAWED HAND
+    im, d = canvas(); shadow(d); felt = (205, 160, 110)
+    R(d, 9, 18, 22, 41, (95, 100, 55)); R(d, 13, 18, 18, 36, (230, 220, 195))  # coat + shirt
+    legs(d, (90, 70, 50), 41, 44); R(d, 6, 20, 9, 32, (95, 100, 55)); R(d, 22, 22, 29, 25, (95, 100, 55))
+    R(d, 26, 20, 31, 27, (70, 120, 210)); P(d, [(31, 19), (31, 22), (31, 25), (26, 28)], (40, 40, 40))  # blue hand + claws
+    R(d, 10, 6, 21, 17, felt); R(d, 11, 8, 14, 11, (250, 250, 250)); R(d, 17, 8, 20, 11, (250, 250, 250)); P(d, [(13, 10), (18, 10)], (20, 20, 20))  # ping-pong eyes
+    R(d, 14, 11, 17, 13, (175, 125, 85)); R(d, 13, 14, 18, 15, (120, 40, 40))  # nose + mouth
+    R(d, 6, 4, 25, 6, (120, 85, 55)); R(d, 10, 0, 21, 4, (120, 85, 55)); P(d, [(19, 2), (20, 2)], (180, 120, 230))  # floppy hat + flower
+    return im
+def street_unicorn():  # yellow unicorn, golden mane, rainbow horn (unicorn.jpg)
+    im, d = canvas(); shadow(d); y, yd, mane = (245, 225, 110), (215, 190, 80), (240, 190, 60)
+    R(d, 6, 22, 24, 32, y); R(d, 7, 33, 9, 44, yd); R(d, 11, 33, 13, 44, y); R(d, 18, 33, 20, 44, yd); R(d, 22, 33, 24, 44, y)  # body + legs
+    R(d, 21, 12, 26, 24, y); R(d, 23, 8, 30, 15, y); P(d, [(27, 10)], (20, 20, 30))  # neck + head
+    R(d, 19, 9, 22, 22, mane); R(d, 3, 22, 6, 34, mane)  # mane + tail
+    for i, c in enumerate([(230, 50, 50), (240, 150, 40), (240, 230, 60), (60, 190, 80), (60, 120, 230), (150, 70, 200)]): P(d, [(27 + i // 2, 7 - i)], c)  # rainbow horn
+    return im
+def street_pixie():  # small winged pixie, curly brown hair, green leaf dress (PG-13)
+    im, d = canvas(); d.ellipse([10, 44, 21, 47], fill=(0, 0, 0, 70)); wing = (170, 225, 255, 160)
+    d.ellipse([2, 12, 13, 26], fill=wing); d.ellipse([18, 12, 29, 26], fill=wing); d.ellipse([4, 24, 13, 33], fill=wing); d.ellipse([18, 24, 27, 33], fill=wing)
+    d.polygon([(11, 22), (20, 22), (22, 36), (9, 36)], fill=(60, 150, 70)); P(d, [(10, 35), (13, 36), (17, 36), (21, 35)], (40, 110, 50))  # leaf dress
+    R(d, 13, 36, 14, 41, SK_L); R(d, 17, 36, 18, 41, SK_L); R(d, 10, 22, 11, 29, SK_L); R(d, 20, 22, 21, 29, SK_L)
+    R(d, 12, 11, 19, 20, SK_L); P(d, [(14, 15), (17, 15)], (40, 30, 20)); P(d, [(15, 18), (16, 18)], (200, 90, 90))
+    hair = (110, 70, 40); R(d, 10, 8, 21, 11, hair); R(d, 9, 10, 11, 21, hair); R(d, 20, 10, 22, 21, hair); P(d, [(9, 22), (22, 22), (11, 7), (20, 7)], hair)  # curls
+    P(d, [(5, 9), (27, 30), (24, 6)], (255, 240, 150))  # sparkles
+    return im
+def street_gnome():  # gnome: tall red hat, white beard, flannel shirt, work jeans, tiny axe
+    im, d = canvas(); d.ellipse([8, 44, 23, 47], fill=(0, 0, 0, 80))
+    R(d, 10, 30, 21, 38, (180, 50, 45)); P(d, [(12, 31), (15, 31), (18, 31), (12, 35), (15, 35), (18, 35)], (110, 25, 25))  # flannel
+    R(d, 11, 39, 15, 43, (60, 85, 140)); R(d, 16, 39, 20, 43, (60, 85, 140)); R(d, 10, 44, 15, 45, BARK_D); R(d, 16, 44, 21, 45, BARK_D)  # jeans + boots
+    R(d, 11, 20, 20, 28, SK_L); P(d, [(13, 23), (18, 23)], (20, 20, 30)); R(d, 15, 24, 16, 25, (220, 140, 120))
+    R(d, 10, 25, 21, 33, (240, 240, 235))  # beard
+    d.polygon([(9, 21), (22, 21), (15, 4)], fill=(200, 40, 40))  # pointy hat
+    R(d, 22, 26, 23, 36, BARK); R(d, 23, 25, 26, 28, (180, 185, 190))  # axe
+    return im
+# item icons (log pictures)
+def street_unicorn_horn():
+    im, d = canvas(); d.ellipse([6, 14, 26, 44], fill=(255, 240, 200, 50))
+    for i, c in enumerate([(230, 50, 50), (240, 150, 40), (240, 230, 60), (60, 190, 80), (60, 120, 230), (150, 70, 200)]): d.line([(10 + i * 2, 42 - i * 5), (12 + i * 2, 38 - i * 5)], fill=c, width=3)
+    return im
+def street_pixie_wings():
+    im, d = canvas(); wing = (170, 225, 255, 200); vein = (110, 170, 220)
+    d.ellipse([2, 10, 15, 28], fill=wing); d.ellipse([17, 10, 30, 28], fill=wing); d.ellipse([4, 26, 14, 38], fill=wing); d.ellipse([18, 26, 28, 38], fill=wing)
+    d.line([(15, 24), (5, 14)], fill=vein); d.line([(16, 24), (26, 14)], fill=vein); P(d, [(8, 8), (25, 40), (28, 9)], (255, 240, 150))
+    return im
+def street_gnome_hat():
+    im, d = canvas(); d.polygon([(6, 38), (26, 38), (16, 6)], fill=(200, 40, 40)); R(d, 4, 37, 27, 40, (160, 30, 30)); return im
+def street_work_jeans():
+    im, d = canvas(); jean = (60, 85, 140); R(d, 9, 12, 23, 18, jean); R(d, 9, 18, 15, 42, jean); R(d, 17, 18, 23, 42, jean); R(d, 9, 12, 23, 13, BARK); P(d, [(12, 20), (20, 20)], (220, 180, 90)); return im
+def street_flannel_shirt():
+    im, d = canvas(); r, rd = (180, 50, 45), (110, 25, 25); R(d, 9, 12, 22, 38, r); R(d, 4, 13, 9, 30, r); R(d, 22, 13, 27, 30, r)
+    for y in range(14, 38, 5): R(d, 4, y, 27, y, rd)
+    for x in (7, 13, 18, 25): R(d, x, 12, x, 38, rd)
+    return im
+def street_woodsman_axe():
+    im, d = canvas(); d.line([(10, 42), (21, 10)], fill=BARK, width=3); d.polygon([(17, 8), (27, 6), (27, 18), (20, 15)], fill=(185, 190, 195)); return im
+def street_unicorn_wand():
+    im, d = canvas(); d.line([(10, 42), (22, 8)], fill=(245, 225, 110), width=2)
+    for i, c in enumerate([(230, 50, 50), (240, 230, 60), (60, 190, 80), (60, 120, 230)]): P(d, [(21 + i % 2, 9 - i), (19 - i, 6 + i)], c)
+    return im
+def street_unicorn_sword():
+    im, d = canvas(); d.line([(16, 4), (16, 34)], fill=(250, 245, 230), width=3)
+    for i, c in enumerate([(230, 50, 50), (240, 150, 40), (240, 230, 60), (60, 190, 80), (60, 120, 230), (150, 70, 200)]): P(d, [(16, 6 + i * 5)], c)
+    R(d, 10, 34, 22, 36, GOLD); R(d, 15, 37, 17, 43, BARK); return im
+def street_unicorn_heels():
+    im, d = canvas(); y = (245, 225, 110)
+    for ox in (2, 16): d.polygon([(ox, 36), (ox + 12, 32), (ox + 13, 38), (ox, 38)], fill=y); R(d, ox + 11, 38, ox + 12, 44, (200, 120, 230)); P(d, [(ox + 2, 34)], (60, 190, 80))
+    return im
+
+def street_goblin_banger():  # RED crew: blue-skinned goblin, red bandana, jeans, boots, crackling energy SMG (goblin_banger.jpg)
+    im, d = canvas(); shadow(d); sk, skd = (70, 120, 200), (45, 85, 150)
+    R(d, 10, 20, 21, 30, (60, 60, 70)); R(d, 10, 31, 21, 38, (60, 85, 140)); R(d, 10, 39, 14, 41, (60, 85, 140)); R(d, 17, 39, 21, 41, (60, 85, 140))  # tee, jeans
+    R(d, 9, 42, 14, 45, (70, 50, 35)); R(d, 17, 42, 22, 45, (70, 50, 35))  # boots
+    R(d, 7, 21, 9, 29, sk); R(d, 22, 21, 24, 27, sk)  # arms
+    R(d, 10, 6, 21, 18, sk); P(d, [(7, 9), (8, 10), (6, 8), (23, 9), (24, 8), (25, 7)], skd)  # head + pointy ears
+    R(d, 9, 5, 22, 8, (220, 30, 30)); P(d, [(8, 9), (7, 10)], (220, 30, 30))  # bandana + knot
+    R(d, 12, 10, 14, 11, (255, 255, 255)); R(d, 17, 10, 19, 11, (255, 255, 255)); P(d, [(13, 11), (18, 11)], (10, 10, 10))
+    R(d, 11, 14, 20, 16, (245, 240, 230)); P(d, [(12, 15), (14, 15), (16, 15), (18, 15)], (90, 20, 20))  # big toothy grin
+    R(d, 14, 25, 27, 27, (70, 70, 80)); R(d, 18, 28, 19, 31, (70, 70, 80)); P(d, [(28, 25), (29, 24), (30, 26), (28, 27)], (120, 210, 255))  # SMG + sparks
+    return im
+def street_goblin_banger_blue():  # BLUE crew: red-skinned goblin, blue bandana, dark trousers, boots, revolver + blue rag (goblin_banger_blue.jpg)
+    im, d = canvas(); shadow(d); sk, skd = (200, 60, 50), (150, 40, 35); bl = (60, 100, 190)
+    R(d, 10, 20, 21, 30, sk); P(d, [(13, 23), (18, 23), (15, 27)], skd)  # bare red torso
+    R(d, 10, 30, 21, 31, (90, 70, 50)); R(d, 10, 32, 21, 38, (40, 38, 36)); R(d, 10, 39, 14, 41, (40, 38, 36)); R(d, 17, 39, 21, 41, (40, 38, 36))  # belt, trousers
+    R(d, 9, 42, 14, 45, (120, 95, 60)); R(d, 17, 42, 22, 45, (120, 95, 60))  # boots
+    R(d, 7, 21, 9, 29, sk); R(d, 22, 21, 24, 29, sk)  # arms
+    R(d, 10, 6, 21, 18, sk); P(d, [(7, 9), (8, 10), (6, 8), (23, 9), (24, 8), (25, 7)], skd)  # head + ears
+    R(d, 9, 5, 22, 8, bl); P(d, [(8, 9), (7, 10), (7, 11)], bl)  # blue bandana + knot
+    R(d, 12, 10, 14, 11, (250, 170, 40)); R(d, 17, 10, 19, 11, (250, 170, 40)); P(d, [(13, 11), (18, 11)], (10, 10, 10))  # orange eyes
+    R(d, 11, 14, 20, 16, (245, 240, 230)); P(d, [(12, 15), (14, 15), (16, 15), (18, 15)], (90, 20, 20))
+    R(d, 3, 16, 8, 18, (150, 150, 160)); R(d, 6, 18, 8, 22, (110, 80, 50))  # revolver (left hand)
+    R(d, 23, 28, 26, 36, bl); P(d, [(24, 37), (26, 38)], bl)  # blue rag (right hand)
+    return im
+def street_goblin_revolver():
+    im, d = canvas(); R(d, 6, 18, 24, 20, (150, 150, 160)); R(d, 14, 17, 19, 22, (120, 120, 130)); R(d, 17, 22, 21, 32, (110, 80, 50)); R(d, 18, 26, 22, 30, (60, 100, 190)); return im
+def street_blue_bandana():
+    im, d = canvas(); b = (60, 100, 190); d.polygon([(4, 18), (28, 18), (16, 34)], fill=b); P(d, [(9, 21), (16, 22), (22, 21), (16, 28)], (230, 235, 255)); R(d, 26, 16, 30, 18, b); return im
+def street_blue_shiv():
+    im, d = canvas(); d.line([(12, 40), (20, 12)], fill=(220, 210, 190), width=2); R(d, 10, 33, 14, 42, (60, 100, 190)); return im
+def street_goblin_slingshot():
+    im, d = canvas(); w = (120, 85, 50); d.line([(16, 42), (16, 26)], fill=w, width=3); d.line([(16, 27), (9, 12)], fill=w, width=3); d.line([(16, 27), (23, 12)], fill=w, width=3)
+    d.line([(9, 13), (16, 22), (23, 13)], fill=(60, 100, 190), width=2); return im
+def street_goblin_zapper():
+    im, d = canvas(); R(d, 5, 20, 24, 25, (70, 70, 80)); R(d, 10, 26, 13, 34, (70, 70, 80)); R(d, 16, 26, 18, 30, (50, 50, 55)); R(d, 7, 21, 20, 22, (180, 180, 60))
+    P(d, [(25, 21), (27, 19), (28, 23), (26, 25), (29, 21)], (120, 210, 255)); return im
+def street_banger_bandana():
+    im, d = canvas(); r = (220, 30, 30); d.polygon([(4, 18), (28, 18), (16, 34)], fill=r); P(d, [(9, 21), (16, 22), (22, 21), (16, 28)], (255, 230, 230)); R(d, 26, 16, 30, 18, r); return im
+def street_red_shiv():
+    im, d = canvas(); d.line([(12, 40), (20, 12)], fill=(220, 210, 190), width=2); R(d, 10, 33, 14, 42, (220, 30, 30)); return im
+def street_bike_chain():
+    im, d = canvas()
+    for i in range(9): d.ellipse([6 + i * 2, 8 + i * 4, 10 + i * 2, 12 + i * 4], outline=(220, 30, 30))
+    return im
+def street_big_booma():
+    im, d = canvas(); g = (80, 80, 90); r = (220, 30, 30)
+    R(d, 2, 16, 28, 23, g); R(d, 26, 14, 31, 25, (50, 50, 55)); R(d, 8, 24, 12, 34, (110, 80, 50)); R(d, 18, 24, 21, 30, g)  # long barrel, muzzle, grips
+    R(d, 4, 17, 6, 22, r); R(d, 14, 17, 16, 22, r); R(d, 22, 17, 24, 22, r)  # red tape
+    P(d, [(31, 15), (31, 24), (30, 13)], (255, 190, 60)); return im
+def street_ballistic_hat():
+    im, d = canvas(); k = (60, 70, 60); d.ellipse([7, 14, 25, 32], fill=k); R(d, 5, 26, 27, 30, (45, 52, 45))  # helmet dome + brim
+    R(d, 9, 22, 23, 23, (60, 100, 190)); P(d, [(12, 18), (19, 19), (15, 24)], (110, 120, 110)); return im  # blue band, dents
+def street_stem_bat():
+    im, d = canvas(); d.line([(10, 42), (22, 8)], fill=(225, 215, 190), width=4); d.line([(10, 42), (13, 34)], fill=(220, 30, 30), width=4); return im
+
+def street_goblin_unaffiliated():  # three grey goblins (goblin_unaffiliated.jpg): bandana + chain + pipe, squatting in purple and yellow, carving a tree
+    im, d = canvas(); d.ellipse([0, 44, 31, 47], fill=(0, 0, 0, 90)); g, gd = (150, 155, 160), (110, 115, 120)
+    # left: black bandana, black clothes, gold chain, smoking pipe
+    R(d, 1, 21, 9, 36, (35, 35, 40)); R(d, 1, 37, 4, 43, (30, 30, 35)); R(d, 6, 37, 9, 43, (30, 30, 35)); R(d, 0, 42, 4, 44, (25, 25, 25)); R(d, 6, 42, 10, 44, (25, 25, 25))
+    R(d, 1, 9, 9, 19, g); P(d, [(0, 12), (10, 12), (0, 13)], gd); R(d, 1, 8, 9, 10, (25, 25, 30)); P(d, [(3, 13), (7, 13)], (15, 15, 15)); R(d, 3, 16, 7, 16, (240, 235, 225))
+    P(d, [(2, 22), (3, 24), (5, 25), (7, 24), (8, 22), (5, 27)], (200, 160, 50)); R(d, 8, 17, 11, 17, (110, 80, 50)); P(d, [(11, 15), (12, 13), (11, 11)], (200, 200, 200))
+    # middle: squatting, purple top, yellow trousers, purple shoes
+    R(d, 12, 31, 20, 37, (95, 50, 150)); R(d, 11, 38, 21, 42, (225, 190, 40)); R(d, 11, 43, 14, 44, (95, 50, 150)); R(d, 18, 43, 21, 44, (95, 50, 150))
+    R(d, 12, 21, 20, 30, g); P(d, [(11, 24), (21, 24), (10, 23), (22, 23)], gd); P(d, [(14, 25), (18, 25)], (15, 15, 15)); R(d, 15, 28, 17, 28, gd)
+    # right: back turned, cream shirt, jeans, tan boots, carving a glyph into a tree
+    R(d, 27, 4, 31, 44, (85, 60, 40)); P(d, [(28, 12), (29, 13), (28, 14), (30, 14), (29, 16)], (175, 140, 95))
+    R(d, 21, 22, 27, 32, (225, 220, 205)); R(d, 21, 33, 27, 40, (70, 95, 140)); R(d, 21, 41, 23, 44, (175, 130, 70)); R(d, 25, 41, 27, 44, (175, 130, 70))
+    R(d, 21, 13, 27, 21, g); P(d, [(20, 16), (28, 17)], gd); R(d, 26, 15, 27, 23, (225, 220, 205)); P(d, [(27, 14)], g)
+    return im
+
+def street_bigfoot():  # mother Bigfoot + her baby among giant mushrooms (bigfoot.jpg): big shaggy brown ape-mom, small brown baby at her side
+    im, d = canvas(); d.ellipse([0, 44, 31, 47], fill=(0, 0, 0, 90)); fur, fd, fl, face = (95, 65, 40), (65, 42, 25), (125, 90, 55), (55, 45, 40)
+    R(d, 26, 2, 27, 10, (225, 215, 195)); d.ellipse([22, 0, 31, 5], fill=(200, 60, 55)); P(d, [(24, 2), (28, 1), (29, 3)], (245, 240, 230))  # toadstool behind
+    # mother: tall, hunched, long arms
+    R(d, 3, 12, 17, 34, fur); R(d, 1, 15, 4, 33, fd); R(d, 16, 15, 19, 33, fd); R(d, 0, 32, 4, 35, fd); R(d, 16, 32, 19, 35, fd)  # body + long arms + hands
+    R(d, 4, 35, 8, 43, fur); R(d, 12, 35, 16, 43, fur); R(d, 3, 43, 9, 45, fd); R(d, 11, 43, 17, 45, fd)  # legs + BIG feet
+    R(d, 6, 3, 16, 13, fur); R(d, 9, 6, 16, 11, face); P(d, [(11, 7), (14, 7)], (15, 10, 10)); R(d, 10, 6, 15, 6, fd); R(d, 11, 10, 14, 10, (35, 25, 22))  # head, face, eyes, brow
+    P(d, [(5, 18), (8, 22), (13, 20), (6, 27), (14, 28), (10, 31)], fl)  # shaggy fur highlights
+    # baby: small, at her side, looking up
+    R(d, 20, 28, 27, 39, fur); R(d, 19, 30, 20, 37, fd); R(d, 27, 30, 28, 37, fd)
+    R(d, 21, 39, 23, 44, fur); R(d, 25, 39, 27, 44, fur); R(d, 20, 44, 23, 45, fd); R(d, 25, 44, 28, 45, fd)
+    R(d, 21, 21, 27, 28, fur); R(d, 23, 23, 27, 27, face); P(d, [(24, 24), (26, 24)], (15, 10, 10)); P(d, [(22, 32), (25, 35)], fl)
+    return im
+
+# Dance-floor encounters (joetopia-art-src/dance/*.jpg). Every dancer is fully dressed at sprite scale.
+PURPLE, GOLD, GOLD_D = (90, 40, 130), (230, 180, 60), (170, 120, 30)
+def street_dance_water():  # water.jpg: sweaty grinning young man, messy blond hair, purple-and-gold vest, one hand reaching out
+    im, d = canvas(); shadow(d)
+    legs(d, (60, 30, 90), shoe=GOLD_D); R(d, 11, 31, 20, 35, PURPLE); R(d, 11, 31, 20, 31, GOLD)  # baggy purple-gold trousers + belt
+    R(d, 10, 18, 21, 30, SK_L); R(d, 10, 18, 13, 30, PURPLE); R(d, 18, 18, 21, 30, PURPLE); P(d, [(11, 20), (12, 24), (19, 22), (20, 27)], GOLD)  # open vest
+    R(d, 7, 19, 9, 31, SK_L); R(d, 22, 21, 28, 23, SK_L); R(d, 28, 20, 30, 24, SK_L)  # arm reaching out, open palm
+    _face(d, SK_L, mouth=(250, 250, 250)); R(d, 10, 2, 21, 6, (220, 180, 90)); P(d, [(9, 4), (22, 5), (12, 1), (17, 1), (10, 8), (21, 8)], (220, 180, 90))  # messy blond hair
+    P(d, [(12, 9), (19, 10), (14, 22), (17, 26)], (255, 255, 255))  # sweat glints
+    return im
+def street_dance_dj():  # dj.jpg: crowned DJ, gold headphones, pink visor shades, white robe + blue-gold sash, pointing at you
+    im, d = canvas(); shadow(d)
+    legs(d, (240, 235, 225), shoe=GOLD_D); R(d, 10, 18, 21, 35, (240, 235, 225)); R(d, 13, 18, 15, 35, (40, 70, 160)); P(d, [(14, 21), (14, 26), (14, 31)], GOLD)  # robe + sash
+    R(d, 7, 19, 9, 30, (240, 235, 225)); R(d, 22, 18, 26, 20, SK_M); R(d, 26, 17, 29, 19, SK_M); P(d, [(30, 18)], SK_M)  # pointing arm
+    _face(d, SK_M, beard=(30, 22, 18)); R(d, 11, 10, 20, 11, (255, 60, 200))  # pink visor shades
+    R(d, 9, 8, 10, 13, GOLD); R(d, 21, 8, 22, 13, GOLD); R(d, 10, 4, 21, 4, GOLD_D)  # headphones
+    R(d, 11, 0, 20, 4, GOLD); P(d, [(11, 0), (15, 0), (20, 0)], (255, 230, 120)); P(d, [(15, 2)], (40, 70, 200))  # crown with a sapphire
+    return im
+def street_dance_pickpocket():  # pickpocket.jpg: grinning woman, dark twin ponytails, gold chains, holding a gold-chain purse (dark crop top + skirt)
+    im, d = canvas(); shadow(d); skin = (215, 160, 120); hair = (60, 30, 40)
+    legs(d, skin, top=36, shoe=GOLD_D); R(d, 10, 29, 21, 36, BLK); P(d, [(11, 36), (14, 36), (17, 36), (20, 36)], GOLD)  # black skirt, gold tassels
+    R(d, 10, 18, 21, 29, skin); R(d, 10, 20, 21, 25, BLK); P(d, [(12, 21), (19, 21), (15, 23)], GOLD)  # dark top covering the chest
+    R(d, 7, 19, 9, 30, skin); R(d, 22, 19, 24, 30, skin); R(d, 21, 30, 27, 36, BLK); R(d, 21, 30, 27, 30, GOLD); P(d, [(24, 33)], GOLD)  # her purse
+    _face(d, skin, hair=hair, mouth=(170, 60, 70)); R(d, 6, 6, 9, 16, hair); R(d, 22, 6, 25, 16, hair); P(d, [(9, 4), (22, 4)], GOLD)  # twin ponytails, gold clips
+    return im
+def street_dance_boyfriend():  # boyfriend.jpg: angry muscular man in purple-and-gold Babylonian kit, gold headband, fists clenched
+    im, d = canvas(); shadow(d)
+    legs(d, PURPLE, shoe=GOLD_D); R(d, 9, 30, 22, 36, PURPLE); R(d, 9, 30, 22, 30, GOLD)
+    R(d, 8, 17, 23, 30, SK_T); R(d, 11, 17, 20, 30, PURPLE); P(d, [(12, 20), (19, 20), (15, 24), (16, 28)], GOLD)  # broad chest, sash
+    R(d, 4, 18, 8, 31, SK_T); R(d, 23, 18, 27, 31, SK_T); R(d, 4, 28, 8, 29, GOLD); R(d, 23, 28, 27, 29, GOLD); R(d, 4, 32, 8, 34, SK_T); R(d, 23, 32, 27, 34, SK_T)  # big arms, cuffs, fists
+    _face(d, SK_T, hair=(25, 18, 15), beard=(25, 18, 15), mouth=(120, 40, 40)); R(d, 10, 5, 21, 6, GOLD)  # headband
+    P(d, [(12, 9), (13, 10), (18, 10), (19, 9)], (25, 18, 15))  # angry brows
+    return im
+def street_dance_drinks():  # complimentary_drinks.jpg: server with braided updo, gold collar, cream wrap dress, tray of glowing shots
+    im, d = canvas(); shadow(d); skin = (110, 65, 45); hair = (25, 18, 15)
+    legs(d, skin, top=37, shoe=GOLD_D); R(d, 10, 18, 21, 37, (235, 225, 200)); R(d, 10, 18, 21, 19, GOLD)  # long cream dress, gold collar
+    R(d, 7, 19, 9, 27, skin); R(d, 22, 19, 24, 24, skin); R(d, 21, 24, 31, 25, GOLD)  # arm holding the tray
+    for i, x in enumerate(range(22, 31, 2)): R(d, x, 22, x + 1, 23, [(200, 60, 230), (255, 70, 160), (60, 220, 230), (255, 150, 60), (120, 255, 120)][i % 5])  # glowing shots
+    _face(d, skin, hair=hair, mouth=(150, 70, 70)); R(d, 12, 0, 19, 3, hair); P(d, [(13, 1), (17, 1)], GOLD); P(d, [(11, 12), (20, 12)], GOLD)  # updo + gold earrings
+    return im
+
 SPRITES = {'robert': robert, 'ramirez': ramirez, 'rob': rob, 'joseph': joseph, 'miranda': miranda,
            'alex': alex, 'sean': sean, 'alec': alec, 'lydia': lydia,
            'enc_guard': enc_guard, 'enc_preacher': enc_preacher, 'enc_egirl': enc_egirl,
@@ -758,7 +970,11 @@ SPRITES = {'robert': robert, 'ramirez': ramirez, 'rob': rob, 'joseph': joseph, '
               'duel', 'angry_local', 'parade', 'fireworks', 'bald_brawl', 'starving_artist', 'tipsy_muse', 'acrobats',
               'courier', 'rude_worker', 'discarded_tech', 'toll_path',
               'runaway_chariot', 'reality_show', 'lost_jewelry', 'charity_gala',
-              'reality_pushup', 'reality_blind_date', 'reality_makeup', 'reality_fletcher', 'reality_petyr', 'wizard_couriers', 'adrenochrome')}}
+              'reality_pushup', 'reality_blind_date', 'reality_makeup', 'reality_fletcher', 'reality_petyr', 'wizard_couriers', 'adrenochrome',
+              'troll', 'weirdo', 'trustworthy_human', 'unicorn', 'pixie', 'gnome', 'unicorn_horn', 'pixie_wings', 'gnome_hat', 'work_jeans',
+              'flannel_shirt', 'woodsman_axe', 'unicorn_wand', 'unicorn_sword', 'unicorn_heels',
+              'goblin_banger', 'goblin_zapper', 'banger_bandana', 'red_shiv', 'bike_chain', 'stem_bat',
+              'goblin_banger_blue', 'goblin_revolver', 'blue_bandana', 'blue_shiv', 'goblin_slingshot', 'big_booma', 'ballistic_hat', 'goblin_unaffiliated', 'bigfoot', 'dance_water', 'dance_dj', 'dance_pickpocket', 'dance_boyfriend', 'dance_drinks')}}
 if __name__ == '__main__':
     os.makedirs(OUT, exist_ok=True)
     for name, fn in SPRITES.items(): fn().save(os.path.join(OUT, name + '.png'))

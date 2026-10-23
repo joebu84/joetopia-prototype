@@ -2,6 +2,16 @@
 (function () {
   const UI = window.JOETOPIA_UI, $ = s => document.querySelector(s);
   const el = (tag, cls, txt) => { const e = document.createElement(tag); if (cls) e.className = cls; if (txt != null) e.textContent = txt; return e; };
+  // Auto-scroll: a story/log panel follows its bottom so the newest text is visible, also after later layout changes
+  // (pictures loading, the panel resizing), until the player scrolls it by hand.
+  function stickBottom(node) {
+    let follow = true; const go = () => { if (follow) node.scrollTop = node.scrollHeight; };
+    ['wheel', 'touchmove', 'keydown'].forEach(ev => node.addEventListener(ev, () => { follow = false; }, { passive: true }));
+    node.dataset.autoscroll = '1';
+    requestAnimationFrame(() => { go(); requestAnimationFrame(go); });
+    if (window.ResizeObserver) { const ro = new ResizeObserver(go); ro.observe(node); setTimeout(() => ro.disconnect(), 4000); }
+    return node;
+  }
   const esc = s => String(s).replace(/[&<>]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
   const pct = (a, b) => Math.max(0, Math.min(100, b ? a / b * 100 : 0));
   const COMBAT_MODES = { COMBAT: 1, COMBAT_ITEMS: 1, ENCOUNTER: 1 };
@@ -58,7 +68,7 @@
       head.prepend(im); p.classList.add('talk-face');
     }
     if (who) eventPic(p, who, scene.title.split(':')[0]); // road / street encounter: event picture
-    const text = el('div', 'pt', scene.text); p.appendChild(text);
+    const text = el('div', 'pt', scene.text); p.appendChild(text); stickBottom(text);
     let input = null;
     if (scene.mode === 'CREATE_NAME') {
       input = el('input', 'nameinput'); input.id = 'nameInput'; input.maxLength = 20; input.placeholder = 'Your name'; input.value = opts.lastName || '';
@@ -122,7 +132,7 @@
     const pc = el('div', 'chips'); (st.effects || []).forEach(e => pc.appendChild(el('span', 'chip ' + (e.poison ? 'bad' : e.regen ? 'good' : ''), e.name + ' ' + e.left))); if (c && c.defending) pc.appendChild(el('span', 'chip good', 'Defending')); pb.appendChild(pc);
     arena.appendChild(eb); arena.appendChild(pb); p.appendChild(arena);
     const text = scene.text.split('\n').filter(l => !/^(.*: HP \d+\/\d+|You: HP|HP \d+\/\d+\s+MP)/.test(l.trim())).join('\n').replace(/^\n+/, '');
-    p.appendChild(el('div', 'pt', text));
+    p.appendChild(stickBottom(el('div', 'pt', text)));
     const cats = categorize(scene);
     const defs = [['attack', '⚔ Attack'], ['skill', '✦ Skills'], ['item', '🎒 Items'], ['talk', '💬 Talk'], ['flee', '🏃 Flee']];
     const cmds = el('div', 'cmds'); const sub = el('div', 'sub');

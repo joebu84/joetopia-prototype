@@ -61,7 +61,7 @@ object JoetopiaApi {
         val en = e.encounter
         return obj(
             "name" to p.name, "level" to p.level, "cls" to e.pclass.title, "clsId" to e.pclass.name, "credits" to p.kandi,
-            "hp" to p.hp, "maxHp" to p.maxHp, "mp" to p.mp, "maxMp" to p.maxMp, "atk" to e.atk(), "def" to e.def(),
+            "hp" to p.hp, "maxHp" to p.maxHp, "mp" to p.mp, "maxMp" to p.mpMax, "atk" to e.atk(), "def" to e.def(),
             "cha" to e.statValue(Stat.CHARM), "cun" to e.statValue(Stat.CUNNING), "spi" to e.statValue(Stat.SPIRIT),
             "xp" to p.xp, "xpNext" to p.xpToNext(), "points" to p.statPoints,
             "region" to e.regionName(), "regionKind" to e.regionKind(), "tier" to e.tierOf(e.node), "node" to e.node, "place" to e.placeName(e.node),
@@ -129,7 +129,7 @@ object JoetopiaApi {
     /** Test and debug hooks (used by the headless tests and the ?debug=1 console). */
     fun debug(cmd: String, a: String, b: String): String {
         when (cmd) {
-            "create" -> { val cls = PlayerClass.byName(a) ?: PlayerClass.BOUNCER; e.newGame(); e.createCharacter(if (b.isEmpty()) "Tester" else b, cls) }
+            "create" -> { val cls = PlayerClass.byName(a.substringBefore(":")) ?: PlayerClass.BOUNCER; val body = BodyType.entries.firstOrNull { it.name == a.substringAfter(":", "") } ?: BodyType.FITNESS; e.newGame(); e.createCharacter(if (b.isEmpty()) "Tester" else b, cls, bodyType = body) }  // 'CLASS[:BODY]'
             "teleport" -> e.teleport(a)
             "fight" -> e.startFight(Enemies.byId(a) ?: Enemies.ASH_WOLF, e.node, b.ifEmpty { null })
             "encounter" -> e.startEncounter(Enemies.byId(a) ?: Enemies.ASH_WOLF, e.node)
@@ -155,6 +155,26 @@ object JoetopiaApi {
             "spireroll" -> { if (!e.inSpire()) e.teleport("d_spire"); val c = e.spireChance; val r = e.encounterRate; e.spireChance = b.toIntOrNull() ?: 100; e.encounterRate = maxOf(1, r); e.maybeSpire(); e.spireChance = c; e.encounterRate = r }
             // set the per-move chances directly (e.g. 'spirechance 0' / 'creatorschance 100' before walking into the Creator Corner)
             "spirechance" -> e.spireChance = a.toInt()
+            // Toadstool Forest: 'forest <troll|weirdo|unicorn|pixie|gnome>', 'forestroll [chance]', 'forestforce <unicorn angry|calm|gnome prank|merchant|weirdo 0-3|human 0-3|humangoblin red|blue|wear red|blue|none|clear>'
+            "forest" -> { if (!e.inForest()) e.teleport("forest"); e.log.clear(); e.startStreet(a.ifEmpty { "troll" }) }
+            "dance" -> { if (!e.onDanceFloor()) e.teleport("rave"); e.log.clear(); e.startStreet(a.ifEmpty { Dance.WATER }) }
+            "danceroll" -> { if (!e.onDanceFloor()) e.teleport("rave"); val c = e.danceChance; val r = e.encounterRate; e.danceChance = 100; e.encounterRate = maxOf(1, r); e.danceForce = a.ifEmpty { null }; e.maybeDance(); e.danceForce = null; e.danceChance = c; e.encounterRate = r }
+            "repair" -> { e.repairChance = 100; e.repairReadyAt = 0; e.teleport(a.ifEmpty { "village" }); e.debugLocals(List(3) { e.makeLocal() }); e.maybeRepairRequest(); e.repairChance = Repairs.REQUEST_CHANCE; e.log.clear(); e.mingleLocals().firstOrNull { n -> n.talks.any { it.label.contains("asks you to fix their") } }?.let { e.openTalk(it.id) } }
+            "forestchance" -> { e.forestChance = a.toInt(); e.bigfootChance = b.toIntOrNull() ?: 0; e.forageEncounterScale = if (a.toInt() >= 100) 100 else GameEngine.FORAGE_ENCOUNTER_SCALE }
+            "forestroll" -> { if (!e.inForest()) e.teleport("forest"); val c = e.forestChance; val r = e.encounterRate; e.forestChance = a.toIntOrNull() ?: 100; e.encounterRate = maxOf(1, r); e.maybeForest(); e.forestChance = c; e.encounterRate = r }
+            "forestforce" -> when (a) {
+                "unicorn" -> e.unicornAngryForce = b == "angry"
+                "gnome" -> e.gnomePrankForce = b == "prank"
+                "weirdo" -> e.weirdoForce = b.toIntOrNull()
+                "human" -> e.humanForce = b.toIntOrNull()
+                "humangoblin" -> e.humanGoblinBlueForce = if (b.isEmpty()) null else b == "blue"
+                "wear" -> {  // 'forestforce wear red|blue|none' (goblin banger colours)
+                    e.player.allWorn().toList().filter { it.colors.isNotEmpty() }.forEach { g -> e.player.equipped.entries.firstOrNull { it.value == g }?.key?.let { e.player.unequip(it) } }
+                    val g = when (b) { "red" -> Forest.FLANNEL; "blue" -> Forest.WORK_JEANS; else -> null }
+                    if (g != null) { e.player.addGear(g); e.player.equip(g) }
+                }
+                else -> { e.unicornAngryForce = null; e.gnomePrankForce = null; e.weirdoForce = null; e.humanForce = null; e.humanGoblinBlueForce = null }
+            }
             "creatorschance" -> e.creatorsShowChance = a.toInt()
             // reality show: force the next episode ('episode fletcher'; 'episode' alone = random), the megarave 1% roll, a Robert joke
             "episode" -> e.showEpisodeForce = a.ifEmpty { null }

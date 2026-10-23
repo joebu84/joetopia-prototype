@@ -241,7 +241,7 @@
     api: K, sync: l => sync(l), pick: (i, n) => onPick(i, n),
     state: () => ({ mode: scene && scene.mode, node: st && st.node, title: scene && scene.title, player: { x: P.x, y: P.y, dir: P.dir }, moving: !!moving,
       overlay: JUI.overlayOpen(), msg: JUI.msgOpen(), status: st, mapNpc: scene && scene.mode !== 'EXPLORE' ? encFrom : (JUI.msgPic() || {}).sprite ? JUI.msgPic().id : null, choices: scene ? scene.choices.map(c => c.label) : [],
-      objs: map ? map.objs.map(o => ({ type: o.type, x: o.x, y: o.y, i: o.i, target: o.target, label: o.label, side: o.side, spawn: o.spawn })) : [] }),
+      objs: map ? map.objs.map(o => ({ type: o.type, x: o.x, y: o.y, i: o.i, target: o.target, label: o.label, side: o.side, spawn: o.spawn, npc: o.npc })) : [] }),
     step, interact, goTo, escape, useObj: i => { const o = map.objs.find(o => o.i === i); if (o) useObj(o); },
     walkTo: (x, y) => goTo(x, y), placeholders: () => JArt.placeholders(),
     debug: (c, a, b) => { const r = K.debug(c, a || '', b || ''); sync(K.lastLog()); return r; },

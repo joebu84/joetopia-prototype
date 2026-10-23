@@ -291,3 +291,88 @@ for sid, title in SPIRE.items():
     save(card(256, 256, spr, 5), 'busts', name)
     save(card(512, 288, spr, 5, title), 'events', name, 80)
     print(name, 'placeholder')
+
+# Toadstool Forest encounters (Forest.kt). REAL art from joetopia-art-src/forest/<id>.jpg: troll, weirdo (the bearded woodsman),
+# trustworthy_human (the felt-puppet "human"), goblin_banger (RED crew: blue skin, red bandana, energy SMG), goblin_banger_blue (BLUE crew: red skin, blue bandana, revolver; either can be the goblin inside the human), unicorn, pixie. The gnome is a PLACEHOLDER card (drop forest/gnome.jpg and rerun).
+# PG-13: the pixie picture is cropped to head, shoulders and upper wings for EVERY output (portrait, face, bust, event);
+# nothing below the collarbone ships, and the full pixie.jpg is never copied anywhere.
+# Item pictures: unicorn_horn (the horn cropped from unicorn.jpg), pixie_wings (a wing cropped from pixie.jpg, wings only);
+# gnome kit and unicorn gear are sprite cards (tools/make-npc-sprites.py).
+FOREST = {'troll': 'Bridge Troll', 'weirdo': 'Weirdo in the Woods', 'trustworthy_human': 'Trustworthy Normal Human', 'goblin_banger': 'Goblin Banger', 'goblin_banger_blue': 'Blue Goblin Banger', 'goblin_unaffiliated': 'Unaffiliated Goblins', 'bigfoot': 'Bigfoot!',
+          'unicorn': 'Unicorn', 'pixie': 'Pixie', 'gnome': 'Forest Gnome',
+          'unicorn_horn': 'Unicorn Horn', 'pixie_wings': 'Pixie Wings', 'gnome_hat': 'Gnome Hat', 'work_jeans': "Worker's Jeans",
+          'flannel_shirt': 'Flannel Shirt', 'woodsman_axe': "Woodsman's Axe", 'unicorn_wand': 'Unicorn Wand', 'unicorn_sword': 'Unicorn Sword',
+          'unicorn_heels': 'Unicorn Heels', 'goblin_zapper': 'Goblin Zapper SMG', 'banger_bandana': 'Banger Bandana',
+          'red_shiv': 'Red-Taped Shiv', 'bike_chain': 'Goblin Bike Chain', 'stem_bat': 'Mushroom-Stem Bat',
+          'goblin_revolver': 'Goblin Six-Shooter', 'blue_bandana': 'Blue Bandana', 'blue_shiv': 'Blue-Taped Shiv', 'goblin_slingshot': 'Goblin Slingshot', 'big_booma': 'Da Big Booma', 'ballistic_hat': 'Ballistic Hat'}
+FOREST_SRC = os.path.join(os.path.dirname(STREET_SRC), 'forest')
+FOREST_FILE = {'unicorn_horn': 'unicorn', 'pixie_wings': 'pixie'}
+FOREST_CROP = {  # id: face (cx, cy, s), bust (cx, top, s), portrait box or None, event box or None (fractions of the source)
+    'troll': ((.50, .17, .13), (.55, .02, .5), None, (0, .05, 1, .888)),
+    'weirdo': ((.52, .21, .25), (.50, .10, .75), None, (0, .06, 1, .437)),
+    'goblin_banger': ((.41, .27, .17), (.45, .04, .55), None, (0, .08, 1, .918)),
+    'goblin_banger_blue': ((.50, .38, .35), (.50, .25, .75), None, (0, .22, 1, .598)),
+    # landscape 1168x784: face = the squatting middle goblin, bust = all three heads, event = the whole crew
+    'goblin_unaffiliated': ((.50, .55, .16), (.50, .22, .62), None, (0, .10, 1, .941)),
+    # landscape 1168x784: face = the mother, bust = mother + baby, event = the whole mushroom glade
+    'bigfoot': ((.39, .25, .17), (.40, .10, .56), None, (0, .04, 1, .92)),
+    'trustworthy_human': ((.52, .33, .40), (.55, .15, .80), None, (0, .12, 1, .497)),
+    'unicorn': ((.53, .76, .14), (.62, .25, .55), None, (0, .10, 1, .938)),
+    # PG-13: everything stops above the collarbone (y < .25 of the 784x1168 source)
+    'pixie': ((.49, .16, .22), (.49, .02, .29), (.12, 0, .92, .25), (.16, 0, .82, .25)),
+    'unicorn_horn': ((.47, .63, .12), (.47, .52, .16), (.40, .50, .56, .78), (.30, .52, .66, .76)),
+    'pixie_wings': ((.80, .29, .22), (.80, .19, .24), (.68, .19, .94, .41), (.62, .19, .98, .39)),
+}
+for sid, title in FOREST.items():
+    name = 'street_' + sid; sjpg = os.path.join(FOREST_SRC, FOREST_FILE.get(sid, sid) + '.jpg')
+    if sid in FOREST_CROP and os.path.exists(sjpg):
+        im = Image.open(sjpg).convert('RGB'); w, h = im.size
+        (fx, fy, fs), (bx, bt, bs), pb, eb = FOREST_CROP[sid]
+        box = lambda b: im.crop((round(b[0] * w), round(b[1] * h), round(b[2] * w), round(b[3] * h)))
+        p = box(pb) if pb else im.copy(); p.thumbnail((512, 512), Image.LANCZOS); save(p, 'portraits', name)
+        save(sq(im, fx, 0, fs, fy).resize((160, 160), Image.LANCZOS), 'faces', name)
+        save(sq(im, bx, bt, bs).resize((256, 256), Image.LANCZOS), 'busts', name)
+        e = box(eb) if eb else im.crop((0, 0, w, round(min(h, w * 9 / 16))))
+        save(e.resize((512, 288), Image.LANCZOS), 'events', name, 80); print(name, 'from', sjpg); continue
+    spr = Image.open(os.path.join(ART, 'npcs', name + '.png')).convert('RGBA')
+    save(card(384, 512, spr, 8, title + (' (placeholder art)' if sid == 'gnome' else '')), 'portraits', name)
+    save(card(160, 160, spr.crop((4, 0, 28, 24) if sid != 'gnome' else (4, 8, 28, 32)), 6), 'faces', name)
+    save(card(256, 256, spr, 5), 'busts', name)
+    save(card(512, 288, spr, 5, title), 'events', name, 80)
+    print(name, 'card')
+
+# Dance-floor encounters: real art from joetopia-art-src/dance/<file>.jpg (water, dj, pickpocket, boyfriend, complimentary_drinks).
+# PG-13: the pickpocket is cropped to face + shoulders; the server to head, shoulders and her tray; on the boyfriend card the
+# girlfriend behind him is cropped/shaded so only her face reads. TO SWAP: replace a jpg and re-run; tune with a DANCE_CROP line.
+DANCE = {'dance_water': 'Bro, can you buy me a water?', 'dance_dj': 'The DJ shout-out', 'dance_pickpocket': 'Pickpocket in the crowd',
+         'dance_boyfriend': 'Are you looking at my girl?', 'dance_drinks': 'Complimentary drinks'}
+DANCE_SRC = os.path.join(os.path.dirname(STREET_SRC), 'dance')
+DANCE_FILE = {'dance_water': 'water', 'dance_dj': 'dj', 'dance_pickpocket': 'pickpocket', 'dance_boyfriend': 'boyfriend', 'dance_drinks': 'complimentary_drinks'}
+DANCE_CROP = {  # id: face (cx, cy, s), bust (cx, top, s), portrait box or None, event box (16:9 in source pixels)
+    'dance_water': ((.50, .21, .22), (.52, .08, .55), (0, .04, 1, .62), (0, .08, 1, .08 + 1152 * 9 / 16 / 1712)),
+    'dance_dj': ((.53, .30, .22), (.52, .07, .60), None, (0, .08, 1, .08 + 1264 * 9 / 16 / 1568)),
+    'dance_pickpocket': ((.47, .24, .20), (.47, .03, .36), (.12, .02, .88, .35), (.12, .04, .88, .04 + .76 * 784 * 9 / 16 / 1168)),
+    'dance_boyfriend': ((.37, .31, .20), (.40, .09, .50), (0, .08, .78, .62), (0, .08, 1, .08 + 784 * 9 / 16 / 1168)),
+    'dance_drinks': ((.47, .22, .18), (.55, .06, .55), (.10, .04, 1, .52), (0, .14, 1, .14 + 784 * 9 / 16 / 1168)),
+}
+DANCE_SHADE = {'dance_boyfriend': [(.66, .42, 1.0, .70, 235)]}  # the girlfriend's torso goes into shadow behind him
+for sid, title in DANCE.items():
+    name = 'street_' + sid; sjpg = os.path.join(DANCE_SRC, DANCE_FILE[sid] + '.jpg')
+    if os.path.exists(sjpg):
+        from PIL import ImageFilter
+        im = Image.open(sjpg).convert('RGB'); w, h = im.size
+        for (x0, y0, x1, y1, a) in DANCE_SHADE.get(sid, []):
+            m = Image.new('L', im.size, 0); ImageDraw.Draw(m).ellipse((x0 * w, y0 * h, x1 * w + w * .2, y1 * h), fill=a)
+            im = Image.composite(Image.new('RGB', im.size, (20, 8, 30)), im, m.filter(ImageFilter.GaussianBlur(w * .03)))
+        (fx, fy, fs), (bx, bt, bs), pb, eb = DANCE_CROP[sid]
+        box = lambda b: im.crop((round(b[0] * w), round(b[1] * h), round(b[2] * w), round(b[3] * h)))
+        p = box(pb) if pb else im.copy(); p.thumbnail((512, 512), Image.LANCZOS); save(p, 'portraits', name)
+        save(sq(im, fx, 0, fs, fy).resize((160, 160), Image.LANCZOS), 'faces', name)
+        save(sq(im, bx, bt, bs).resize((256, 256), Image.LANCZOS), 'busts', name)
+        save(box(eb).resize((512, 288), Image.LANCZOS), 'events', name, 80); print(name, 'from', sjpg); continue
+    spr = Image.open(os.path.join(ART, 'npcs', name + '.png')).convert('RGBA')
+    save(card(384, 512, spr, 8, title + ' (placeholder art)'), 'portraits', name)
+    save(card(160, 160, spr.crop((4, 0, 28, 24)), 6), 'faces', name)
+    save(card(256, 256, spr, 5), 'busts', name)
+    save(card(512, 288, spr, 5, title), 'events', name, 80)
+    print(name, 'placeholder')

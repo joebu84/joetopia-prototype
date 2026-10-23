@@ -55,7 +55,8 @@
       const s = slots.shift(); if (!s) return;
       const [x, y] = s; grid[y][x] = 'floor';
       const o = { type: p.kind, x, y, i: p.i, target: p.target, label: p.label, name: p.name || p.label };
-      if (p.kind === 'local') { o.icon = spotKind(p.label); const ns = (JOETOPIA_UI.npcSpots || []).find(([re]) => re.test(p.label)); if (ns) o.npc = ns[1]; }
+      if (p.kind === 'local') o.icon = spotKind(p.label);
+      { const ns = (JOETOPIA_UI.npcSpots || []).find(([re]) => re.test(p.label)); if (ns) o.npc = ns[1]; }  // fixed NPC spots (Lydia, the goblin friends)
       objs.push(o);
       for (const [dx, dy] of [[0, 0], [1, 0], [-1, 0], [0, 1], [0, -1]]) reserved.add(key(x + dx, y + dy));
     });
