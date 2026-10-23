@@ -52,8 +52,10 @@
     title: null,             // title-screen banner, e.g. 'art/title.png'
   };
   const A = window.JOETOPIA_ART;
+  // ?v=<build> makes every release fetch fresh pictures instead of a stale cached copy.
+  const v = window.JOETOPIA_BUILD ? `?v=${window.JOETOPIA_BUILD}` : '';
   for (const [id, stem] of Object.entries(A.characters)) {
-    A.npcs[id] = `art/npcs/${stem}.png`; A.faces[id] = `art/faces/${stem}.webp`;
-    A.portraits[id] = `art/portraits/${stem}.webp`; A.busts[id] = `art/busts/${stem}.webp`;
+    A.npcs[id] = A.npcs[id] || `art/npcs/${stem}.png${v}`; A.faces[id] = A.faces[id] || `art/faces/${stem}.webp${v}`;
+    A.portraits[id] = A.portraits[id] || `art/portraits/${stem}.webp${v}`; A.busts[id] = A.busts[id] || `art/busts/${stem}.webp${v}`;
   }
 })();

@@ -135,6 +135,7 @@ object JoetopiaApi {
             "atk" -> e.player.baseAtk = a.toInt()
             "credits" -> e.player.kandi = a.toInt()
             "item" -> e.player.addItem(a, if (b.isEmpty()) 1 else b.toInt())
+            "gear" -> GearList.byId(a)?.let { if (it !in e.player.ownedGear) e.player.ownedGear += it }
             "flag" -> e.flags += a
             "unflag" -> e.flags -= a
             "views" -> e.debugViews(a.toInt())

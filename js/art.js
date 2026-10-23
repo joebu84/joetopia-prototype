@@ -8,7 +8,11 @@
     if (!c) {
       c = cache[path] = { ok: false, im: new Image() };
       c.im.onload = () => { c.ok = true; };
-      c.im.onerror = () => { c.ok = false; c.failed = true; };
+      c.im.onerror = () => { // one retry with a cache-buster (flaky mobile connections, stale caches), then placeholder
+        c.ok = false;
+        if (!c.retried) { c.retried = true; setTimeout(() => { c.im.src = path + (path.includes('?') ? '&' : '?') + 'r=' + Date.now(); }, 800); }
+        else c.failed = true;
+      };
       c.im.src = path;
     }
     return c.ok ? c.im : null;
@@ -122,7 +126,6 @@
   function npcSprite(g, id, x, y, dir) {
     const im = img(A.npcs[id]);
     if (im) { const h = im.height / im.width * T; g.drawImage(im, x, y + T - h, T, h); return; }
-    if (A.npcs[id] && !(cache[A.npcs[id]] || {}).failed) return; // still loading: draw nothing rather than flash a placeholder
     const h = hash(id || 'npc');
     person(g, x, y, { toga: hsl(h, 70, 55), seed: h, dir: dir || 'down', tall: /robert|shamgar|goliath|ramirez/.test(id || ''), glasses: /ramirez|shamgar/.test(id || '') });
   }
@@ -211,5 +214,6 @@
     for (const k in A.objects) { const p = A.objects[k]; if (!p) continue; g.clearRect(0, 0, T, T); proceduralObject(g, k, 0, 0, 'interior'); out[p] = c.toDataURL('image/png'); }
     return out;
   }
-  window.JArt = { T, img, hash, rng, drawTile, npcSprite, playerSprite, objectIcon, enemySprite, battleBg, person, placeholders, pal };
+  const loaded = path => !!(cache[path] && cache[path].ok && cache[path].im.naturalWidth > 0);
+  window.JArt = { T, img, loaded, hash, rng, drawTile, npcSprite, playerSprite, objectIcon, enemySprite, battleBg, person, placeholders, pal };
 })();
