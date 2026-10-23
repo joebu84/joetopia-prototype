@@ -26,6 +26,8 @@ window.JOETOPIA_UI = {
     ['forage', /Forage|mushroom|Dive|Drink from/i], ['explore', /Explore|Venture|Search|tunnels|paths|halls/i],
     ['books', /📚|Read|Research|Study|Tour|🏛|🖼|Analyse|archive/i], ['lab', /🧪|Brew|Stitch|Assemble|Synthesize|Culture|Craft|Identify|treated/i],
   ],
+  // Map spots that are really a person: drawn with that NPC's sprite (label regex -> NPC id).
+  npcSpots: [[/Talk more with Lydia/i, 'lydia_talk']],
   // Toga colour names from the engine -> hex (for the placeholder player sprite).
   togaColors: { 'neon pink': '#ff4fd8', 'electric blue': '#2f7bff', lime: '#9dff3a', tangerine: '#ff9a3d', violet: '#9b5cff',
     gold: '#ffcc33', crimson: '#d81e3c', teal: '#1fc8b4', white: '#f4f4f4' },

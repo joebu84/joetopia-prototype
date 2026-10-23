@@ -127,7 +127,8 @@
       if (exploring) {
         items.push({ info: JMap.placeName(st.node) + ' — ' + st.region });
         items.push({ label: '👀 Look around', on: () => JUI.showMsg(scene.text) }); items.push({ hr: 1 });
-        scene.choices.forEach((c, i) => items.push({ label: c.label, disabled: !c.enabled, on: () => onPick(i, '') }));
+        const faceOf = i => { const o = map && map.objs.find(o => o.i === i); const id = o && (o.npc || (o.type === 'talk' && o.target)); return id && JOETOPIA_ART.faces[id]; };
+        scene.choices.forEach((c, i) => items.push({ label: c.label, img: faceOf(i), disabled: !c.enabled, on: () => onPick(i, '') }));
       } else items.push({ info: 'Finish what you are doing first.' });
       JUI.fillDD($('#ddHere'), items);
     } else if (which === 'stream') {

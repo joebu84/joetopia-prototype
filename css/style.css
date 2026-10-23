@@ -86,3 +86,9 @@ details.grp .gl{display:flex;flex-direction:column;gap:5px;padding:0 8px 8px}
 @media (max-width:520px){.cmds{grid-template-columns:repeat(3,1fr)}.battle .arena{height:170px}.pc{max-height:50vh}}
 .big .ch{min-height:48px}
 body.fs-s{--fs:14px}body.fs-l{--fs:18px}body.fs-xl{--fs:20px}
+/* character pictures */
+.ph img.face{width:56px;height:56px;border-radius:10px;border:2px solid #ff4fd8;object-fit:cover;cursor:zoom-in;flex:none}
+.dd .item img.ico{width:24px;height:24px;border-radius:6px;object-fit:cover;vertical-align:middle;margin-right:6px}
+.lightbox{position:fixed;inset:0;z-index:100;background:#000c;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;cursor:zoom-out}
+.lightbox img{max-width:92vw;max-height:82vh;border-radius:12px;border:2px solid #ff4fd8;box-shadow:0 0 30px #ff4fd855}
+.lightbox .cap{color:#ffd1f5;font-weight:700}

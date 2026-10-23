@@ -38,8 +38,17 @@ Every picture is listed in **`data/art.js`**. To replace one, save a PNG and poi
 
 - **Tiles**, 32×32: `tiles.<biome>.{floor,wall,decor,door}`. The biomes are city, club, village, farm, forest, cave, cavern_club, wilds, castle, interior and interior_city.
 - **Player**, 32×32 (or 32×48): `player`, or `playerByClass.BOUNCER` etc.
-- **NPCs on the map**: `npcs.<npc id>`, e.g. `robert: 'art/npcs/robert.png'`.
-- **Talk portraits** (any square size): `portraits.<npc id>`.
+- **Named characters**: Robert, Ramirez, Rob, Joseph, Miranda, Alex, Sean, Alec and Elder Lydia each have four pictures. They're listed in the `characters` map at the top of `data/art.js`, which links each NPC id to a file name (Lydia's id is `lydia_talk`). Each character gets:
+  - `art/npcs/<name>.png`: a 32×48 walking sprite on the map;
+  - `art/faces/<name>.webp`: a 160px face shown in the talk header and the 📍 Here menu;
+  - `art/portraits/<name>.webp`: a picture up to 512px that opens when you tap the face;
+  - `art/busts/<name>.webp`: a 256px picture used as the enemy in a fight or spar with that character.
+
+  To replace a picture, overwrite the file. To add a character, add `npcid: 'name'` to `characters` and drop in the four files. You can also set a single entry by hand after the loop, e.g. `npcs.someone = 'art/npcs/someone.png'`.
+  - The walking sprites come from `python3 tools/make-npc-sprites.py` (needs Pillow). It has one drawing function per character, so you can tweak the colours and the signature items (Ramirez's visor and armband, Sean's headphones, Alex's rope) there.
+  - The web-sized face, portrait and bust copies were made from the original JPGs. Crop new ones the same way, as WebP at about 80% quality.
+- **Other NPCs on the map**: `npcs.<npc id>`. Without one, a generic person is drawn.
+- **NPC spots in a room**: if a place offers a "talk" option that isn't a normal NPC, `npcSpots` in `data/ui.js` decides whose sprite stands there.
 - **Battle enemies** (~128×128): `enemies.<enemy id>`. Enemy ids include wolf, goblin, bandit, spider, cultist, thug, guard, skeleton, wraith, alpha, matriarch, morvane, rave_bouncer, city_guard, noble, creep, and more.
 - **Battle backgrounds**, 640×220: `battleBg.<biome>`.
 - **Map markers** (shops, crowds, things to do): `objects.*`.
@@ -61,6 +70,6 @@ New NPCs and options appear automatically in the talk menus. If one lands in "�
 
 ## Differences from the APK
 - Room layouts are generated from each location's exits and contents. Only the village square is hand-drawn so far.
-- Most art is placeholder: generic people sprites, coloured-shape enemies and simple tiles. Portraits exist for Robert, Ramirez, Rob and Joseph only.
+- The 9 named characters have real portraits and matching sprites. Everyone else is a generic person sprite, the enemies are coloured shapes, and the tiles are simple placeholders. The character art is in the web build only; the APK hasn't changed.
 - Web saves are separate from APK saves; they can't be transferred.
 - There's no gamepad support or sound (the APK has no sound either).

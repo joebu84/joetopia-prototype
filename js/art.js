@@ -122,6 +122,7 @@
   function npcSprite(g, id, x, y, dir) {
     const im = img(A.npcs[id]);
     if (im) { const h = im.height / im.width * T; g.drawImage(im, x, y + T - h, T, h); return; }
+    if (A.npcs[id] && !(cache[A.npcs[id]] || {}).failed) return; // still loading: draw nothing rather than flash a placeholder
     const h = hash(id || 'npc');
     person(g, x, y, { toga: hsl(h, 70, 55), seed: h, dir: dir || 'down', tall: /robert|shamgar|goliath|ramirez/.test(id || ''), glasses: /ramirez|shamgar/.test(id || '') });
   }
@@ -168,6 +169,10 @@
   function enemySprite(g, id, name, w, h, t) {
     const im = img(A.enemies[id]);
     const cx = w * 0.7, cy = h * 0.52;
+    const who = /^named_/.test(id || '') ? id.slice(6) : null; const bust = !im && who && img(A.busts[who]);
+    if (bust) { const S = 150, bx = cx - S / 2, by = h * 0.5 - S / 2 + Math.sin(t / 400) * 2;
+      g.fillStyle = '#00000088'; g.fillRect(bx - 2, by + 4, S + 8, S + 4); g.drawImage(bust, bx, by, S, S);
+      g.strokeStyle = '#ff4fd8'; g.lineWidth = 3; g.strokeRect(bx, by, S, S); return; }
     if (im) { const s = Math.min(160 / im.width, 160 / im.height); g.drawImage(im, cx - im.width * s / 2, cy - im.height * s / 2, im.width * s, im.height * s); return; }
     const hh = hash(id || name || 'x'); const r = rng(hh); const col = hsl(hh, 55, 45), col2 = hsl(hh + 40, 60, 62);
     const bob = Math.sin(t / 300) * 4; const R = 46 + (hh % 20);

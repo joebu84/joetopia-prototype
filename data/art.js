@@ -29,11 +29,17 @@
     },
     player: null,            // one sprite for everyone, e.g. 'art/sprites/player.png'
     playerByClass: {},       // or per class: { BOUNCER: 'art/sprites/player_bouncer.png' }
-    npcs: {},                // map sprite per NPC id (ids are in the Kotlin NPC list), e.g. robert: 'art/npcs/robert.png'
-    portraits: {             // talk-menu portrait per NPC id (any square PNG)
-        robert: 'art/portraits/robert.png', ramirez: 'art/portraits/ramirez.png',
-        rob: 'art/portraits/rob.png', joseph: 'art/portraits/joseph.png',
-    },
+    // NAMED CHARACTERS. Keyed by the NPC id from the Kotlin engine; the value is the file stem
+    // used for every picture of that character (lydia_talk is Elder Lydia).
+    //   npcs       map sprite, 32x48 pixel art      art/npcs/<stem>.png
+    //   faces      talk-menu / menu thumbnail       art/faces/<stem>.webp   (square, 160px)
+    //   portraits  full picture, tap the face       art/portraits/<stem>.webp (512px long side)
+    //   busts      battle picture vs. that person   art/busts/<stem>.webp   (square, 256px)
+    // Add a character: drop the four files in, add a line here. Override one picture by setting
+    // e.g. npcs.robert = 'art/npcs/robert_v2.png' after the loop below.
+    characters: { robert: 'robert', ramirez: 'ramirez', rob: 'rob', joseph: 'joseph', miranda: 'miranda',
+      alex: 'alex', sean: 'sean', alec: 'alec', lydia_talk: 'lydia' },
+    npcs: {}, faces: {}, portraits: {}, busts: {},
     enemies: {},             // battle sprite per enemy id, e.g. wolf: 'art/enemies/wolf.png'
     objects: {               // map markers for shops, crowds and things to do
       shop: 'art/sprites/shop.png', crowd: 'art/sprites/crowd.png', fight: 'art/sprites/fight.png',
@@ -45,4 +51,9 @@
     battleBg: {},            // per biome, e.g. forest: 'art/battle/forest.png'
     title: null,             // title-screen banner, e.g. 'art/title.png'
   };
+  const A = window.JOETOPIA_ART;
+  for (const [id, stem] of Object.entries(A.characters)) {
+    A.npcs[id] = `art/npcs/${stem}.png`; A.faces[id] = `art/faces/${stem}.webp`;
+    A.portraits[id] = `art/portraits/${stem}.webp`; A.busts[id] = `art/busts/${stem}.webp`;
+  }
 })();

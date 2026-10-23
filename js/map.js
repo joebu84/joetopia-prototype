@@ -55,7 +55,7 @@
       const s = slots.shift(); if (!s) return;
       const [x, y] = s; grid[y][x] = 'floor';
       const o = { type: p.kind, x, y, i: p.i, target: p.target, label: p.label, name: p.name || p.label };
-      if (p.kind === 'local') o.icon = spotKind(p.label);
+      if (p.kind === 'local') { o.icon = spotKind(p.label); const ns = (JOETOPIA_UI.npcSpots || []).find(([re]) => re.test(p.label)); if (ns) o.npc = ns[1]; }
       objs.push(o);
       for (const [dx, dy] of [[0, 0], [1, 0], [-1, 0], [0, 1], [0, -1]]) reserved.add(key(x + dx, y + dy));
     });
@@ -131,13 +131,13 @@
   }
   function drawObj(g, map, o, t) {
     const x = o.x * T, y = o.y * T;
-    if (o.type === 'talk') JArt.npcSprite(g, o.target, x, y, 'down');
+    if (o.type === 'talk' || o.npc) JArt.npcSprite(g, o.npc || o.target, x, y, 'down');
     else if (o.type === 'shop') JArt.objectIcon(g, 'shop', x, y, map.biome);
     else if (o.type === 'mingle') JArt.objectIcon(g, 'crowd', x, y, map.biome);
     else if (o.type === 'fight') JArt.objectIcon(g, 'fight', x, y, map.biome);
     else if (o.type === 'event') JArt.objectIcon(g, 'event', x, y, map.biome);
     else JArt.objectIcon(g, o.icon || 'spot', x, y, map.biome);
-    if (o.type === 'talk' || o.type === 'fight') { const b = Math.sin(t / 300 + o.x) * 2; g.fillStyle = o.type === 'talk' ? '#ffd1f5' : '#ff6b6b'; g.beginPath(); g.moveTo(x + 16, y - 2 + b); g.lineTo(x + 12, y - 7 + b); g.lineTo(x + 20, y - 7 + b); g.fill(); }
+    if (o.type === 'talk' || o.npc || o.type === 'fight') { const b = Math.sin(t / 300 + o.x) * 2; g.fillStyle = o.type !== 'fight' ? '#ffd1f5' : '#ff6b6b'; g.beginPath(); g.moveTo(x + 16, y - 2 + b); g.lineTo(x + 12, y - 7 + b); g.lineTo(x + 20, y - 7 + b); g.fill(); }
   }
   function shortName(o) {
     if (o.type === 'exit') return o.name;

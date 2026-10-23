@@ -19,6 +19,14 @@
     return { groups: groups.concat([other]).filter(g => g.items.length), tail };
   }
 
+  function lightbox(src, cap) {
+    const lb = el('div', 'lightbox'); const im = el('img'); im.src = src; im.alt = cap || ''; lb.appendChild(im);
+    if (cap) lb.appendChild(el('div', 'cap', cap));
+    const k = e => { if (e.key === 'Escape' || e.key === 'Enter' || e.key === ' ') { e.stopPropagation(); e.preventDefault(); close(); } };
+    const close = () => { lb.remove(); document.removeEventListener('keydown', k, true); };
+    lb.addEventListener('click', close); document.addEventListener('keydown', k, true);
+    document.body.appendChild(lb);
+  }
   // Index of the choice that closes/backs out of a scene (Close beats Back so menus exit fully).
   function closeIndex(scene) {
     const res = [/^Close\b/i, /^(Leave|Done|Walk away|Goodbye)\b/i, /^(Back|Return)\b/i, /^Continue\b/i];
@@ -34,7 +42,12 @@
     const ci = closeIndex(scene);
     if (ci >= 0 && !/^Continue/i.test(scene.choices[ci].label)) { const x = el('button', 'x', '✕'); x.title = scene.choices[ci].label + ' (Esc)'; x.setAttribute('aria-label', scene.choices[ci].label); x.addEventListener('click', () => opts.onPick(ci, '')); head.appendChild(x); }
     if (scene.mode === 'TITLE' && JOETOPIA_ART.title) { const im = el('img', 'title-art'); im.src = JOETOPIA_ART.title; im.alt = ''; p.insertBefore(im, head); }
-    if (scene.mode === 'TALK' && st.talk && JOETOPIA_ART.portraits[st.talk]) { const im = el('img'); im.src = JOETOPIA_ART.portraits[st.talk]; im.width = 48; im.height = 48; im.alt = ''; head.prepend(im); }
+    if (scene.mode === 'TALK' && st.talk && JOETOPIA_ART.faces[st.talk]) {
+      const im = el('img', 'face'); im.src = JOETOPIA_ART.faces[st.talk]; im.alt = 'Portrait'; im.title = 'Tap to enlarge';
+      im.onerror = () => im.remove();
+      if (JOETOPIA_ART.portraits[st.talk]) im.addEventListener('click', () => lightbox(JOETOPIA_ART.portraits[st.talk], scene.title.split(':')[0]));
+      head.prepend(im); p.classList.add('talk-face');
+    }
     const text = el('div', 'pt', scene.text); p.appendChild(text);
     let input = null;
     if (scene.mode === 'CREATE_NAME') {
@@ -123,7 +136,7 @@
     const g = cv.getContext('2d'); const biome = (JMap.info(st.node) || {}).biome || 'forest';
     cancelAnimationFrame(battleAnim);
     // draw the player bigger
-    const pframe = (t) => { if (!cv.isConnected) return; JArt.battleBg(g, biome, 640, 220); JArt.enemySprite(g, eid, ename, 640, 220, t); g.save(); g.translate(70, 60); g.scale(3, 3); JArt.playerSprite(g, 0, 10, 'right', st); g.restore(); battleAnim = requestAnimationFrame(pframe); };
+    const pframe = (t) => { if (!cv.isConnected) return; JArt.battleBg(g, biome, 640, 220); JArt.enemySprite(g, eid, ename, 640, 220, t); g.save(); g.translate(70, 60); g.scale(3, 3); JArt.playerSprite(g, 0, 10, 'right', st); g.restore(); if (c && c.ramirez > 0 && !c.spar) { g.save(); g.translate(160, 50); g.scale(2.6, 2.6); JArt.npcSprite(g, 'ramirez', 0, 10, 'right'); g.restore(); } battleAnim = requestAnimationFrame(pframe); };
     battleAnim = requestAnimationFrame(pframe);
   }
   function hideOverlay() { $('#overlay').classList.add('hidden'); $('#panel').innerHTML = ''; cancelAnimationFrame(battleAnim); }
@@ -136,7 +149,8 @@
     for (const it of items) {
       if (it.hr) { menu.appendChild(el('hr')); continue; }
       if (it.info) { menu.appendChild(el('div', 'info', it.info)); continue; }
-      const b = el('button', 'item', it.label); b.disabled = !!it.disabled; b.addEventListener('click', () => { closeDD(); it.on(); }); menu.appendChild(b);
+      const b = el('button', 'item', it.label);
+      if (it.img) { const im = el('img', 'ico'); im.src = it.img; im.alt = ''; im.onerror = () => im.remove(); b.prepend(im); } b.disabled = !!it.disabled; b.addEventListener('click', () => { closeDD(); it.on(); }); menu.appendChild(b);
     }
   }
   document.addEventListener('click', e => { if (!e.target.closest('.dd')) closeDD(); });
@@ -162,5 +176,5 @@
   function banner(title, sub) { const b = $('#banner'); b.innerHTML = esc(title) + (sub ? `<small>${esc(sub)}</small>` : ''); b.classList.add('show'); clearTimeout(banner.t); banner.t = setTimeout(() => b.classList.remove('show'), 2600); }
   function prompt(t) { $('#prompt').textContent = t || ''; }
 
-  window.JUI = { closeIndex, showScene, hideOverlay, overlayOpen, fillDD, closeDD, hud, showMsg, nextMsg, msgOpen, clearMsg, toast, banner, prompt, categorize, groupTalk };
+  window.JUI = { lightbox, closeIndex, showScene, hideOverlay, overlayOpen, fillDD, closeDD, hud, showMsg, nextMsg, msgOpen, clearMsg, toast, banner, prompt, categorize, groupTalk };
 })();
