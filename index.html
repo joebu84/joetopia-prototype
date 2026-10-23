@@ -1,333 +1,52 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
-<meta name="theme-color" content="#1a1226">
-<title>Joetopia</title>
-<style>
-  html, body { margin: 0; height: 100%; background: #1a1226; overflow: hidden; overscroll-behavior: none;
-    touch-action: none; -webkit-user-select: none; user-select: none; -webkit-touch-callout: none;
-    font-family: "Trebuchet MS", system-ui, sans-serif; color: #fff; }
-  #wrap { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; }
-  #screen { image-rendering: pixelated; image-rendering: crisp-edges; display: block; background: #000;
-    box-shadow: 0 0 0 3px #2c1e3d, 0 8px 30px #0008; }
-  /* dialogue box */
-  #dialog { position: fixed; left: 50%; transform: translateX(-50%); bottom: 12px; width: min(94vw, 760px);
-    background: #120c1ccc; border: 3px solid #e8c56a; border-radius: 10px; padding: 12px 14px; display: none;
-    box-sizing: border-box; gap: 12px; align-items: flex-start; z-index: 5; backdrop-filter: blur(2px); }
-  #dialog.show { display: flex; }
-  #dialog .pic { flex: 0 0 auto; width: clamp(56px, 16vw, 96px); height: clamp(56px, 16vw, 96px);
-    image-rendering: pixelated; border: 2px solid #e8c56a; border-radius: 6px; background: #2c1e3d; }
-  #dialog.event .pic { width: clamp(96px, 30vw, 192px); height: clamp(72px, 22vw, 144px); }
-  #dialog .name { font-weight: bold; color: #e8c56a; font-size: clamp(15px, 4vw, 20px); }
-  #dialog .title { color: #c9b6e4; font-size: clamp(12px, 3.2vw, 15px); margin-left: 6px; font-weight: normal; }
-  #dialog .text { font-size: clamp(16px, 4.3vw, 21px); line-height: 1.35; margin-top: 4px; }
-  #dialog .more { text-align: right; color: #e8c56a; font-size: clamp(12px, 3vw, 14px); margin-top: 6px; animation: blink 1s infinite; }
-  @keyframes blink { 50% { opacity: .3 } }
-  /* touch controls */
-  #pad, #abtn { position: fixed; z-index: 6; display: none; }
-  body.touch #pad, body.touch #abtn { display: block; }
-  #pad { left: max(14px, env(safe-area-inset-left)); bottom: max(14px, env(safe-area-inset-bottom)); width: 156px; height: 156px; }
-  #pad div { position: absolute; width: 52px; height: 52px; background: #ffffff2e; border: 2px solid #ffffff66; border-radius: 10px;
-    display: flex; align-items: center; justify-content: center; font-size: 22px; color: #fff; }
-  #pad div.on { background: #e8c56a88; }
-  #pad .u { left: 52px; top: 0 } #pad .d { left: 52px; top: 104px } #pad .l { left: 0; top: 52px } #pad .r { left: 104px; top: 52px }
-  #abtn { right: max(18px, env(safe-area-inset-right)); bottom: max(40px, env(safe-area-inset-bottom)); width: 78px; height: 78px; border-radius: 50%;
-    background: #c0392bcc; border: 3px solid #fff8; font-size: 30px; font-weight: bold; line-height: 72px; text-align: center; color: #fff; }
-  #abtn.on { background: #e74c3c; }
-  body.touch.dialog-open #pad { opacity: .35; }
-  #hint { position: fixed; top: 8px; left: 50%; transform: translateX(-50%); font-size: clamp(11px, 3vw, 14px);
-    color: #c9b6e4; background: #120c1c99; padding: 4px 10px; border-radius: 12px; z-index: 4; white-space: nowrap; }
-</style>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#120b1f">
+<title>Joetopia: Ashes of Canaan</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-<div id="wrap"><canvas id="screen"></canvas></div>
-<div id="hint">Arrows/WASD to walk · Space/Enter to talk</div>
-<div id="dialog"><canvas class="pic" width="48" height="48"></canvas>
-  <div style="flex:1;min-width:0"><div><span class="name"></span><span class="title"></span></div><div class="text"></div><div class="more">▼ tap / A / Space</div></div></div>
-<div id="pad"><div class="u" data-d="up">▲</div><div class="l" data-d="left">◀</div><div class="r" data-d="right">▶</div><div class="d" data-d="down">▼</div></div>
-<div id="abtn">A</div>
-
-<script src="data.js"></script>
-<script>
-"use strict";
-/* =====================================================================
-   ENGINE. Content is in data.js; you shouldn't need to touch this to
-   add NPCs, events, art, or change the map.
-   ===================================================================== */
-(() => {
-const D = window.JOETOPIA;
-const T = D.tileSize || 16;
-const MAP = D.map, H = MAP.length, W = MAP[0].length;
-MAP.forEach((r, i) => { if (r.length !== W) console.warn(`map row ${i} is ${r.length} wide, expected ${W}`); });
-const DIRS = { up: [0, -1], down: [0, 1], left: [-1, 0], right: [1, 0] };
-const DIR_ROW = { down: 0, left: 1, right: 2, up: 3 };
-
-const cv = document.getElementById("screen"), g = cv.getContext("2d");
-cv.width = W * T; cv.height = H * T; g.imageSmoothingEnabled = false;
-
-/* ---------- art loading: real file if present, else generated placeholder ---------- */
-const art = {};                       // path -> HTMLImageElement | canvas
-function loadArt(path, makePlaceholder) {
-  const ph = makePlaceholder();
-  art[path] = ph; ph._placeholder = true;
-  if (!path) return;
-  const img = new Image();
-  img.onload = () => { art[path] = img; };
-  img.onerror = () => {};             // keep the placeholder
-  img.src = path;
-}
-const getArt = p => art[p];
-function mk(w, h, draw) { const c = document.createElement("canvas"); c.width = w; c.height = h; const x = c.getContext("2d"); x.imageSmoothingEnabled = false; draw(x, w, h); return c; }
-function shade(hex, f) { const n = parseInt(hex.slice(1), 16); let r = n >> 16, gg = (n >> 8) & 255, b = n & 255;
-  const m = v => Math.max(0, Math.min(255, Math.round(v * f))); return `rgb(${m(r)},${m(gg)},${m(b)})`; }
-
-// ---- placeholder tiles
-function tilePlaceholder(ch, t) {
-  return mk(T, T, (x) => {
-    x.fillStyle = t.color; x.fillRect(0, 0, T, T);
-    const dk = shade(t.color, .78), lt = shade(t.color, 1.18);
-    switch (t.name) {
-      case "wall": x.fillStyle = dk; for (let y = 0; y < T; y += 4) { x.fillRect(0, y, T, 1); for (let i = (y / 4) % 2 ? 0 : 4; i < T; i += 8) x.fillRect(i, y, 1, 4); } break;
-      case "building": x.fillStyle = dk; for (let y = 2; y < T; y += 5) x.fillRect(0, y, T, 2); x.fillStyle = lt; x.fillRect(0, 0, T, 1); break;
-      case "door": x.fillStyle = "#6b4a2b"; x.fillRect(3, 2, 10, 14); x.fillStyle = "#d4a017"; x.fillRect(10, 9, 2, 2); x.fillStyle = "#e8c56a"; x.fillRect(2, 1, 12, 1); break;
-      case "cobble": x.fillStyle = dk; [[1,1],[7,3],[12,1],[3,8],[10,9],[5,13],[13,13]].forEach(([a,b]) => x.fillRect(a, b, 3, 2)); break;
-      case "path": x.fillStyle = dk; [[2,4],[9,2],[13,10],[5,12]].forEach(([a,b]) => x.fillRect(a, b, 2, 1)); break;
-      case "grass": x.fillStyle = lt; [[2,3],[9,5],[5,11],[12,12],[13,2]].forEach(([a,b]) => { x.fillRect(a, b, 1, 2); x.fillRect(a+1, b-1, 1, 2); }); break;
-      case "tree": x.fillStyle = "#5f9e4f"; x.fillRect(0, 0, T, T); x.fillStyle = "#6b4a2b"; x.fillRect(7, 10, 2, 6);
-        x.fillStyle = t.color; x.beginPath(); x.arc(8, 7, 6.5, 0, 7); x.fill(); x.fillStyle = lt; x.fillRect(5, 3, 3, 2); break;
-      case "fountain": x.fillStyle = "#9a9a9a"; x.fillRect(0, 0, T, T); x.fillStyle = t.color; x.fillRect(2, 2, 12, 12); x.fillStyle = "#bfe6ff"; x.fillRect(5, 5, 2, 1); x.fillRect(9, 9, 3, 1); break;
-      case "gate": x.fillStyle = "#5b4b6b"; x.fillRect(0, 0, T, T); x.fillStyle = t.color; for (let i = 1; i < T; i += 4) x.fillRect(i, 0, 2, T); x.fillRect(0, 3, T, 2); break;
-    }
-  });
-}
-// ---- placeholder character sheet: 2 frames x 4 directions (down, left, right, up), each T x T
-function spritePlaceholder(c) {
-  return mk(T * 2, T * 4, (x) => {
-    ["down", "left", "right", "up"].forEach((dir, row) => [0, 1].forEach(f => {
-      const ox = f * T, oy = row * T, tall = c.tall ? -1 : 0, wide = c.big ? 1 : 0, thin = c.skinny ? 1 : 0;
-      x.fillStyle = "#0004"; x.fillRect(ox + 4, oy + 14, 8, 2);                               // shadow
-      x.fillStyle = shade(c.body, .7);                                                         // legs
-      const step = f ? 1 : -1;
-      if (dir === "left" || dir === "right") { x.fillRect(ox + 6 + step, oy + 12, 2, 3); x.fillRect(ox + 8 - step, oy + 12, 2, 3); }
-      else { x.fillRect(ox + 5, oy + 12 + (f ? 0 : 1), 2, 3 - (f ? 0 : 1)); x.fillRect(ox + 9, oy + 12 + (f ? 1 : 0), 2, 3 - (f ? 1 : 0)); }
-      x.fillStyle = c.body; x.fillRect(ox + 4 - wide + thin, oy + 7 + tall, 8 + 2 * wide - 2 * thin, 6 - tall);   // torso
-      x.fillStyle = c.trim; x.fillRect(ox + 4 - wide + thin, oy + 11, 8 + 2 * wide - 2 * thin, 1);         // belt/trim
-      x.fillStyle = c.skin; x.fillRect(ox + 5, oy + 2 + tall, 6, 5);                            // head
-      x.fillStyle = c.hair;                                                                    // hair
-      if (c.helmet) { x.fillStyle = "#9aa5b1"; x.fillRect(ox + 4, oy + 1 + tall, 8, 2); }
-      else { x.fillRect(ox + 5, oy + 1 + tall, 6, 2); if (dir === "up") x.fillRect(ox + 5, oy + 2 + tall, 6, 4); }
-      if (c.longHair) { x.fillStyle = c.hair; x.fillRect(ox + 4, oy + 2 + tall, 1, 8); x.fillRect(ox + 11, oy + 2 + tall, 1, 8); if (dir === "up") x.fillRect(ox + 5, oy + 6, 6, 4); }
-      if (c.beard && dir !== "up") { x.fillStyle = c.hair; x.fillRect(ox + 5, oy + 5 + tall, 6, 3); }
-      x.fillStyle = "#111";                                                                    // eyes
-      if (dir === "down") { x.fillRect(ox + 6, oy + 4 + tall, 1, 1); x.fillRect(ox + 9, oy + 4 + tall, 1, 1); }
-      if (dir === "left") x.fillRect(ox + 6, oy + 4 + tall, 1, 1);
-      if (dir === "right") x.fillRect(ox + 9, oy + 4 + tall, 1, 1);
-    }));
-  });
-}
-// ---- placeholder portrait 48x48
-function portraitPlaceholder(c) {
-  return mk(48, 48, (x) => {
-    x.fillStyle = "#2c1e3d"; x.fillRect(0, 0, 48, 48);
-    x.fillStyle = c.body; x.fillRect(8, 36, 32, 12); x.fillStyle = c.trim; x.fillRect(8, 36, 32, 2);
-    x.fillStyle = c.skin; x.fillRect(14, 12, 20, 22);
-    x.fillStyle = c.hair;
-    if (c.helmet) { x.fillStyle = "#9aa5b1"; x.fillRect(12, 6, 24, 8); }
-    else x.fillRect(13, 8, 22, 6);
-    if (c.longHair) { x.fillRect(10, 10, 4, 30); x.fillRect(34, 10, 4, 30); }
-    if (c.beard) { x.fillRect(14, 25, 20, 11); x.fillStyle = c.skin; x.fillRect(20, 28, 8, 2); }
-    x.fillStyle = "#fff"; x.fillRect(18, 18, 4, 3); x.fillRect(26, 18, 4, 3);
-    x.fillStyle = c.trim === "#3fd0ff" ? "#3fd0ff" : "#111"; x.fillRect(19, 19, 2, 2); x.fillRect(27, 19, 2, 2);
-    if (!c.beard) { x.fillStyle = shade(c.skin, .7); x.fillRect(21, 29, 6, 1); }
-  });
-}
-// ---- placeholder event picture 96x72
-function eventPlaceholder(e) {
-  const c = e.colors || { sky: "#31748f", ground: "#c9b48a", figure: "#fff" };
-  return mk(96, 72, (x) => {
-    x.fillStyle = c.sky; x.fillRect(0, 0, 96, 48); x.fillStyle = c.ground; x.fillRect(0, 48, 96, 24);
-    x.fillStyle = "#ffffff55"; for (let i = 0; i < 6; i++) x.fillRect(8 + i * 15, 10 + (i % 2) * 6, 2, 2);
-    x.fillStyle = shade(c.sky, .6); x.fillRect(0, 30, 22, 18); x.fillRect(74, 26, 22, 22);
-    x.fillStyle = c.figure; x.fillRect(42, 30, 12, 20); x.fillStyle = "#e8b48a"; x.fillRect(44, 22, 8, 8);
-    x.fillStyle = "#e8c56a"; x.font = "bold 9px monospace"; x.textAlign = "center"; x.fillText(e.title.slice(0, 18), 48, 66);
-  });
-}
-
-// register all art
-Object.entries(D.tiles).forEach(([ch, t]) => loadArt(t.image, () => tilePlaceholder(ch, t)));
-const playerColors = D.player.colors;
-loadArt(D.player.sprite, () => spritePlaceholder(playerColors));
-D.npcs.forEach(n => { loadArt(n.sprite, () => spritePlaceholder(n.colors)); loadArt(n.portrait, () => portraitPlaceholder(n.colors)); });
-D.events.forEach(e => loadArt(e.image, () => eventPlaceholder(e)));
-
-/* ---------- state ---------- */
-const P = { x: D.player.x, y: D.player.y, px: D.player.x * T, py: D.player.y * T, facing: D.player.facing || "down", moving: false, frame: 0, animT: 0 };
-const npcs = D.npcs.map(n => ({ ...n, facing: n.facing || "down", talks: 0, lastRandom: -1 }));
-const seenEvents = new Set();
-let dialog = null;              // { pages, i, name, title, pic, kind, onClose }
-let heldDirs = [];              // keyboard/pad, most recent last
-let swipeDir = null;
-
-const tileAt = (x, y) => (y < 0 || y >= H || x < 0 || x >= W) ? "#" : MAP[y][x];
-const solid = (x, y) => (D.tiles[tileAt(x, y)] || { solid: true }).solid;
-const npcAt = (x, y) => npcs.find(n => n.x === x && n.y === y);
-const blocked = (x, y) => solid(x, y) || !!npcAt(x, y);
-
-/* ---------- dialogue ---------- */
-const dlg = document.getElementById("dialog"), dlgPic = dlg.querySelector(".pic"), dName = dlg.querySelector(".name"),
-      dTitle = dlg.querySelector(".title"), dText = dlg.querySelector(".text");
-function openDialog(d) {
-  dialog = { i: 0, ...d }; heldDirs = []; swipeDir = null; P.moving = P.moving; // finish current step
-  const pic = d.pic; dlg.classList.toggle("event", d.kind === "event");
-  dlgPic.width = pic.width; dlgPic.height = pic.height; const pg = dlgPic.getContext("2d"); pg.imageSmoothingEnabled = false;
-  pg.clearRect(0, 0, pic.width, pic.height); pg.drawImage(pic, 0, 0);
-  dName.textContent = d.name; dTitle.textContent = d.title ? "· " + d.title : "";
-  dlg.classList.add("show"); document.body.classList.add("dialog-open"); renderDialog();
-}
-function renderDialog() { dText.textContent = dialog.pages[dialog.i]; dlg.querySelector(".more").textContent = dialog.i < dialog.pages.length - 1 ? "▼ tap / A / Space" : "✕ tap / A / Space to close"; }
-function advance() {
-  if (!dialog) return;
-  if (dialog.i < dialog.pages.length - 1) { dialog.i++; renderDialog(); return; }
-  dialog = null; dlg.classList.remove("show"); document.body.classList.remove("dialog-open");
-}
-function talkTo(n) {
-  const opposite = { up: "down", down: "up", left: "right", right: "left" };
-  n.facing = opposite[P.facing];
-  const pages = [...n.lines];
-  if (n.randomLines && n.randomLines.length) {
-    let k; do { k = Math.floor(Math.random() * n.randomLines.length); } while (n.randomLines.length > 1 && k === n.lastRandom);
-    n.lastRandom = k; pages.push(n.randomLines[k]);
-  }
-  n.talks++;
-  openDialog({ pages, name: n.name, title: n.title, pic: getArt(n.portrait), kind: "npc", npc: n.id });
-}
-function checkEvent() {
-  const e = D.events.find(e => e.x === P.x && e.y === P.y);
-  if (!e || (e.once && seenEvents.has(e.id))) return;
-  seenEvents.add(e.id);
-  openDialog({ pages: e.text, name: e.title, title: (e.tags || []).join(" / "), pic: getArt(e.image), kind: "event", event: e.id });
-}
-function pressA() {
-  if (dialog) { advance(); return; }
-  const [dx, dy] = DIRS[P.facing], n = npcAt(P.x + dx, P.y + dy);
-  if (n && !P.moving) talkTo(n);
-}
-
-/* ---------- movement (tile-to-tile, Zelda-style) ---------- */
-const SPEED = 64; // px per second
-let bumpT = 0;
-function currentDir() { return dialog ? null : (heldDirs[heldDirs.length - 1] || swipeDir); }
-function tryStep(dir) {
-  P.facing = dir;
-  const [dx, dy] = DIRS[dir], nx = P.x + dx, ny = P.y + dy;
-  if (blocked(nx, ny)) { bumpT = 0.15; return false; }
-  P.x = nx; P.y = ny; P.moving = true; return true;
-}
-function update(dt) {
-  if (P.moving) {
-    const tx = P.x * T, ty = P.y * T, step = SPEED * dt;
-    P.px += Math.sign(tx - P.px) * Math.min(step, Math.abs(tx - P.px));
-    P.py += Math.sign(ty - P.py) * Math.min(step, Math.abs(ty - P.py));
-    P.animT += dt; if (P.animT > 0.14) { P.animT = 0; P.frame ^= 1; }
-    if (P.px === tx && P.py === ty) { P.moving = false; checkEvent(); }
-  }
-  if (!P.moving) { const d = currentDir(); if (d) tryStep(d); else P.frame = 0; }
-  if (bumpT > 0) bumpT -= dt;
-}
-
-/* ---------- drawing ---------- */
-let t0 = performance.now(), clock = 0;
-function drawSprite(img, facing, frame, px, py) {
-  if (img.width >= T * 2 && img.height >= T * 4) g.drawImage(img, frame * T, DIR_ROW[facing] * T, T, T, px, py, T, T);
-  else g.drawImage(img, 0, 0, img.width, img.height, px, py, T, T);
-}
-function draw() {
-  for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
-    const t = D.tiles[MAP[y][x]]; if (!t) continue;
-    g.drawImage(getArt(t.image), x * T, y * T);
-    if (t.name === "fountain") { // shimmer
-      g.fillStyle = (Math.floor(clock * 4 + x + y) % 2) ? "#bfe6ff88" : "#ffffff00"; g.fillRect(x * T + 4, y * T + 4, 3, 1);
-    }
-  }
-  // event markers (subtle sparkle on not-yet-seen events)
-  D.events.forEach(e => { if (e.once && seenEvents.has(e.id)) return; if (Math.floor(clock * 2) % 2) { g.fillStyle = "#e8c56a"; g.fillRect(e.x * T + 7, e.y * T + 7, 2, 2); } });
-  const actors = [...npcs.map(n => ({ y: n.y * T, d: () => drawSprite(getArt(n.sprite), n.facing, Math.floor(clock * 1.5) % 2 && n.id === "joseph" ? 1 : 0, n.x * T, n.y * T) })),
-                  { y: P.py, d: () => drawSprite(getArt(D.player.sprite), P.facing, P.moving ? P.frame : 0, Math.round(P.px), Math.round(P.py) - (P.moving ? P.frame : 0)) }];
-  actors.sort((a, b) => a.y - b.y).forEach(a => a.d());
-  // talk prompt
-  const [dx, dy] = DIRS[P.facing], n = npcAt(P.x + dx, P.y + dy);
-  if (n && !dialog && !P.moving) { g.fillStyle = "#120c1ccc"; g.fillRect(n.x * T + 3, n.y * T - 9, 10, 8); g.fillStyle = "#e8c56a"; g.font = "bold 7px monospace"; g.fillText("A", n.x * T + 6, n.y * T - 3); }
-}
-function loop(now) {
-  const dt = Math.min(0.05, (now - t0) / 1000); t0 = now; clock += dt;
-  update(dt); draw(); requestAnimationFrame(loop);
-}
-
-/* ---------- layout: fill the viewport, crisp integer scaling when possible ---------- */
-function layout() {
-  const touch = document.body.classList.contains("touch");
-  const vw = window.innerWidth, vh = window.innerHeight, portrait = vh > vw;
-  const reserveY = touch && portrait ? 190 : 0;                 // leave room for the pad under the map in portrait
-  let s = Math.min(vw / cv.width, (vh - reserveY) / cv.height);
-  if (s >= 2) s = Math.floor(s);                                // integer scale = crisp pixels
-  cv.style.width = Math.floor(cv.width * s) + "px"; cv.style.height = Math.floor(cv.height * s) + "px";
-  document.getElementById("wrap").style.alignItems = touch && portrait ? "flex-start" : "center";
-  document.getElementById("wrap").style.paddingTop = touch && portrait ? "36px" : "0";
-  // portrait phones: put the dialogue box in the gap under the map so it never covers the D-pad / A button
-  if (touch && portrait) { dlg.style.top = (36 + parseFloat(cv.style.height) + 10) + "px"; dlg.style.bottom = "auto"; }
-  else { dlg.style.top = ""; dlg.style.bottom = ""; }
-  // landscape phones: squeeze the box between the D-pad and the A button
-  if (touch && !portrait) { dlg.style.left = "180px"; dlg.style.width = "calc(100vw - 290px)"; dlg.style.transform = "none"; }
-  else { dlg.style.left = ""; dlg.style.width = ""; dlg.style.transform = ""; }
-}
-
-/* ---------- input ---------- */
-const KEYS = { ArrowUp: "up", ArrowDown: "down", ArrowLeft: "left", ArrowRight: "right", w: "up", s: "down", a: "left", d: "right", W: "up", S: "down", A: "left", D: "right" };
-addEventListener("keydown", e => {
-  if (KEYS[e.key]) { e.preventDefault(); if (!heldDirs.includes(KEYS[e.key])) heldDirs.push(KEYS[e.key]); if (dialog) heldDirs = []; }
-  else if (e.key === " " || e.key === "Enter" || e.key === "z" || e.key === "Z") { e.preventDefault(); if (!e.repeat) pressA(); }
-});
-addEventListener("keyup", e => { if (KEYS[e.key]) heldDirs = heldDirs.filter(d => d !== KEYS[e.key]); });
-addEventListener("blur", () => { heldDirs = []; swipeDir = null; });
-
-const isTouch = ("ontouchstart" in window) || navigator.maxTouchPoints > 0 || /[?&]touch=1/.test(location.search);
-if (isTouch) { document.body.classList.add("touch"); document.getElementById("hint").textContent = "D-pad or swipe to walk · A to talk"; }
-// D-pad (pointer events, multi-touch safe)
-document.querySelectorAll("#pad div").forEach(b => {
-  const d = b.dataset.d;
-  const on = e => { e.preventDefault(); b.classList.add("on"); if (dialog) return; heldDirs = heldDirs.filter(x => x !== d); heldDirs.push(d); };
-  const off = e => { e.preventDefault(); b.classList.remove("on"); heldDirs = heldDirs.filter(x => x !== d); };
-  b.addEventListener("pointerdown", on); b.addEventListener("pointerup", off); b.addEventListener("pointercancel", off); b.addEventListener("pointerleave", off);
-});
-const ab = document.getElementById("abtn");
-ab.addEventListener("pointerdown", e => { e.preventDefault(); ab.classList.add("on"); pressA(); });
-ab.addEventListener("pointerup", () => ab.classList.remove("on")); ab.addEventListener("pointerleave", () => ab.classList.remove("on"));
-// swipe on the map / anywhere else: drag to walk (hold), tap to talk / advance
-let sw = null;
-addEventListener("touchstart", e => { if (e.target.closest("#pad,#abtn")) return; const t = e.changedTouches[0]; sw = { x: t.clientX, y: t.clientY, moved: false }; }, { passive: false });
-addEventListener("touchmove", e => {
-  e.preventDefault(); if (!sw || dialog) return; const t = e.changedTouches[0], dx = t.clientX - sw.x, dy = t.clientY - sw.y;
-  if (Math.hypot(dx, dy) > 24) { sw.moved = true; swipeDir = Math.abs(dx) > Math.abs(dy) ? (dx > 0 ? "right" : "left") : (dy > 0 ? "down" : "up"); }
-}, { passive: false });
-addEventListener("touchend", e => { if (e.target.closest("#pad,#abtn")) return; if (sw && !sw.moved) pressA(); sw = null; swipeDir = null; }, { passive: false });
-dlg.addEventListener("click", () => { if (!isTouch) advance(); });
-addEventListener("gesturestart", e => e.preventDefault());
-addEventListener("dblclick", e => e.preventDefault());
-addEventListener("contextmenu", e => e.preventDefault());
-
-addEventListener("resize", layout); addEventListener("orientationchange", () => setTimeout(layout, 100));
-layout(); requestAnimationFrame(loop);
-const hint = document.getElementById("hint"), hideHint = () => { hint.style.transition = "opacity 1s"; hint.style.opacity = 0; };
-setTimeout(hideHint, 7000); addEventListener("keydown", hideHint, { once: true }); addEventListener("pointerdown", hideHint, { once: true });
-
-/* ---------- tiny debug/test hook (harmless for players) ---------- */
-window.__joetopia = {
-  state: () => ({ x: P.x, y: P.y, facing: P.facing, moving: P.moving, dialog: dialog && { name: dialog.name, page: dialog.i, pages: dialog.pages.length, text: dialog.pages[dialog.i], kind: dialog.kind }, seen: [...seenEvents] }),
-  placeholders: () => Object.fromEntries(Object.entries(art).filter(([p, v]) => p && v._placeholder).map(([p, v]) => [p, v.toDataURL("image/png")])),
-};
-})();
-</script>
+<div id="app">
+  <nav id="menubar" aria-label="Game menu">
+    <div class="dd" data-dd="here"><button class="mb" id="btnHere" title="Actions here (H)">📍<span>Here</span> ▾</button><div class="dd-menu" id="ddHere"></div></div>
+    <button class="mb" id="btnGear" title="Inventory & gear (I)">🎒<span>Gear</span></button>
+    <button class="mb" id="btnStats" title="Stats (C)">📊<span>Stats</span></button>
+    <button class="mb" id="btnQuests" title="Quests (J)">📜<span>Quests</span></button>
+    <div class="dd" data-dd="stream"><button class="mb" id="btnStream" title="Stream (V)">📺<span>Stream</span> ▾</button><div class="dd-menu" id="ddStream"></div></div>
+    <button class="mb" id="btnMyco" title="Mushrooms (M)">🍄<span>Mushrooms</span></button>
+    <div class="dd" data-dd="save"><button class="mb" id="btnSave" title="Save / Load">💾<span>Save</span> ▾</button><div class="dd-menu" id="ddSave"></div></div>
+    <div class="dd" data-dd="settings"><button class="mb" id="btnSettings" title="Settings">⚙<span>Settings</span> ▾</button><div class="dd-menu right" id="ddSettings"></div></div>
+  </nav>
+  <div id="hud"></div>
+  <main id="stage">
+    <canvas id="cv" width="640" height="480" aria-label="Game map"></canvas>
+    <div id="banner"></div>
+    <div id="prompt"></div>
+    <div id="msg" class="hidden" role="dialog"><div id="msgText"></div><div class="hint">Ⓐ / Enter / tap to continue</div></div>
+    <div id="toast"></div>
+  </main>
+  <div id="pad">
+    <div id="dpad">
+      <button data-dir="up" aria-label="Up">▲</button>
+      <button data-dir="left" aria-label="Left">◀</button>
+      <button data-dir="right" aria-label="Right">▶</button>
+      <button data-dir="down" aria-label="Down">▼</button>
+    </div>
+    <div id="abtns"><button id="bBtn" aria-label="Menu">B</button><button id="aBtn" aria-label="Act">A</button></div>
+  </div>
+</div>
+<div id="overlay" class="hidden"><div id="panel"></div></div>
+<script src="engine/joetopia-engine.js"></script>
+<script src="data/world.js"></script>
+<script src="data/art.js"></script>
+<script src="data/maps.js"></script>
+<script src="data/ui.js"></script>
+<script src="js/art.js"></script>
+<script src="js/map.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/game.js"></script>
 </body>
 </html>
