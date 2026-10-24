@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#121418">
+<title>Joetopia (text RPG)</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app">
+  <div id="status" hidden>
+    <pre id="stats"></pre>
+    <div class="bar hp"><i id="hpBar"></i></div>
+    <div class="bar mp"><i id="mpBar"></i></div>
+    <div class="row">
+      <div class="col">
+        <div class="bar views"><i id="viewsBar"></i></div>
+        <pre id="viewsText"></pre>
+      </div>
+      <button class="small" id="liveBtn">● LIVE</button>
+    </div>
+    <div class="row btns">
+      <button class="small menu" id="gearBtn">Gear</button>
+      <button class="small menu" id="statsBtn">Stats</button>
+      <button class="small menu" id="mycoBtn">Myco</button>
+      <button class="small" id="saveBtn">Save</button>
+      <button class="small" id="menuBtn">Menu</button>
+    </div>
+  </div>
+  <div id="story">
+    <div id="content">
+      <h1 id="title"></h1>
+      <img id="picture" alt="Picture (tap to enlarge)" hidden>
+      <input id="nameInput" placeholder="Your name" maxlength="24" autocomplete="off" hidden>
+      <div id="body"></div>
+    </div>
+  </div>
+  <div id="choices"></div>
+  <div id="foot">Text RPG · same engine as Joetopia.apk · <a href="../">Play the top-down World version</a></div>
+</div>
+<div id="full" hidden><img id="fullImg" alt=""></div>
+<div id="toast" hidden></div>
+<script src="art/ids.js"></script>
+<script src="joetopia-engine.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

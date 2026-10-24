@@ -3,6 +3,7 @@
 The full Joetopia RPG as a top-down walk-around game, played in the browser. It has drop-down menus and turn-based combat. There's no backend, login or build step; the game is static files.
 
 **Play:** https://joebu84.github.io/joetopia-prototype/
+**Text version (same game as Joetopia.apk, no walking):** https://joebu84.github.io/joetopia-prototype/text/ (see `text/README.md`)
 **Locally:** run `python3 -m http.server` in this folder, then open http://localhost:8000.
 
 ## Controls
