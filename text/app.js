@@ -33,7 +33,9 @@
     if (id === pictureId) return;
     pictureId = id;
     const s = id ? src(id, 'events') : null;
-    if (s) { picture.src = s; picture.hidden = false; } else { picture.removeAttribute('src'); picture.hidden = true; }
+    // Hide the old picture at once and show the new one only when it has loaded, so a stale image never sits under a new scene.
+    picture.hidden = true;
+    if (s) { picture.onload = () => { if (pictureId === id) picture.hidden = false; }; picture.src = s; } else { picture.onload = null; picture.removeAttribute('src'); }
   }
 
   function render() {
