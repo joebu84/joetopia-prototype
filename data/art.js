@@ -39,6 +39,13 @@
     // e.g. npcs.robert = 'art/npcs/robert_v2.png' after the loop below.
     characters: { robert: 'robert', ramirez: 'ramirez', rob: 'rob', joseph: 'joseph', miranda: 'miranda',
       alex: 'alex', sean: 'sean', alec: 'alec', lydia_talk: 'lydia',
+      // district hosts with real art (joetopia-art-src/npc/<file>.jpg, crops in tools/make-encounter-art.py NPC_ART)
+      lantern_poet: 'lantern_poet',  // Miriam Inkwell, Lantern Row
+      // 2.7.4 / World 1.5 portraits (art-src npc/, enemy/, boss/; see tools/make-encounter-art.py NPC_ART)
+      dealer_tamar: 'dealer_tamar', shamgar: 'shamgar', priscilla_talk: 'priscilla_talk', barnabas_talk: 'barnabas_talk', under_boss: 'under_boss', scale_veteran: 'scale_veteran', thornback_alpha: 'thornback_alpha',
+      dr_spore: 'dr_spore',  // Dr. Nyxariel Spore's lab (a scene, placed by JOETOPIA_UI.npcSpots)
+      ushapti_smuggler: 'ushapti_smuggler', draconian_bodyguard: 'draconian_bodyguard', ash_cultist: 'ash_cultist',
+      enlil_ka: 'enlil_ka', marduk_ra: 'marduk_ra', inanna_shar: 'inanna_shar', ushapti_broker: 'ushapti_broker',
       // road / travel encounters (WorldNpcs.kt): same four pictures, plus a wide event picture
       //   events     shown when the encounter starts  art/events/<stem>.webp  (512px wide)
       enc_guard: 'enc_guard', enc_preacher: 'enc_preacher', enc_egirl: 'enc_egirl',
@@ -136,7 +143,9 @@
       troll: 'street_troll', weirdo: 'street_weirdo', unicorn: 'street_unicorn', pixie: 'street_pixie', gnome: 'street_gnome',
       goblin_banger: 'street_goblin_banger', goblin_banger_blue: 'street_goblin_banger_blue',
       goblin_unaffiliated: 'street_goblin_unaffiliated', mother_bigfoot: 'street_bigfoot',
-      dance_pickpocket: 'street_dance_pickpocket', dance_boyfriend: 'street_dance_boyfriend' },  // the guards fight shows the chariot driver
+      dance_pickpocket: 'street_dance_pickpocket', dance_boyfriend: 'street_dance_boyfriend',
+      rave_bouncer: 'shamgar', thug: 'ushapti_smuggler', draconian: 'draconian_bodyguard', cultist: 'ash_cultist',
+      enlil: 'enlil_ka', marduk: 'marduk_ra', inanna: 'inanna_shar', ushapti: 'ushapti_broker', alpha: 'thornback_alpha' },  // the guards fight shows the chariot driver
     objects: {               // map markers for shops, crowds and things to do
       shop: 'art/sprites/shop.png', crowd: 'art/sprites/crowd.png', fight: 'art/sprites/fight.png',
       event: 'art/sprites/event.png', drink: 'art/sprites/drink.png', dance: 'art/sprites/dance.png',

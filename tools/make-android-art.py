@@ -24,7 +24,7 @@ for sub in ('portraits', 'events'):
         im = Image.open(os.path.join(tmp, sub, f)); im.load()
         im.save(os.path.join(OUT, sub, f), 'WEBP', quality=72, method=6)
 CHARS = {'miranda': 'miranda', 'alex': 'alex', 'sean': 'sean', 'alec': 'alec', 'ramirez': 'ramirez', 'joseph': 'joseph',
-         'robert': 'robert', 'rob': 'rob', 'lydia': 'elder_lydia'}
+         'robert': 'robert', 'rob': 'rob', 'lydia': 'elder_lydia', 'lydia_talk': 'elder_lydia'}  # lydia_talk = her talk-partner id
 for cid, jpg in CHARS.items():
     im = Image.open(os.path.join(SRC, jpg + '.jpg')).convert('RGB'); im.thumbnail((LONG, LONG), Image.LANCZOS)
     im.save(os.path.join(OUT, 'portraits', cid + '.webp'), 'WEBP', quality=72, method=6)

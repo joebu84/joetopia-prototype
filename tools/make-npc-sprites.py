@@ -1030,8 +1030,139 @@ def street_bar_drinker_6():  # scarred man, yellow eyes, white coat, green goble
     _face(d, skin, hair=(25, 25, 25)); P(d, [(13, 11), (18, 11)], (255, 220, 0)); P(d, [(12, 13), (13, 14)], (110, 70, 60))
     return im
 
+# ---- named talk NPCs (art: joetopia-art-src/npc/<file>.jpg) ----
+def lantern_poet():  # Miriam Inkwell: curly salt-and-pepper bun, gold glasses + earrings, paint-splattered cream overalls, glowing phone
+    im, d = canvas(); shadow(d); skin = (190, 140, 105); hair = (95, 90, 92); over = (232, 225, 205)
+    legs(d, over, top=34, shoe=(70, 50, 40)); R(d, 10, 20, 21, 36, over); R(d, 11, 19, 12, 22, over); R(d, 19, 19, 20, 22, over)
+    R(d, 12, 19, 19, 23, (225, 225, 230))  # white top under the bib
+    arms(d, skin, skin, 19, 29); R(d, 20, 27, 24, 29, skin); R(d, 18, 25, 21, 28, (60, 45, 30)); P(d, [(19, 26), (20, 26)], (255, 210, 90))  # phone glow
+    P(d, [(12, 27), (17, 30), (14, 33), (19, 35), (11, 38), (16, 41), (13, 24)], (220, 80, 60))
+    P(d, [(15, 28), (12, 32), (18, 38), (14, 42), (19, 31)], (60, 130, 200)); P(d, [(16, 35), (11, 34), (20, 41)], (240, 190, 60))
+    R(d, 13, 18, 18, 19, skin); head(d, skin, 6)
+    R(d, 10, 4, 21, 8, hair); R(d, 9, 6, 11, 14, hair); R(d, 20, 6, 22, 13, hair); R(d, 12, 1, 19, 4, hair)  # curly bun
+    P(d, [(11, 5), (14, 2), (17, 3), (20, 5), (10, 9)], (185, 185, 190))  # grey streaks
+    P(d, [(12, 12), (13, 12), (14, 12), (17, 12), (18, 12), (19, 12), (15, 13), (16, 13)], (200, 160, 70))  # gold glasses
+    P(d, [(10, 15), (21, 15), (10, 16), (21, 16)], (230, 180, 60))  # earrings
+    return im
+
+GOLD2, TEAL = (225, 185, 70), (40, 230, 190)
+def dealer_tamar():  # Tamar Glitch: long black curls, tattooed face with glowing orange circuit lines, black armour traced in gold
+    im, d = canvas(); shadow(d); skin = (160, 110, 80); arm = (28, 26, 32); hair = (20, 16, 18)
+    legs(d, arm, shoe=(15, 12, 15)); R(d, 10, 19, 21, 36, arm); arms(d, arm, skin)
+    R(d, 6, 18, 10, 22, (45, 42, 50)); R(d, 21, 18, 25, 22, (45, 42, 50))  # shoulder plates
+    P(d, [(12, 22), (13, 24), (14, 26), (18, 23), (19, 25), (16, 29), (12, 31), (19, 32), (7, 19), (24, 19), (15, 34)], (240, 150, 50))
+    R(d, 13, 18, 18, 19, skin); head(d, skin, 6)
+    R(d, 9, 3, 22, 7, hair); R(d, 8, 6, 11, 22, hair); R(d, 20, 6, 23, 21, hair)  # curls past the shoulders
+    P(d, [(13, 15), (14, 16), (18, 14), (17, 16), (19, 12)], (245, 150, 50)); P(d, [(11, 16), (20, 16)], GOLD2)  # face tattoo, earrings
+    return im
+
+def shamgar():  # Shamgar the Wall: huge bearded man, dark headwrap with a gold band, leather-and-iron armour, big wooden staff
+    im, d = canvas(); shadow(d); skin = SK_T; arm = (70, 55, 40)
+    legs(d, (55, 45, 35), shoe=(35, 25, 20)); R(d, 9, 19, 22, 36, arm); R(d, 9, 26, 22, 28, (40, 35, 30)); arms(d, arm, skin)
+    R(d, 6, 18, 10, 22, (90, 90, 95)); R(d, 21, 18, 25, 22, (90, 90, 95))
+    R(d, 26, 4, 27, 44, (120, 85, 50)); R(d, 24, 30, 26, 32, skin)  # staff in hand
+    _face(d, skin, 5, hair=(45, 38, 32), beard=(55, 45, 38)); R(d, 10, 4, 21, 5, GOLD2)
+    return im
+
+def dr_spore():  # Dr. Nyxariel Spore: wild grey-violet hair, grin, white lab coat over a purple shirt, glowing mushroom flask
+    im, d = canvas(); shadow(d); skin = SK_M; coat = (225, 220, 210)
+    legs(d, (50, 45, 60)); R(d, 9, 19, 22, 38, coat); R(d, 14, 19, 17, 34, (110, 60, 150)); arms(d, coat, skin)
+    R(d, 22, 30, 25, 34, (120, 255, 200)); P(d, [(23, 29), (24, 29)], (200, 120, 255))  # flask
+    _face(d, skin, 6, beard=None, mouth=(240, 240, 235))
+    R(d, 7, 1, 24, 6, (150, 140, 175)); R(d, 6, 4, 10, 13, (150, 140, 175)); R(d, 21, 4, 25, 13, (150, 140, 175))
+    P(d, [(8, 0), (12, 0), (19, 0), (23, 1), (5, 8), (26, 9)], (175, 165, 200))
+    return im
+
+def priscilla_talk():  # Old Priscilla: white-grey bun, brown cardigan, cream apron, holding a pie
+    im, d = canvas(); shadow(d); skin = SK_L; hair = (205, 205, 210)
+    legs(d, (90, 70, 60), top=38, shoe=(60, 40, 30)); R(d, 9, 19, 22, 40, (120, 85, 60)); R(d, 11, 21, 20, 40, (235, 225, 200)); arms(d, (120, 85, 60), skin)
+    R(d, 11, 28, 20, 31, (200, 140, 70)); R(d, 12, 27, 19, 27, (225, 175, 100))  # pie
+    _face(d, skin, 6, mouth=(190, 110, 100)); R(d, 10, 4, 21, 8, hair); R(d, 13, 1, 18, 4, hair)
+    return im
+
+def barnabas_talk():  # Barnabas the Smith: short grey hair, stubble, glowing blue eyes, blue shirt, leather apron, hammer
+    im, d = canvas(); shadow(d); skin = SK_M
+    legs(d, (55, 45, 40)); R(d, 9, 19, 22, 36, (50, 80, 130)); R(d, 11, 21, 20, 37, (110, 75, 45)); arms(d, (50, 80, 130), skin)
+    R(d, 24, 25, 25, 33, (110, 80, 50)); R(d, 23, 23, 27, 25, (120, 120, 130))  # hammer
+    _face(d, skin, 6, hair=(150, 145, 140), eyes=(80, 200, 255)); P(d, [(12, 15), (14, 16), (17, 16), (19, 15)], (130, 120, 115))
+    return im
+
+def ushapti_smuggler():  # Ushapti smuggler: grey-skinned alien, round dark goggles, robes, crouching with a satchel
+    im, d = canvas(); shadow(d); skin = (150, 150, 150); robe = (70, 65, 60)
+    legs(d, robe, top=34, bot=43); R(d, 10, 20, 21, 35, robe); arms(d, robe, skin, 21, 31); R(d, 20, 28, 25, 33, (110, 80, 50))
+    R(d, 10, 6, 21, 18, skin); R(d, 11, 4, 20, 6, skin); R(d, 13, 18, 18, 20, skin)
+    R(d, 11, 10, 14, 12, BLK); R(d, 17, 10, 20, 12, BLK); R(d, 14, 10, 17, 10, BLK)  # goggles
+    return im
+
+def draconian_bodyguard():  # Draconian bodyguard: bronze-scaled lizard in dark gold-trimmed armour
+    im, d = canvas(); shadow(d); _lizard(d, 0, 0, armor=(60, 50, 40)); P(d, [(12, 24), (19, 24), (15, 30)], GOLD2)
+    return im
+
+def ash_cultist():  # Ash cultist: grey hood and robes, green-glowing gas mask
+    im, d = canvas(); shadow(d); robe = (110, 110, 112)
+    R(d, 9, 19, 22, 44, robe); arms(d, robe, (90, 90, 92)); R(d, 11, 45, 20, 46, (60, 60, 60))
+    R(d, 9, 2, 22, 18, robe); R(d, 11, 6, 20, 16, (40, 40, 42)); P(d, [(13, 9), (18, 9)], (200, 230, 220))
+    R(d, 13, 12, 18, 16, (25, 35, 30)); P(d, [(14, 13), (17, 13), (15, 15), (16, 15)], (90, 255, 140))  # mask
+    return im
+
+def enlil_ka():  # Enlil-Ka: long white beard and hair, horned gold crown, white-and-gold robes, glowing tablet
+    im, d = canvas(); shadow(d); skin = SK_M; robe = (235, 230, 215)
+    _robed(d, robe, skin, sash=GOLD2); arms(d, robe, skin)
+    R(d, 22, 27, 26, 33, (90, 190, 255))  # holo tablet
+    _face(d, skin, 6, hair=(240, 240, 240), beard=(240, 240, 240)); R(d, 11, 18, 20, 24, (240, 240, 240))
+    R(d, 10, 2, 21, 5, GOLD2); P(d, [(9, 1), (8, 0), (22, 1), (23, 0)], GOLD2)
+    return im
+
+def marduk_ra():  # Marduk-Ra: black beard, tall gold crown, green-and-gold armour, staff with a teal glowing head
+    im, d = canvas(); shadow(d); skin = SK_T; arm = (40, 60, 50)
+    legs(d, arm, shoe=(90, 70, 30)); R(d, 9, 19, 22, 36, arm); P(d, [(11, 22), (14, 24), (17, 22), (20, 24), (15, 28), (12, 32), (19, 32)], GOLD2)
+    arms(d, arm, skin); R(d, 25, 6, 26, 44, GOLD2); R(d, 24, 2, 27, 5, TEAL)
+    _face(d, skin, 6, beard=(25, 20, 18)); R(d, 11, 0, 20, 6, GOLD2); P(d, [(15, 2), (16, 2)], TEAL)
+    return im
+
+def inanna_shar():  # Inanna-Shar: long black hair, tall gold crown, teal cyber eyepiece, gold armour, a pistol in each hand
+    im, d = canvas(); shadow(d); skin = SK_M; arm = (150, 115, 45)
+    legs(d, (40, 35, 30), shoe=(120, 90, 35)); R(d, 10, 19, 21, 36, arm); P(d, [(13, 23), (18, 23), (15, 27), (12, 31), (19, 31)], TEAL)
+    arms(d, arm, skin); R(d, 4, 30, 8, 32, (60, 60, 65)); R(d, 23, 30, 27, 32, (60, 60, 65))
+    head(d, skin, 6); R(d, 9, 6, 11, 22, BLK); R(d, 20, 6, 22, 22, BLK); R(d, 11, 0, 20, 7, GOLD2); R(d, 16, 12, 19, 14, TEAL)
+    return im
+
+def ushapti_broker():  # Ushapti broker: grey alien, huge black eyes, dark suit with gold collar chains
+    im, d = canvas(); shadow(d); skin = (165, 165, 168); suit = (30, 30, 34)
+    legs(d, suit, shoe=BLK); R(d, 10, 21, 21, 36, suit); arms(d, suit, skin, 21, 31); P(d, [(12, 22), (13, 23), (18, 23), (19, 22), (15, 24), (16, 24)], GOLD2)
+    R(d, 9, 3, 22, 15, skin); R(d, 11, 15, 20, 18, skin); R(d, 14, 18, 17, 21, skin)
+    R(d, 10, 9, 14, 12, BLK); R(d, 17, 9, 21, 12, BLK)
+    return im
+
+def under_boss():  # Big Jehoshaphat: giant laughing man, long white beard and hair, cream robe with purple-and-gold sash, glowing purple tablet
+    im, d = canvas(); shadow(d); skin = SK_M; robe = (230, 220, 190)
+    R(d, 7, 18, 24, 44, robe); R(d, 6, 30, 25, 44, robe); R(d, 13, 28, 18, 44, (95, 50, 130)); P(d, [(13, 28), (15, 28), (17, 28), (14, 34), (16, 38)], GOLD2)
+    R(d, 4, 19, 7, 30, robe); R(d, 24, 19, 27, 30, robe); R(d, 9, 24, 22, 28, (70, 30, 110)); P(d, [(12, 25), (15, 26), (19, 25), (17, 27)], (200, 120, 255))
+    R(d, 9, 45, 13, 46, (110, 75, 40)); R(d, 18, 45, 22, 46, (110, 75, 40))
+    _face(d, skin, 4, hair=(235, 235, 235), beard=(240, 240, 240), mouth=(120, 40, 40)); R(d, 9, 4, 11, 16, (235, 235, 235)); R(d, 20, 4, 22, 16, (235, 235, 235))
+    return im
+
+def scale_veteran():  # Ssarru-Kin: scarred grey lizard-skinned brute, amber eyes, white robe with gold trim over green scales, gold claws, holstered pistol
+    im, d = canvas(); shadow(d); skin = (95, 98, 95); robe = (215, 210, 195)
+    R(d, 8, 18, 23, 44, robe); R(d, 13, 18, 18, 30, (70, 100, 60)); P(d, [(x, y) for x in (9, 22) for y in range(20, 44, 3)], (160, 120, 60))
+    R(d, 4, 19, 8, 32, skin); R(d, 23, 19, 27, 32, skin); P(d, [(4, 33), (6, 34), (8, 33), (23, 33), (25, 34), (27, 33)], GOLD2)  # gold claws
+    R(d, 18, 28, 21, 33, BLK); R(d, 9, 45, 13, 46, skin); R(d, 18, 45, 22, 46, skin)
+    head(d, skin, 5, eyes=(255, 170, 40)); R(d, 13, 17, 18, 18, skin); P(d, [(12, 8), (13, 9), (14, 10), (18, 13), (19, 14)], (60, 50, 50))  # scars
+    return im
+
+def thornback_alpha():  # Thornback Alpha: grey wolf with bone thorns down its spine, vine collar, green gem, purple ribbons
+    im, d = canvas(); shadow(d); fur = (95, 95, 100); dark = (55, 55, 62)
+    R(d, 9, 24, 23, 34, fur); R(d, 10, 34, 12, 44, dark); R(d, 20, 34, 22, 44, dark); R(d, 14, 33, 16, 43, fur); R(d, 17, 33, 19, 43, fur)
+    R(d, 10, 12, 21, 23, fur); P(d, [(10, 9), (11, 10), (11, 11), (21, 9), (20, 10), (20, 11)], dark)  # ears
+    R(d, 13, 19, 18, 23, (170, 170, 175)); R(d, 15, 21, 16, 22, BLK); P(d, [(12, 15), (13, 15), (18, 15), (19, 15)], (90, 255, 90))
+    P(d, [(9, 11), (8, 14), (22, 11), (23, 14), (8, 20), (24, 20), (8, 26), (24, 26), (12, 8), (19, 8)], (220, 215, 195))  # thorns
+    R(d, 10, 24, 21, 25, (60, 110, 50)); R(d, 14, 26, 17, 30, (80, 255, 110)); P(d, [(9, 26), (9, 28), (22, 26), (22, 29)], (130, 70, 170))
+    return im
+
 SPRITES = {'robert': robert, 'ramirez': ramirez, 'rob': rob, 'joseph': joseph, 'miranda': miranda,
-           'alex': alex, 'sean': sean, 'alec': alec, 'lydia': lydia,
+           'alex': alex, 'sean': sean, 'alec': alec, 'lydia': lydia, 'lantern_poet': lantern_poet,
+           **{k: globals()[k] for k in ('dealer_tamar', 'shamgar', 'dr_spore', 'priscilla_talk', 'barnabas_talk', 'ushapti_smuggler',
+              'draconian_bodyguard', 'ash_cultist', 'enlil_ka', 'marduk_ra', 'inanna_shar', 'ushapti_broker', 'under_boss', 'scale_veteran', 'thornback_alpha')},
            'enc_guard': enc_guard, 'enc_preacher': enc_preacher, 'enc_egirl': enc_egirl,
            'enc_trader': enc_trader, 'enc_goblins': enc_goblins, 'enc_fans': enc_fans,
            **{f'street_{k}': globals()[f'street_{k}'] for k in ('punks', 'drunk', 'party_girls', 'beggar', 'geneticist', 'preacher',

@@ -398,3 +398,32 @@ for sid, title in DANCE.items():
     save(card(256, 256, spr, 5), 'busts', name)
     save(card(512, 288, spr, 5, title), 'events', name, 80)
     print(name, 'placeholder')
+
+# Named talk NPCs with real art (district hosts etc.), keyed by the Kotlin NPC id: joetopia-art-src/npc/<file>.jpg.
+# Whole picture for the portrait, a square head crop for the face, a head-to-chest square for the bust. No event banner.
+# TO ADD ONE: drop the jpg in joetopia-art-src/npc/, add a line here, a sprite in make-npc-sprites.py and an id in data/art.js.
+NPC_SRC = os.path.dirname(STREET_SRC)  # joetopia-art-src root (npc/, enemy/, boss/)
+NPC_ART = {  # id: (file under joetopia-art-src, (face cx, cy, s), (bust cx, top, s))
+    'lantern_poet':        ('npc/miriam_inkwell',        (.44, .245, .32), (.52, .08, .74)),
+    'dealer_tamar':        ('npc/tamar_glitch',          (.32, .55, .40),  (.45, 0, .643)),
+    'shamgar':             ('npc/shamgar',               (.56, .11, .22),  (.50, .02, .75)),
+    'dr_spore':            ('npc/dr_spore',              (.52, .21, .32),  (.50, .03, .80)),
+    'priscilla_talk':      ('npc/old_priscilla',         (.47, .18, .34),  (.50, .02, .85)),
+    'barnabas_talk':       ('npc/barnabas',              (.53, .19, .30),  (.50, .02, .85)),
+    'ushapti_smuggler':    ('enemy/ushapti_smuggler',    (.38, .42, .28),  (.45, .22, .75)),
+    'draconian_bodyguard': ('enemy/draconian_bodyguard', (.50, .10, .26),  (.50, 0, .80)),
+    'ash_cultist':         ('enemy/ash_cultist',         (.50, .17, .28),  (.50, .04, .75)),
+    'enlil_ka':            ('boss/enlil_ka',             (.36, .16, .30),  (.45, .03, .80)),
+    'marduk_ra':           ('boss/marduk_ra',            (.44, .16, .26),  (.45, .02, .80)),
+    'inanna_shar':         ('boss/inanna_shar',          (.48, .17, .26),  (.50, .02, .80)),
+    'ushapti_broker':      ('boss/ushapti_broker',       (.50, .29, .30),  (.50, .12, .85)),
+    'under_boss':          ('npc/big_jehoshaphat',       (.40, .10, .30),  (.40, 0, .80)),   # Big Jehoshaphat, Undercroft
+    'scale_veteran':       ('npc/ssarru_kin',            (.45, .11, .25),  (.50, .02, .75)),  # Ssarru-Kin, Scalegate
+    'thornback_alpha':     ('boss/thornback_alpha',      (.63, .37, .35),  (.55, .15, .85)),  # Toadstool Forest boss (enemy alpha)
+}
+for nid, (fname, (fx, fy, fs), (bx, bt, bs)) in NPC_ART.items():
+    im = Image.open(os.path.join(NPC_SRC, fname + '.jpg')).convert('RGB')
+    p = im.copy(); p.thumbnail((512, 512), Image.LANCZOS); save(p, 'portraits', nid)
+    save(sq(im, fx, 0, fs, fy).resize((160, 160), Image.LANCZOS), 'faces', nid)
+    save(sq(im, bx, bt, bs).resize((256, 256), Image.LANCZOS), 'busts', nid)
+    print(nid, 'from', fname)

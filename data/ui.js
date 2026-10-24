@@ -27,7 +27,7 @@ window.JOETOPIA_UI = {
     ['books', /📚|Read|Research|Study|Tour|🏛|🖼|Analyse|archive/i], ['lab', /🧪|Brew|Stitch|Assemble|Synthesize|Culture|Craft|Identify|treated/i],
   ],
   // Map spots that are really a person: drawn with that NPC's sprite (label regex -> NPC id).
-  npcSpots: [[/Talk more with Lydia/i, 'lydia_talk'], [/Visit Red at his mushroom/, 'street_goblin_banger'], [/Visit Blue at his stump/, 'street_goblin_banger_blue']],
+  npcSpots: [[/Talk more with Lydia/i, 'lydia_talk'], [/Chat with Old Priscilla/, 'priscilla_talk'], [/Chat with Barnabas the Smith/, 'barnabas_talk'], [/^Identify a mushroom you carry/, 'dr_spore'], [/Visit Red at his mushroom/, 'street_goblin_banger'], [/Visit Blue at his stump/, 'street_goblin_banger_blue']],
   // Toga colour names from the engine -> hex (for the placeholder player sprite).
   togaColors: { 'neon pink': '#ff4fd8', 'electric blue': '#2f7bff', lime: '#9dff3a', tangerine: '#ff9a3d', violet: '#9b5cff',
     gold: '#ffcc33', crimson: '#d81e3c', teal: '#1fc8b4', white: '#f4f4f4' },
