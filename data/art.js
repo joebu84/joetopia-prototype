@@ -43,6 +43,9 @@
       lantern_poet: 'lantern_poet',  // Miriam Inkwell, Lantern Row
       // 2.7.4 / World 1.5 portraits (art-src npc/, enemy/, boss/; see tools/make-encounter-art.py NPC_ART)
       dealer_tamar: 'dealer_tamar', shamgar: 'shamgar', priscilla_talk: 'priscilla_talk', barnabas_talk: 'barnabas_talk', under_boss: 'under_boss', scale_veteran: 'scale_veteran', thornback_alpha: 'thornback_alpha',
+      // PLACEHOLDER art (v1.6): generated stand-ins, joetopia-art-src/placeholder/ + PLACEHOLDER_ART in tools/make-encounter-art.py.
+      // Listed in placeholders below; swap a picture by replacing its source and rerunning the tools (same id). local = any generic loc_* local.
+      spire_patron: 'spire_patron', chrome_broker: 'chrome_broker', zipporah: 'zipporah', ninsun: 'ninsun', methuselah: 'methuselah', jezebel: 'jezebel', ezra: 'ezra', grey_acolyte: 'grey_acolyte', hagar: 'hagar', asher: 'asher', dj_meph: 'dj_meph', dj_meph_back: 'dj_meph_back', keziah: 'keziah', boaz: 'boaz', lilith_spin: 'lilith_spin', delilah: 'delilah', jonah: 'jonah', salome: 'salome', gideon: 'gideon', naamah: 'naamah', jojo_neon: 'jojo_neon', princess_zillah: 'princess_zillah', doctor_conspiracy: 'doctor_conspiracy', azazel: 'azazel', vashti: 'vashti', local: 'local', enemy_wolf: 'enemy_wolf', enemy_bandit: 'enemy_bandit', enemy_spider: 'enemy_spider', enemy_guard: 'enemy_guard', enemy_skeleton: 'enemy_skeleton', enemy_wraith: 'enemy_wraith', enemy_matriarch: 'enemy_matriarch', enemy_morvane: 'enemy_morvane',
       dr_spore: 'dr_spore',  // Dr. Nyxariel Spore's lab (a scene, placed by JOETOPIA_UI.npcSpots)
       ushapti_smuggler: 'ushapti_smuggler', draconian_bodyguard: 'draconian_bodyguard', ash_cultist: 'ash_cultist',
       enlil_ka: 'enlil_ka', marduk_ra: 'marduk_ra', inanna_shar: 'inanna_shar', ushapti_broker: 'ushapti_broker',
@@ -131,6 +134,7 @@
       { re: /Blue-Taped Shiv/, id: 'street_blue_shiv', small: true },
       { re: /Goblin Slingshot/, id: 'street_goblin_slingshot', small: true },
     ],
+    placeholderArt: ['spire_patron', 'chrome_broker', 'zipporah', 'ninsun', 'methuselah', 'jezebel', 'ezra', 'grey_acolyte', 'hagar', 'asher', 'dj_meph', 'dj_meph_back', 'keziah', 'boaz', 'lilith_spin', 'delilah', 'jonah', 'salome', 'gideon', 'naamah', 'jojo_neon', 'princess_zillah', 'doctor_conspiracy', 'azazel', 'vashti', 'local', 'enemy_wolf', 'enemy_bandit', 'enemy_spider', 'enemy_guard', 'enemy_skeleton', 'enemy_wraith', 'enemy_matriarch', 'enemy_morvane', 'street_gnome'],  // placeholder: true (generated art, swap any time)
     npcs: {}, faces: {}, portraits: {}, busts: {}, events: {},
     enemies: {},             // battle sprite per enemy id, e.g. wolf: 'art/enemies/wolf.png'
     // Fights whose enemy is one of the characters above: enemy id (or street-event name) -> character id.
@@ -145,7 +149,8 @@
       goblin_unaffiliated: 'street_goblin_unaffiliated', mother_bigfoot: 'street_bigfoot',
       dance_pickpocket: 'street_dance_pickpocket', dance_boyfriend: 'street_dance_boyfriend',
       rave_bouncer: 'shamgar', thug: 'ushapti_smuggler', draconian: 'draconian_bodyguard', cultist: 'ash_cultist',
-      enlil: 'enlil_ka', marduk: 'marduk_ra', inanna: 'inanna_shar', ushapti: 'ushapti_broker', alpha: 'thornback_alpha' },  // the guards fight shows the chariot driver
+      enlil: 'enlil_ka', marduk: 'marduk_ra', inanna: 'inanna_shar', ushapti: 'ushapti_broker', alpha: 'thornback_alpha',
+      wolf: 'enemy_wolf', bandit: 'enemy_bandit', spider: 'enemy_spider', guard: 'enemy_guard', skeleton: 'enemy_skeleton', wraith: 'enemy_wraith', matriarch: 'enemy_matriarch', morvane: 'enemy_morvane' },  // the guards fight shows the chariot driver
     objects: {               // map markers for shops, crowds and things to do
       shop: 'art/sprites/shop.png', crowd: 'art/sprites/crowd.png', fight: 'art/sprites/fight.png',
       event: 'art/sprites/event.png', drink: 'art/sprites/drink.png', dance: 'art/sprites/dance.png',

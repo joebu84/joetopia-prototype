@@ -1159,10 +1159,80 @@ def thornback_alpha():  # Thornback Alpha: grey wolf with bone thorns down its s
     R(d, 10, 24, 21, 25, (60, 110, 50)); R(d, 14, 26, 17, 30, (80, 255, 110)); P(d, [(9, 26), (9, 28), (22, 26), (22, 29)], (130, 70, 170))
     return im
 
+# ---- PLACEHOLDER sprites (v1.6): simple colour-matched figures for the generated placeholder portraits in
+# joetopia-art-src/placeholder/ (see PLACEHOLDER_ART in tools/make-encounter-art.py). Swap with a hand-drawn sprite any time.
+def _ph(skin, robe, hair=None, accent=None, beard=None, eyes=(20, 20, 30), hat=None, hood=None, alien=False, ghost=False):
+    im, d = canvas(); shadow(d)
+    if ghost: d.polygon([(9, 19), (22, 19), (25, 44), (6, 44)], fill=robe + (210,))
+    else: _robed(d, robe, skin, sash=accent, hem=accent)
+    R(d, 6, 20, 9, 32, robe); R(d, 22, 20, 25, 32, robe); R(d, 6, 33, 9, 34, skin); R(d, 22, 33, 25, 34, skin)
+    if alien:
+        R(d, 10, 3, 21, 14, skin); R(d, 12, 15, 19, 17, skin); R(d, 11, 8, 14, 11, BLK); R(d, 17, 8, 20, 11, BLK)
+    else:
+        _face(d, skin, 5, hair=hair, beard=beard, eyes=eyes)
+    if hood: R(d, 9, 2, 22, 5, hood); R(d, 9, 3, 10, 17, hood); R(d, 21, 3, 22, 17, hood)
+    if hat == 'crown': P(d, [(x, 2) for x in (11, 13, 15, 17, 19)], GOLD2); R(d, 11, 3, 20, 4, GOLD2)
+    if hat == 'foil': d.polygon([(15, -4), (10, 4), (21, 4)], fill=(200, 205, 215))
+    return im
+_PH = {
+    'spire_patron': dict(skin=SK_L, robe=(225, 205, 160), hair=(150, 70, 40), accent=GOLD2),
+    'chrome_broker': dict(skin=(150, 155, 165), robe=(190, 190, 215), accent=TEAL, alien=True),
+    'zipporah': dict(skin=SK_T, robe=(235, 80, 160), hair=(30, 20, 20), accent=GOLD2),
+    'ninsun': dict(skin=(140, 145, 150), robe=(30, 30, 40), accent=NEONP, alien=True),
+    'methuselah': dict(skin=SK_M, robe=(130, 90, 50), hair=(230, 230, 230), beard=(235, 235, 235), accent=GOLD2),
+    'jezebel': dict(skin=SK_L, robe=(60, 40, 90), hair=BLK, accent=TEAL),
+    'ezra': dict(skin=SK_T, robe=(150, 200, 40), hair=(25, 20, 20), accent=GOLD2),
+    'grey_acolyte': dict(skin=SK_M, robe=(150, 145, 135), accent=GOLD2),
+    'hagar': dict(skin=SK_L, robe=(200, 185, 150), hair=(225, 200, 130)),
+    'asher': dict(skin=SK_T, robe=(210, 170, 80), hair=(40, 30, 25)),
+    'dj_meph': dict(skin=SK_D, robe=(240, 240, 240), beard=(30, 25, 25), hat='crown', accent=GOLD2),
+    'keziah': dict(skin=SK_L, robe=(110, 60, 170), hair=(200, 200, 215), accent=TEAL),
+    'boaz': dict(skin=SK_D, robe=(230, 120, 30), accent=(60, 50, 40)),
+    'lilith_spin': dict(skin=SK_L, robe=(35, 35, 90), hair=(25, 20, 35), accent=TEAL),
+    'delilah': dict(skin=SK_T, robe=(150, 25, 40), hair=BLK, accent=GOLD2),
+    'jonah': dict(skin=SK_M, robe=(30, 110, 110), hair=(40, 30, 25), accent=GOLD2),
+    'salome': dict(skin=SK_L, robe=(170, 110, 220), hair=(240, 150, 200), accent=TEAL),
+    'gideon': dict(skin=(90, 110, 80), robe=(25, 25, 30), eyes=(255, 170, 40), accent=(60, 60, 70)),
+    'naamah': dict(skin=SK_T, robe=(40, 70, 40), hair=(30, 25, 25), accent=(230, 150, 255)),
+    'jojo_neon': dict(skin=SK_M, robe=(220, 180, 60), hair=(230, 230, 230), accent=NEONP),
+    'princess_zillah': dict(skin=SK_L, robe=(190, 230, 200), hair=(200, 170, 230), accent=(240, 150, 190)),
+    'doctor_conspiracy': dict(skin=SK_L, robe=(150, 150, 160), hair=(200, 200, 205), beard=(205, 205, 205), hat='foil'),
+    'azazel': dict(skin=SK_L, robe=(25, 20, 25), hair=(150, 40, 30), accent=GOLD2),
+    'vashti': dict(skin=SK_T, robe=(235, 230, 215), hair=BLK, accent=GOLD2),
+    'local': dict(skin=SK_T, robe=(150, 130, 100), hair=BLK, accent=GOLD_D),
+    'enemy_bandit': dict(skin=SK_M, robe=(30, 30, 35), hood=(25, 25, 30)),
+    'enemy_guard': dict(skin=(60, 60, 65), robe=(55, 55, 60), eyes=(255, 140, 40), hood=(45, 45, 50), accent=(255, 140, 40)),
+    'enemy_skeleton': dict(skin=(220, 215, 200), robe=(70, 65, 60), eyes=(180, 100, 255)),
+    'enemy_wraith': dict(skin=(120, 120, 125), robe=(90, 90, 95), eyes=(255, 140, 40), hood=(70, 70, 75), ghost=True),
+    'enemy_morvane': dict(skin=(150, 150, 140), robe=(40, 35, 30), eyes=TEAL, hat='crown', accent=GOLD2),
+    'enemy_matriarch': dict(skin=(225, 220, 225), robe=(25, 22, 30), hair=(235, 235, 240), hood=(200, 200, 210), eyes=(170, 90, 255), hat='crown'),
+}
+for _k, _kw in _PH.items(): globals()[_k] = (lambda kw: (lambda: _ph(**kw)))(_kw)
+_matriarch_body = enemy_matriarch
+def enemy_matriarch():  # Hollow Matriarch: hooded white-haired queen over a black spider body
+    im = _matriarch_body(); d = ImageDraw.Draw(im)
+    for y in (30, 34, 38, 42): R(d, 2, y, 7, y, (40, 35, 45)); R(d, 24, y, 29, y, (40, 35, 45))
+    d.ellipse([8, 32, 23, 45], fill=(30, 26, 34)); return im
+def enemy_wolf():  # Ash Wolf: grey wolf with orange eyes
+    im, d = canvas(); shadow(d); fur = (105, 105, 110); dark = (60, 60, 66)
+    R(d, 9, 24, 23, 34, fur); R(d, 10, 34, 12, 44, dark); R(d, 20, 34, 22, 44, dark); R(d, 14, 33, 16, 43, fur); R(d, 17, 33, 19, 43, fur)
+    R(d, 10, 12, 21, 23, fur); P(d, [(10, 9), (11, 10), (11, 11), (21, 9), (20, 10), (20, 11)], dark)
+    R(d, 13, 19, 18, 23, (170, 170, 175)); R(d, 15, 21, 16, 22, BLK); P(d, [(12, 15), (13, 15), (18, 15), (19, 15)], (255, 150, 40)); return im
+def enemy_spider():  # Cave Spider: big black spider with purple eyes
+    im, d = canvas(); shadow(d); c = (30, 26, 36)
+    for i, y in enumerate((26, 30, 34, 38)):
+        d.line([(15, 32), (2, y - 6), (1, y + 6)], fill=c, width=1); d.line([(16, 32), (29, y - 6), (30, y + 6)], fill=c, width=1)
+    d.ellipse([9, 28, 22, 44], fill=c); d.ellipse([10, 20, 21, 30], fill=(40, 34, 48))
+    P(d, [(13, 24), (15, 23), (16, 23), (18, 24), (14, 26), (17, 26)], (190, 100, 255)); return im
+PLACEHOLDER_SPRITES = list(_PH) + ['enemy_wolf', 'enemy_spider', 'dj_meph_back']
+dj_meph_back = _PH and globals()['dj_meph']
+
+
 SPRITES = {'robert': robert, 'ramirez': ramirez, 'rob': rob, 'joseph': joseph, 'miranda': miranda,
            'alex': alex, 'sean': sean, 'alec': alec, 'lydia': lydia, 'lantern_poet': lantern_poet,
            **{k: globals()[k] for k in ('dealer_tamar', 'shamgar', 'dr_spore', 'priscilla_talk', 'barnabas_talk', 'ushapti_smuggler',
               'draconian_bodyguard', 'ash_cultist', 'enlil_ka', 'marduk_ra', 'inanna_shar', 'ushapti_broker', 'under_boss', 'scale_veteran', 'thornback_alpha')},
+           **{k: globals()[k] for k in PLACEHOLDER_SPRITES},
            'enc_guard': enc_guard, 'enc_preacher': enc_preacher, 'enc_egirl': enc_egirl,
            'enc_trader': enc_trader, 'enc_goblins': enc_goblins, 'enc_fans': enc_fans,
            **{f'street_{k}': globals()[f'street_{k}'] for k in ('punks', 'drunk', 'party_girls', 'beggar', 'geneticist', 'preacher',

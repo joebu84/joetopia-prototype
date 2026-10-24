@@ -306,7 +306,7 @@ FOREST = {'troll': 'Bridge Troll', 'weirdo': 'Weirdo in the Woods', 'trustworthy
           'red_shiv': 'Red-Taped Shiv', 'bike_chain': 'Goblin Bike Chain', 'stem_bat': 'Mushroom-Stem Bat',
           'goblin_revolver': 'Goblin Six-Shooter', 'blue_bandana': 'Blue Bandana', 'blue_shiv': 'Blue-Taped Shiv', 'goblin_slingshot': 'Goblin Slingshot', 'big_booma': 'Da Big Booma', 'ballistic_hat': 'Ballistic Hat'}
 FOREST_SRC = os.path.join(os.path.dirname(STREET_SRC), 'forest')
-FOREST_FILE = {'unicorn_horn': 'unicorn', 'pixie_wings': 'pixie'}
+FOREST_FILE = {'unicorn_horn': 'unicorn', 'pixie_wings': 'pixie', 'gnome': '../placeholder/gnome'}  # gnome = PLACEHOLDER picture (v1.6)
 FOREST_CROP = {  # id: face (cx, cy, s), bust (cx, top, s), portrait box or None, event box or None (fractions of the source)
     'troll': ((.50, .17, .13), (.55, .02, .5), None, (0, .05, 1, .888)),
     'weirdo': ((.52, .21, .25), (.50, .10, .75), None, (0, .06, 1, .437)),
@@ -318,6 +318,7 @@ FOREST_CROP = {  # id: face (cx, cy, s), bust (cx, top, s), portrait box or None
     'bigfoot': ((.39, .25, .17), (.40, .10, .56), None, (0, .04, 1, .92)),
     'trustworthy_human': ((.52, .33, .40), (.55, .15, .80), None, (0, .12, 1, .497)),
     'unicorn': ((.53, .76, .14), (.62, .25, .55), None, (0, .10, 1, .938)),
+    'gnome': ((.48, .30, .32), (.48, .14, .75), None, (0, .14, 1, .56)),  # PLACEHOLDER (generated), joetopia-art-src/placeholder/gnome.jpg
     # PG-13: everything stops above the collarbone (y < .25 of the 784x1168 source)
     'pixie': ((.49, .16, .22), (.49, .02, .29), (.12, 0, .92, .25), (.16, 0, .82, .25)),
     'unicorn_horn': ((.47, .63, .12), (.47, .52, .16), (.40, .50, .56, .78), (.30, .52, .66, .76)),
@@ -421,6 +422,46 @@ NPC_ART = {  # id: (file under joetopia-art-src, (face cx, cy, s), (bust cx, top
     'scale_veteran':       ('npc/ssarru_kin',            (.45, .11, .25),  (.50, .02, .75)),  # Ssarru-Kin, Scalegate
     'thornback_alpha':     ('boss/thornback_alpha',      (.63, .37, .35),  (.55, .15, .85)),  # Toadstool Forest boss (enemy alpha)
 }
+# PLACEHOLDER portraits (v1.6 / text 2.7.5): generated stand-ins in joetopia-art-src/placeholder/<file>.jpg for every named
+# NPC, enemy and boss that had no real art (listed in placeholder/placeholders.json, flagged in placeholderArt in data/art.js).
+# TO SWAP ONE: put the real picture in npc/ (or enemy/, boss/), move its line from here to NPC_ART above, rerun. Same ids.
+PLACEHOLDER_ART = {
+    'asher': ('placeholder/asher', (0.4, 0.22, 0.34), (0.4, 0.09, .75)),
+    'azazel': ('placeholder/azazel', (0.42, 0.17, 0.31), (0.42, 0.04, .75)),
+    'boaz': ('placeholder/boaz', (0.48, 0.18, 0.34), (0.48, 0.05, .75)),
+    'chrome_broker': ('placeholder/chrome_broker', (0.5, 0.2, 0.43), (0.5, 0.07, .75)),
+    'delilah': ('placeholder/delilah', (0.5, 0.18, 0.31), (0.5, 0.05, .75)),
+    'dj_meph': ('placeholder/dj_meph', (0.5, 0.12, 0.2), (0.5, 0, .75)),
+    'doctor_conspiracy': ('placeholder/doctor_conspiracy', (0.45, 0.22, 0.34), (0.45, 0.09, .75)),
+    'enemy_bandit': ('placeholder/bandit', (0.45, 0.16, 0.31), (0.45, 0.03, .75)),
+    'enemy_guard': ('placeholder/guard', (0.5, 0.18, 0.34), (0.5, 0.05, .75)),
+    'enemy_matriarch': ('placeholder/matriarch', (0.48, 0.16, 0.25), (0.48, 0.03, .75)),
+    'enemy_morvane': ('placeholder/morvane', (0.48, 0.18, 0.31), (0.48, 0.05, .75)),
+    'enemy_skeleton': ('placeholder/skeleton', (0.4, 0.2, 0.31), (0.4, 0.07, .75)),
+    'enemy_spider': ('placeholder/spider', (0.5, 0.5, 0.56), (0.5, 0.37, .75)),
+    'enemy_wolf': ('placeholder/wolf', (0.52, 0.45, 0.45), (0.52, 0.32, .75)),
+    'enemy_wraith': ('placeholder/wraith', (0.5, 0.25, 0.36), (0.5, 0.12, .75)),
+    'ezra': ('placeholder/ezra', (0.5, 0.2, 0.34), (0.5, 0.07, .75)),
+    'gideon': ('placeholder/gideon', (0.45, 0.22, 0.39), (0.45, 0.09, .75)),
+    'grey_acolyte': ('placeholder/grey_acolyte', (0.48, 0.18, 0.31), (0.48, 0.05, .75)),
+    'hagar': ('placeholder/hagar', (0.47, 0.18, 0.31), (0.47, 0.05, .75)),
+    'jezebel': ('placeholder/jezebel', (0.48, 0.17, 0.29), (0.48, 0.04, .75)),
+    'jojo_neon': ('placeholder/jojo_neon', (0.48, 0.15, 0.31), (0.48, 0.02, .75)),
+    'jonah': ('placeholder/jonah', (0.47, 0.18, 0.29), (0.47, 0.05, .75)),
+    'keziah': ('placeholder/keziah', (0.53, 0.17, 0.29), (0.53, 0.04, .75)),
+    'lilith_spin': ('placeholder/lilith_spin', (0.45, 0.18, 0.29), (0.45, 0.05, .75)),
+    'local': ('placeholder/local', (0.42, 0.32, 0.39), (0.42, 0.19, .75)),
+    'methuselah': ('placeholder/methuselah', (0.45, 0.2, 0.34), (0.45, 0.07, .75)),
+    'naamah': ('placeholder/naamah', (0.5, 0.2, 0.31), (0.5, 0.07, .75)),
+    'ninsun': ('placeholder/ninsun', (0.48, 0.18, 0.36), (0.48, 0.05, .75)),
+    'princess_zillah': ('placeholder/princess_zillah', (0.5, 0.17, 0.31), (0.5, 0.04, .75)),
+    'salome': ('placeholder/salome', (0.52, 0.2, 0.31), (0.52, 0.07, .75)),
+    'spire_patron': ('placeholder/spire_patron', (0.45, 0.2, 0.31), (0.45, 0.07, .75)),
+    'vashti': ('placeholder/vashti', (0.45, 0.17, 0.29), (0.45, 0.04, .75)),
+    'zipporah': ('placeholder/zipporah', (0.42, 0.2, 0.29), (0.42, 0.07, .75)),
+    'dj_meph_back': ('placeholder/dj_meph', (.5, .12, .2), (.5, 0, .75)),  # same DJ, backstage
+}
+NPC_ART.update(PLACEHOLDER_ART)
 for nid, (fname, (fx, fy, fs), (bx, bt, bs)) in NPC_ART.items():
     im = Image.open(os.path.join(NPC_SRC, fname + '.jpg')).convert('RGB')
     p = im.copy(); p.thumbnail((512, 512), Image.LANCZOS); save(p, 'portraits', nid)
