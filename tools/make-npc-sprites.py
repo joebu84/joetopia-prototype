@@ -1227,12 +1227,70 @@ def enemy_spider():  # Cave Spider: big black spider with purple eyes
 PLACEHOLDER_SPRITES = list(_PH) + ['enemy_wolf', 'enemy_spider', 'dj_meph_back']
 dj_meph_back = _PH and globals()['dj_meph']
 
+# ---- v1.7 / text 2.7.6: Royal Crypt + Eden placeholders, and the flower girl / Ash Wolf (real art) map sprites.
+def _stone(d, x0, y0, x1, y1, c=(120, 118, 125)): R(d, x0, y0, x1, y1, c); R(d, x0, y0, x1, y0, tuple(min(255, v + 40) for v in c))
+def _tomb(cross=GOLD2, lid=(150, 145, 150)):
+    im, d = canvas(); shadow(d); _stone(d, 5, 30, 26, 44, (95, 92, 100)); _stone(d, 4, 27, 27, 30, lid)
+    R(d, 15, 10, 16, 26, cross); R(d, 11, 14, 20, 15, cross); return im
+def _tree(trunk=(90, 60, 35), leaf=(60, 150, 70), fruit=None, glow=None):
+    im, d = canvas(); shadow(d)
+    if glow: d.ellipse([1, 0, 30, 30], fill=glow + (70,))
+    R(d, 14, 26, 17, 44, trunk); d.ellipse([4, 4, 27, 30], fill=leaf)
+    for x, y in ((9, 12), (19, 10), (14, 20), (22, 19), (8, 21)):
+        if fruit: R(d, x, y, x + 1, y + 1, fruit)
+    return im
+def royal_crypt(): return _tomb(GOLD2, (170, 160, 120))
+def thaddeus_tomb():
+    im = _tomb(GOLD2, (190, 175, 120)); d = ImageDraw.Draw(im); P(d, [(x, 25) for x in (9, 12, 15, 18, 21)], GOLD2); return im
+def crypt_grave():
+    im, d = canvas(); shadow(d); d.ellipse([9, 12, 22, 24], fill=(130, 128, 135)); R(d, 9, 18, 22, 42, (130, 128, 135))
+    R(d, 12, 22, 19, 22, (70, 70, 75)); R(d, 12, 26, 19, 26, (70, 70, 75)); R(d, 6, 42, 25, 44, (60, 90, 50)); P(d, [(8, 41), (23, 41)], (240, 220, 90)); return im
+def eden_garden(): return _tree((110, 80, 45), (90, 200, 110), (255, 240, 150), (255, 240, 180))
+def tree_knowledge(): return _tree((70, 45, 30), (40, 110, 60), (200, 30, 40))
+def tree_life(): return _tree((200, 190, 160), (190, 230, 255), (255, 250, 210), (210, 235, 255))
+def ending_thaddeus(): return _ph(skin=SK_L, robe=(130, 30, 50), hair=(120, 90, 60), beard=(130, 100, 70), hat='crown', accent=GOLD2)
+def enemy_flaming_sword():
+    im, d = canvas(); shadow(d); d.polygon([(15, 0), (9, 30), (22, 30)], fill=(255, 140, 30, 150))
+    R(d, 15, 2, 16, 32, (255, 230, 150)); R(d, 10, 32, 21, 33, GOLD2); R(d, 15, 34, 16, 41, (120, 70, 40)); return im
+def enemy_serpent():
+    im, d = canvas(); shadow(d); c = (60, 140, 60)
+    for x, y in ((8, 42), (12, 38), (18, 36), (22, 32), (18, 27), (13, 24), (12, 18)): d.ellipse([x - 4, y - 3, x + 4, y + 3], fill=c)
+    d.ellipse([9, 9, 20, 18], fill=(70, 160, 70)); P(d, [(12, 12), (17, 12)], (255, 220, 40)); R(d, 14, 17, 15, 20, (220, 40, 60)); return im
+def street_flower_girl(): return _ph(skin=SK_L, robe=(200, 40, 50), hair=(150, 90, 50), hood=(200, 30, 40), accent=(250, 240, 120))
+def street_flower_girl_blue(): return _ph(skin=SK_L, robe=(40, 80, 200), hair=(150, 90, 50), hood=(40, 70, 200), accent=(250, 250, 250))
+def _hood_wolf(fur, hood):
+    im = enemy_wolf()
+    if fur != (105, 105, 110):  # recolour the grey Ash Wolf (white wolf under the blue hood)
+        px = im.load(); light = tuple(min(255, v - 50) for v in fur)
+        for x in range(W):
+            for y in range(H):
+                if px[x, y][:3] == (105, 105, 110): px[x, y] = fur + (255,)
+                elif px[x, y][:3] == (60, 60, 66): px[x, y] = light + (255,)
+    d = ImageDraw.Draw(im); R(d, 9, 9, 22, 12, hood); R(d, 9, 9, 10, 20, hood); R(d, 21, 9, 22, 20, hood); return im
+def enemy_ash_wolf_red_hood(): return _hood_wolf((105, 105, 110), (200, 30, 40))
+def enemy_ash_wolf_blue_hood():
+    im = _hood_wolf((230, 230, 235), (40, 70, 200)); return im
+_PH17 = {
+    'enemy_evil_spirit': dict(skin=(200, 205, 230), robe=(150, 160, 210), eyes=(140, 255, 255), ghost=True),
+    'enemy_zombie_goblin': dict(skin=(120, 150, 100), robe=(80, 70, 60), eyes=(230, 230, 120)),
+    'enemy_graverobbers': dict(skin=SK_M, robe=(70, 60, 50), hood=(50, 45, 40), accent=(160, 140, 90)),
+    'enemy_possessed_man': dict(skin=SK_T, robe=(90, 80, 70), hair=(40, 30, 25), beard=(40, 30, 25), eyes=(255, 60, 40)),
+    'enemy_necromancer': dict(skin=(200, 195, 190), robe=(30, 20, 40), hood=(25, 15, 35), eyes=(140, 255, 120), accent=(140, 255, 120)),
+    'enemy_vampire': dict(skin=(235, 230, 235), robe=(20, 15, 20), hair=BLK, eyes=(230, 30, 40), accent=(160, 20, 30)),
+    'draconian_true': dict(skin=(70, 120, 70), robe=(40, 40, 45), eyes=(255, 200, 40), alien=True),
+    'ushapti_true': dict(skin=(150, 155, 165), robe=(60, 60, 80), eyes=(120, 220, 255), alien=True),
+}
+for _k, _kw in _PH17.items(): globals()[_k] = (lambda kw: (lambda: _ph(**kw)))(_kw)
+V17_SPRITES = list(_PH17) + ['royal_crypt', 'thaddeus_tomb', 'crypt_grave', 'eden_garden', 'tree_knowledge', 'tree_life', 'ending_thaddeus',
+    'enemy_flaming_sword', 'enemy_serpent', 'street_flower_girl', 'street_flower_girl_blue', 'enemy_ash_wolf_red_hood', 'enemy_ash_wolf_blue_hood']
+
 
 SPRITES = {'robert': robert, 'ramirez': ramirez, 'rob': rob, 'joseph': joseph, 'miranda': miranda,
            'alex': alex, 'sean': sean, 'alec': alec, 'lydia': lydia, 'lantern_poet': lantern_poet,
            **{k: globals()[k] for k in ('dealer_tamar', 'shamgar', 'dr_spore', 'priscilla_talk', 'barnabas_talk', 'ushapti_smuggler',
               'draconian_bodyguard', 'ash_cultist', 'enlil_ka', 'marduk_ra', 'inanna_shar', 'ushapti_broker', 'under_boss', 'scale_veteran', 'thornback_alpha')},
            **{k: globals()[k] for k in PLACEHOLDER_SPRITES},
+           **{k: globals()[k] for k in V17_SPRITES},
            'enc_guard': enc_guard, 'enc_preacher': enc_preacher, 'enc_egirl': enc_egirl,
            'enc_trader': enc_trader, 'enc_goblins': enc_goblins, 'enc_fans': enc_fans,
            **{f'street_{k}': globals()[f'street_{k}'] for k in ('punks', 'drunk', 'party_girls', 'beggar', 'geneticist', 'preacher',

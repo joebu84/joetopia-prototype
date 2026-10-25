@@ -1,6 +1,6 @@
 # Joetopia text RPG (browser)
 
-The same game as **Joetopia.apk** (text 2.7.5, vc23), in the browser. It does not use the top-down World version.
+The same game as **Joetopia.apk** (text 2.7.6, vc24), in the browser. It does not use the top-down World version.
 
 - `joetopia-engine.js` is the Android `game/*.kt` engine compiled with Kotlin/JS, unchanged (see `../engine-src`, `sync.sh`). The page calls it through the small `JoetopiaText` facade (`engine-src/api/TextApi.kt`). Story, encounters, odds, classes and choices all come from the APK code.
 - `art/` holds the same portrait and event pictures the APK bundles. They are chosen by the APK's own `Pictures.idFor`.

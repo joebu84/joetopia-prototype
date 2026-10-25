@@ -46,6 +46,14 @@
       // PLACEHOLDER art (v1.6): generated stand-ins, joetopia-art-src/placeholder/ + PLACEHOLDER_ART in tools/make-encounter-art.py.
       // Listed in placeholders below; swap a picture by replacing its source and rerunning the tools (same id). local = any generic loc_* local.
       spire_patron: 'spire_patron', chrome_broker: 'chrome_broker', zipporah: 'zipporah', ninsun: 'ninsun', methuselah: 'methuselah', jezebel: 'jezebel', ezra: 'ezra', grey_acolyte: 'grey_acolyte', hagar: 'hagar', asher: 'asher', dj_meph: 'dj_meph', dj_meph_back: 'dj_meph_back', keziah: 'keziah', boaz: 'boaz', lilith_spin: 'lilith_spin', delilah: 'delilah', jonah: 'jonah', salome: 'salome', gideon: 'gideon', naamah: 'naamah', jojo_neon: 'jojo_neon', princess_zillah: 'princess_zillah', doctor_conspiracy: 'doctor_conspiracy', azazel: 'azazel', vashti: 'vashti', local: 'local', enemy_wolf: 'enemy_wolf', enemy_bandit: 'enemy_bandit', enemy_spider: 'enemy_spider', enemy_guard: 'enemy_guard', enemy_skeleton: 'enemy_skeleton', enemy_wraith: 'enemy_wraith', enemy_matriarch: 'enemy_matriarch', enemy_morvane: 'enemy_morvane',
+      // v1.7 / 2.7.6: Royal Crypt + Eden PLACEHOLDERS (tools/make-crypt-eden-art.py) and the flower girl / Ash Wolf REAL art (uncropped)
+      enemy_evil_spirit: 'enemy_evil_spirit', enemy_zombie_goblin: 'enemy_zombie_goblin', enemy_graverobbers: 'enemy_graverobbers',
+      enemy_possessed_man: 'enemy_possessed_man', enemy_necromancer: 'enemy_necromancer', enemy_vampire: 'enemy_vampire',
+      royal_crypt: 'royal_crypt', thaddeus_tomb: 'thaddeus_tomb', crypt_grave: 'crypt_grave',
+      enemy_flaming_sword: 'enemy_flaming_sword', enemy_serpent: 'enemy_serpent', eden_garden: 'eden_garden', tree_knowledge: 'tree_knowledge',
+      tree_life: 'tree_life', ending_thaddeus: 'ending_thaddeus', draconian_true: 'draconian_true', ushapti_true: 'ushapti_true',
+      street_flower_girl: 'street_flower_girl', street_flower_girl_blue: 'street_flower_girl_blue',
+      enemy_ash_wolf_red_hood: 'enemy_ash_wolf_red_hood', enemy_ash_wolf_blue_hood: 'enemy_ash_wolf_blue_hood',
       dr_spore: 'dr_spore',  // Dr. Nyxariel Spore's lab (a scene, placed by JOETOPIA_UI.npcSpots)
       ushapti_smuggler: 'ushapti_smuggler', draconian_bodyguard: 'draconian_bodyguard', ash_cultist: 'ash_cultist',
       enlil_ka: 'enlil_ka', marduk_ra: 'marduk_ra', inanna_shar: 'inanna_shar', ushapti_broker: 'ushapti_broker',
@@ -107,9 +115,15 @@
       street_dance_stranger_1: 'street_dance_stranger_1', street_dance_stranger_2: 'street_dance_stranger_2', street_dance_stranger_3: 'street_dance_stranger_3', street_dance_stranger_4: 'street_dance_stranger_4', street_dance_stranger_5: 'street_dance_stranger_5',
       street_bar_drinker_1: 'street_bar_drinker_1', street_bar_drinker_2: 'street_bar_drinker_2', street_bar_drinker_3: 'street_bar_drinker_3', street_bar_drinker_4: 'street_bar_drinker_4', street_bar_drinker_5: 'street_bar_drinker_5', street_bar_drinker_6: 'street_bar_drinker_6' },
     // Street kinds without their own picture borrow one: kind id -> character id.
-    streetArt: { offduty: 'enc_guard', red_goblin_spot: 'street_goblin_banger', blue_goblin_spot: 'street_goblin_banger_blue' },
+    streetArt: { offduty: 'enc_guard', red_goblin_spot: 'street_goblin_banger', blue_goblin_spot: 'street_goblin_banger_blue',
+      crypt_spirit: 'enemy_evil_spirit', crypt_zombie_goblin: 'enemy_zombie_goblin', crypt_graverobbers: 'enemy_graverobbers', crypt_possessed: 'enemy_possessed_man',
+      crypt_grave: 'crypt_grave', crypt_necromancer: 'enemy_necromancer', crypt_vampire: 'enemy_vampire',
+      // the four flower girls: red / blue hood; the wolf hides behind the girl's picture until she shows her teeth
+      flower_girl_wolf: 'street_flower_girl', flower_girl_wolf_blue: 'street_flower_girl_blue' },
     // Pictures shown on the map message box when the log matches (things that happen outside a scene).
     logArt: [
+      { re: /the Ash Wolf in her little red hood\. She sniffs|Under the little red hood, something grins|sniffs your red colours and laughs|under the red hood studies you|leaving her little red hood behind/, id: 'enemy_ash_wolf_red_hood' },
+      { re: /the Ash Wolf in her little blue hood\. She sniffs|Under the little blue hood, something grins|sniffs your blue colours and laughs|under the blue hood studies you|leaving her little blue hood behind/, id: 'enemy_ash_wolf_blue_hood' },
       { re: /TEMPTRESS!|Temptress[,!.]|show your face here for/, id: 'street_temptress', sprite: true },
       { re: /man in a dark toga watches you|Same dark toga/, id: 'street_creep', small: true },
       { re: /Adrenochrome Vial|ADRENOCHROME/, id: 'street_adrenochrome', small: true },
@@ -134,7 +148,7 @@
       { re: /Blue-Taped Shiv/, id: 'street_blue_shiv', small: true },
       { re: /Goblin Slingshot/, id: 'street_goblin_slingshot', small: true },
     ],
-    placeholderArt: ['spire_patron', 'chrome_broker', 'zipporah', 'ninsun', 'methuselah', 'jezebel', 'ezra', 'grey_acolyte', 'hagar', 'asher', 'dj_meph', 'dj_meph_back', 'keziah', 'boaz', 'lilith_spin', 'delilah', 'jonah', 'salome', 'gideon', 'naamah', 'jojo_neon', 'princess_zillah', 'doctor_conspiracy', 'azazel', 'vashti', 'local', 'enemy_wolf', 'enemy_bandit', 'enemy_spider', 'enemy_guard', 'enemy_skeleton', 'enemy_wraith', 'enemy_matriarch', 'enemy_morvane', 'street_gnome'],  // placeholder: true (generated art, swap any time)
+    placeholderArt: ['spire_patron', 'chrome_broker', 'zipporah', 'ninsun', 'methuselah', 'jezebel', 'ezra', 'grey_acolyte', 'hagar', 'asher', 'dj_meph', 'dj_meph_back', 'keziah', 'boaz', 'lilith_spin', 'delilah', 'jonah', 'salome', 'gideon', 'naamah', 'jojo_neon', 'princess_zillah', 'doctor_conspiracy', 'azazel', 'vashti', 'local', 'enemy_wolf', 'enemy_bandit', 'enemy_spider', 'enemy_guard', 'enemy_skeleton', 'enemy_wraith', 'enemy_matriarch', 'enemy_morvane', 'street_gnome', 'enemy_evil_spirit', 'enemy_zombie_goblin', 'enemy_graverobbers', 'enemy_possessed_man', 'enemy_necromancer', 'enemy_vampire', 'royal_crypt', 'thaddeus_tomb', 'crypt_grave', 'enemy_flaming_sword', 'enemy_serpent', 'eden_garden', 'tree_knowledge', 'tree_life', 'ending_thaddeus', 'draconian_true', 'ushapti_true'],  // placeholder: true (generated art, swap any time)
     npcs: {}, faces: {}, portraits: {}, busts: {}, events: {},
     enemies: {},             // battle sprite per enemy id, e.g. wolf: 'art/enemies/wolf.png'
     // Fights whose enemy is one of the characters above: enemy id (or street-event name) -> character id.
@@ -150,7 +164,9 @@
       dance_pickpocket: 'street_dance_pickpocket', dance_boyfriend: 'street_dance_boyfriend',
       rave_bouncer: 'shamgar', thug: 'ushapti_smuggler', draconian: 'draconian_bodyguard', cultist: 'ash_cultist',
       enlil: 'enlil_ka', marduk: 'marduk_ra', inanna: 'inanna_shar', ushapti: 'ushapti_broker', alpha: 'thornback_alpha',
-      wolf: 'enemy_wolf', bandit: 'enemy_bandit', spider: 'enemy_spider', guard: 'enemy_guard', skeleton: 'enemy_skeleton', wraith: 'enemy_wraith', matriarch: 'enemy_matriarch', morvane: 'enemy_morvane' },  // the guards fight shows the chariot driver
+      wolf: 'enemy_wolf', bandit: 'enemy_bandit', spider: 'enemy_spider', guard: 'enemy_guard', skeleton: 'enemy_skeleton', wraith: 'enemy_wraith', matriarch: 'enemy_matriarch', morvane: 'enemy_morvane',
+      evil_spirit: 'enemy_evil_spirit', zombie_goblin: 'enemy_zombie_goblin', graverobbers: 'enemy_graverobbers', possessed_man: 'enemy_possessed_man', necromancer: 'enemy_necromancer', vampire: 'enemy_vampire',
+      flaming_sword: 'enemy_flaming_sword', serpent: 'enemy_serpent', red_hood_wolf: 'enemy_ash_wolf_red_hood', blue_hood_wolf: 'enemy_ash_wolf_blue_hood' },  // the guards fight shows the chariot driver
     objects: {               // map markers for shops, crowds and things to do
       shop: 'art/sprites/shop.png', crowd: 'art/sprites/crowd.png', fight: 'art/sprites/fight.png',
       event: 'art/sprites/event.png', drink: 'art/sprites/drink.png', dance: 'art/sprites/dance.png',
@@ -167,6 +183,6 @@
   for (const [id, stem] of Object.entries(A.characters)) {
     A.npcs[id] = A.npcs[id] || `art/npcs/${stem}.png${v}`; A.faces[id] = A.faces[id] || `art/faces/${stem}.webp${v}`;
     A.portraits[id] = A.portraits[id] || `art/portraits/${stem}.webp${v}`; A.busts[id] = A.busts[id] || `art/busts/${stem}.webp${v}`;
-    if (/^(enc|street)_/.test(id)) A.events[id] = A.events[id] || `art/events/${stem}.webp${v}`;
+    if (/^(enc|street)_/.test(id) || /^(royal_crypt|thaddeus_tomb|crypt_grave|eden_garden|tree_knowledge|tree_life|ending_thaddeus)$/.test(id)) A.events[id] = A.events[id] || `art/events/${stem}.webp${v}`;
   }
 })();

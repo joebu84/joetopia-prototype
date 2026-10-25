@@ -5,8 +5,9 @@ const root = path.join(__dirname, '..'); const store = {};
 const ctx = { console, localStorage: { getItem: k => k in store ? store[k] : null, setItem: (k, v) => store[k] = String(v), removeItem: k => delete store[k] } };
 vm.createContext(ctx); vm.runInContext(fs.readFileSync(path.join(root, 'engine/joetopia-engine.js'), 'utf8'), ctx);
 const api = ctx.JoetopiaKt.com.grokbot.joetopia.game.JoetopiaApi;
-api.reset(1); api.debug('create', 'BOUNCER', 'Tester'); api.choose(0, ''); api.debug('rates', '0', '0');
-const extra = ['intro', 'courtyard', 'throne', 'ziggurat', 'sanctum', 'alley', 'megavip', 'backstage'];
+api.reset(1); api.debug('create', 'BOUNCER', 'Tester'); api.choose(0, ''); api.debug('rates', '0', '0'); api.debug('flowers', 'off', '');
+const extra = ['intro', 'courtyard', 'throne', 'ziggurat', 'sanctum', 'alley', 'megavip', 'backstage',
+  'crypt_stair', 'crypt_hall', 'crypt_ossuary', 'crypt_chapel', 'thaddeus_tomb', 'eden_gate', 'eden_garden', 'tree_knowledge', 'tree_life'];
 const seen = {}, parent = {}, q = ['village']; const out = {};
 function biome(n, kind) {
   if (/^d_[a-z]+$/.test(n) || ['neverland', 'docks', 'alley'].includes(n) || /_landmark$/.test(n)) return 'city';
@@ -17,6 +18,8 @@ function biome(n, kind) {
   if (['cave', 'lake'].includes(n)) return 'cave';
   if (['rave', 'vip', 'dealer'].includes(n)) return 'cavern_club';
   if (n === 'castle_gate') return 'wilds';
+  if (/^crypt_|^thaddeus_tomb$/.test(n)) return 'cave';
+  if (/^eden_|^tree_(knowledge|life)$/.test(n)) return 'forest';
   if (['courtyard', 'throne'].includes(n)) return 'castle';
   return kind === 'city' ? 'interior_city' : 'interior';
 }

@@ -29,5 +29,8 @@ for cid, jpg in CHARS.items():
     im = Image.open(os.path.join(SRC, jpg + '.jpg')).convert('RGB'); im.thumbnail((LONG, LONG), Image.LANCZOS)
     im.save(os.path.join(OUT, 'portraits', cid + '.webp'), 'WEBP', quality=72, method=6)
 shutil.rmtree(tmp)
+# v1.7 / 2.7.6: Royal Crypt + Eden placeholders and the flower-girl portraits (additive script, also refreshes text/art)
+if OUT.endswith('android-text-rpg/app/src/main/assets/art'):
+    subprocess.run([sys.executable, os.path.join(HERE, 'make-crypt-eden-art.py')], check=True, stdout=subprocess.DEVNULL)
 n = sum(len(fs) for _, _, fs in os.walk(OUT)); size = sum(os.path.getsize(os.path.join(d, f)) for d, _, fs in os.walk(OUT) for f in fs)
 print('wrote %d pictures, %.1f MB to %s' % (n, size / 1e6, OUT))

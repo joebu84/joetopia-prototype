@@ -425,6 +425,8 @@ NPC_ART = {  # id: (file under joetopia-art-src, (face cx, cy, s), (bust cx, top
 # PLACEHOLDER portraits (v1.6 / text 2.7.5): generated stand-ins in joetopia-art-src/placeholder/<file>.jpg for every named
 # NPC, enemy and boss that had no real art (listed in placeholder/placeholders.json, flagged in placeholderArt in data/art.js).
 # TO SWAP ONE: put the real picture in npc/ (or enemy/, boss/), move its line from here to NPC_ART above, rerun. Same ids.
+# v1.7 / text 2.7.6: the Royal Crypt + Eden placeholders and the four flower-girl portraits are made by
+# tools/make-crypt-eden-art.py (listed in placeholder/placeholders.json, flagged in placeholderArt).
 PLACEHOLDER_ART = {
     'asher': ('placeholder/asher', (0.4, 0.22, 0.34), (0.4, 0.09, .75)),
     'azazel': ('placeholder/azazel', (0.42, 0.17, 0.31), (0.42, 0.04, .75)),
