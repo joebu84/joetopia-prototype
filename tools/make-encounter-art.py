@@ -427,6 +427,8 @@ NPC_ART = {  # id: (file under joetopia-art-src, (face cx, cy, s), (bust cx, top
 # TO SWAP ONE: put the real picture in npc/ (or enemy/, boss/), move its line from here to NPC_ART above, rerun. Same ids.
 # v1.7 / text 2.7.6: the Royal Crypt + Eden placeholders and the four flower-girl portraits are made by
 # tools/make-crypt-eden-art.py (listed in placeholder/placeholders.json, flagged in placeholderArt).
+# v1.8 / text 2.7.7: the eight Babylon district backdrops (district_spire, district_chrome, district_lantern, district_scale,
+# district_under, district_core, district_neon_abyss, district_docks) are also made by tools/make-crypt-eden-art.py.
 PLACEHOLDER_ART = {
     'asher': ('placeholder/asher', (0.4, 0.22, 0.34), (0.4, 0.09, .75)),
     'azazel': ('placeholder/azazel', (0.42, 0.17, 0.31), (0.42, 0.04, .75)),

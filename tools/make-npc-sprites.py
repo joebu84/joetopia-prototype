@@ -1284,6 +1284,17 @@ for _k, _kw in _PH17.items(): globals()[_k] = (lambda kw: (lambda: _ph(**kw)))(_
 V17_SPRITES = list(_PH17) + ['royal_crypt', 'thaddeus_tomb', 'crypt_grave', 'eden_garden', 'tree_knowledge', 'tree_life', 'ending_thaddeus',
     'enemy_flaming_sword', 'enemy_serpent', 'street_flower_girl', 'street_flower_girl_blue', 'enemy_ash_wolf_red_hood', 'enemy_ash_wolf_blue_hood']
 
+# ---- v1.8 / text 2.7.7: Babylon district backdrops (scene placeholders): a tiny black-and-gold tower with a neon sign.
+def _district(neon, roof=GOLD2, wall=(30, 26, 36)):
+    im, d = canvas(); shadow(d); R(d, 8, 14, 23, 44, wall); R(d, 11, 6, 20, 13, wall); R(d, 13, 2, 18, 5, roof)
+    R(d, 8, 14, 23, 15, roof); R(d, 11, 6, 20, 7, roof); R(d, 10, 20, 21, 23, neon)
+    for y in (28, 34): P(d, [(11, y), (15, y), (19, y)], (255, 220, 120))
+    R(d, 14, 39, 17, 44, (10, 8, 12)); return im
+_DIST = {'district_spire': (255, 200, 80), 'district_chrome': (80, 220, 255), 'district_lantern': (255, 150, 60), 'district_scale': (220, 40, 50),
+         'district_under': (170, 90, 255), 'district_core': (255, 60, 200), 'district_neon_abyss': (230, 80, 255), 'district_docks': (120, 160, 255)}
+for _k, _c in _DIST.items(): globals()[_k] = (lambda c: (lambda: _district(c)))(_c)
+V18_SPRITES = list(_DIST)
+
 
 SPRITES = {'robert': robert, 'ramirez': ramirez, 'rob': rob, 'joseph': joseph, 'miranda': miranda,
            'alex': alex, 'sean': sean, 'alec': alec, 'lydia': lydia, 'lantern_poet': lantern_poet,
@@ -1291,6 +1302,7 @@ SPRITES = {'robert': robert, 'ramirez': ramirez, 'rob': rob, 'joseph': joseph, '
               'draconian_bodyguard', 'ash_cultist', 'enlil_ka', 'marduk_ra', 'inanna_shar', 'ushapti_broker', 'under_boss', 'scale_veteran', 'thornback_alpha')},
            **{k: globals()[k] for k in PLACEHOLDER_SPRITES},
            **{k: globals()[k] for k in V17_SPRITES},
+           **{k: globals()[k] for k in V18_SPRITES},
            'enc_guard': enc_guard, 'enc_preacher': enc_preacher, 'enc_egirl': enc_egirl,
            'enc_trader': enc_trader, 'enc_goblins': enc_goblins, 'enc_fans': enc_fans,
            **{f'street_{k}': globals()[f'street_{k}'] for k in ('punks', 'drunk', 'party_girls', 'beggar', 'geneticist', 'preacher',

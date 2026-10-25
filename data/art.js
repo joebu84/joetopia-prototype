@@ -54,6 +54,8 @@
       tree_life: 'tree_life', ending_thaddeus: 'ending_thaddeus', draconian_true: 'draconian_true', ushapti_true: 'ushapti_true',
       street_flower_girl: 'street_flower_girl', street_flower_girl_blue: 'street_flower_girl_blue',
       enemy_ash_wolf_red_hood: 'enemy_ash_wolf_red_hood', enemy_ash_wolf_blue_hood: 'enemy_ash_wolf_blue_hood',
+      // v1.8 / 2.7.7: Babylon district backdrop PLACEHOLDERS (scene banners, tools/make-crypt-eden-art.py)
+      district_spire: 'district_spire', district_chrome: 'district_chrome', district_lantern: 'district_lantern', district_scale: 'district_scale', district_under: 'district_under', district_core: 'district_core', district_neon_abyss: 'district_neon_abyss', district_docks: 'district_docks',
       dr_spore: 'dr_spore',  // Dr. Nyxariel Spore's lab (a scene, placed by JOETOPIA_UI.npcSpots)
       ushapti_smuggler: 'ushapti_smuggler', draconian_bodyguard: 'draconian_bodyguard', ash_cultist: 'ash_cultist',
       enlil_ka: 'enlil_ka', marduk_ra: 'marduk_ra', inanna_shar: 'inanna_shar', ushapti_broker: 'ushapti_broker',
@@ -148,7 +150,7 @@
       { re: /Blue-Taped Shiv/, id: 'street_blue_shiv', small: true },
       { re: /Goblin Slingshot/, id: 'street_goblin_slingshot', small: true },
     ],
-    placeholderArt: ['spire_patron', 'chrome_broker', 'zipporah', 'ninsun', 'methuselah', 'jezebel', 'ezra', 'grey_acolyte', 'hagar', 'asher', 'dj_meph', 'dj_meph_back', 'keziah', 'boaz', 'lilith_spin', 'delilah', 'jonah', 'salome', 'gideon', 'naamah', 'jojo_neon', 'princess_zillah', 'doctor_conspiracy', 'azazel', 'vashti', 'local', 'enemy_wolf', 'enemy_bandit', 'enemy_spider', 'enemy_guard', 'enemy_skeleton', 'enemy_wraith', 'enemy_matriarch', 'enemy_morvane', 'street_gnome', 'enemy_evil_spirit', 'enemy_zombie_goblin', 'enemy_graverobbers', 'enemy_possessed_man', 'enemy_necromancer', 'enemy_vampire', 'royal_crypt', 'thaddeus_tomb', 'crypt_grave', 'enemy_flaming_sword', 'enemy_serpent', 'eden_garden', 'tree_knowledge', 'tree_life', 'ending_thaddeus', 'draconian_true', 'ushapti_true'],  // placeholder: true (generated art, swap any time)
+    placeholderArt: ['spire_patron', 'chrome_broker', 'zipporah', 'ninsun', 'methuselah', 'jezebel', 'ezra', 'grey_acolyte', 'hagar', 'asher', 'dj_meph', 'dj_meph_back', 'keziah', 'boaz', 'lilith_spin', 'delilah', 'jonah', 'salome', 'gideon', 'naamah', 'jojo_neon', 'princess_zillah', 'doctor_conspiracy', 'azazel', 'vashti', 'local', 'enemy_wolf', 'enemy_bandit', 'enemy_spider', 'enemy_guard', 'enemy_skeleton', 'enemy_wraith', 'enemy_matriarch', 'enemy_morvane', 'street_gnome', 'enemy_evil_spirit', 'enemy_zombie_goblin', 'enemy_graverobbers', 'enemy_possessed_man', 'enemy_necromancer', 'enemy_vampire', 'royal_crypt', 'thaddeus_tomb', 'crypt_grave', 'enemy_flaming_sword', 'enemy_serpent', 'eden_garden', 'tree_knowledge', 'tree_life', 'ending_thaddeus', 'draconian_true', 'ushapti_true', 'district_spire', 'district_chrome', 'district_lantern', 'district_scale', 'district_under', 'district_core', 'district_neon_abyss', 'district_docks'],  // placeholder: true (generated art, swap any time)
     npcs: {}, faces: {}, portraits: {}, busts: {}, events: {},
     enemies: {},             // battle sprite per enemy id, e.g. wolf: 'art/enemies/wolf.png'
     // Fights whose enemy is one of the characters above: enemy id (or street-event name) -> character id.
@@ -183,6 +185,6 @@
   for (const [id, stem] of Object.entries(A.characters)) {
     A.npcs[id] = A.npcs[id] || `art/npcs/${stem}.png${v}`; A.faces[id] = A.faces[id] || `art/faces/${stem}.webp${v}`;
     A.portraits[id] = A.portraits[id] || `art/portraits/${stem}.webp${v}`; A.busts[id] = A.busts[id] || `art/busts/${stem}.webp${v}`;
-    if (/^(enc|street)_/.test(id) || /^(royal_crypt|thaddeus_tomb|crypt_grave|eden_garden|tree_knowledge|tree_life|ending_thaddeus)$/.test(id)) A.events[id] = A.events[id] || `art/events/${stem}.webp${v}`;
+    if (/^(enc|street)_/.test(id) || /^(royal_crypt|thaddeus_tomb|crypt_grave|eden_garden|tree_knowledge|tree_life|ending_thaddeus)$/.test(id) || /^district_/.test(id)) A.events[id] = A.events[id] || `art/events/${stem}.webp${v}`;
   }
 })();

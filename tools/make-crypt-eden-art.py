@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """v1.7 / text 2.7.6 art: Royal Crypt + Eden placeholders and the four flower-girl portraits.
+v1.8 / text 2.7.7: + the eight Babylon district backdrops (district_*).
 Additive only (never deletes). Writes:
   joetopia-web/art/{portraits 512, faces 160 sq, busts 256 sq, events 512x288 (landscape sources only)}
   android-text-rpg assets/art/{portraits 800 long side, events 800x450 (landscape only)}  WebP q72
@@ -19,6 +20,15 @@ ART = {  # art id -> source (relative to SRC); 'placeholder/' = generated stand-
     'enemy_flaming_sword': 'placeholder/flaming_sword', 'enemy_serpent': 'placeholder/serpent',
     'eden_garden': 'placeholder/eden_garden', 'tree_knowledge': 'placeholder/tree_knowledge', 'tree_life': 'placeholder/tree_life',
     'ending_thaddeus': 'placeholder/ending_thaddeus', 'draconian_true': 'placeholder/draconian_true', 'ushapti_true': 'placeholder/ushapti_true',
+    # v1.8 / text 2.7.7: Babylon district backdrops (PLACEHOLDERS, 16:9 scenes)
+    'district_spire': 'placeholder/district_spire',
+    'district_chrome': 'placeholder/district_chrome',
+    'district_lantern': 'placeholder/district_lantern',
+    'district_scale': 'placeholder/district_scale',
+    'district_under': 'placeholder/district_under',
+    'district_core': 'placeholder/district_core',
+    'district_neon_abyss': 'placeholder/district_neon_abyss',
+    'district_docks': 'placeholder/district_docks',
     # real art (user-supplied), uncropped
     'street_flower_girl': 'npc/flower_girl', 'street_flower_girl_blue': 'npc/flower_girl_blue',
     'enemy_ash_wolf_red_hood': 'enemy/ash_wolf_red_hood', 'enemy_ash_wolf_blue_hood': 'enemy/ash_wolf_blue_hood',
