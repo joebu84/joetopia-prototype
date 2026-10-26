@@ -56,6 +56,7 @@
       enemy_ash_wolf_red_hood: 'enemy_ash_wolf_red_hood', enemy_ash_wolf_blue_hood: 'enemy_ash_wolf_blue_hood',
       // v1.8 / 2.7.7: Babylon district backdrop PLACEHOLDERS (scene banners, tools/make-crypt-eden-art.py)
       district_spire: 'district_spire', district_chrome: 'district_chrome', district_lantern: 'district_lantern', district_scale: 'district_scale', district_under: 'district_under', district_core: 'district_core', district_neon_abyss: 'district_neon_abyss', district_docks: 'district_docks',
+      evelyn: 'evelyn',  // v1.9 / 2.7.8: Pastor Evelyn, Toadstool Forest mission tent (REAL art, joetopia-art-src/npc/evelyn.jpg, cropped face and shoulders)
       dr_spore: 'dr_spore',  // Dr. Nyxariel Spore's lab (a scene, placed by JOETOPIA_UI.npcSpots)
       ushapti_smuggler: 'ushapti_smuggler', draconian_bodyguard: 'draconian_bodyguard', ash_cultist: 'ash_cultist',
       enlil_ka: 'enlil_ka', marduk_ra: 'marduk_ra', inanna_shar: 'inanna_shar', ushapti_broker: 'ushapti_broker',

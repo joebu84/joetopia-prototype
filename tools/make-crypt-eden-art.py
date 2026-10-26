@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """v1.7 / text 2.7.6 art: Royal Crypt + Eden placeholders and the four flower-girl portraits.
 v1.8 / text 2.7.7: + the eight Babylon district backdrops (district_*).
+v1.9 / text 2.7.8: + Pastor Evelyn (real art, cropped to face and shoulders).
 Additive only (never deletes). Writes:
   joetopia-web/art/{portraits 512, faces 160 sq, busts 256 sq, events 512x288 (landscape sources only)}
   android-text-rpg assets/art/{portraits 800 long side, events 800x450 (landscape only)}  WebP q72
@@ -32,6 +33,9 @@ ART = {  # art id -> source (relative to SRC); 'placeholder/' = generated stand-
     # real art (user-supplied), uncropped
     'street_flower_girl': 'npc/flower_girl', 'street_flower_girl_blue': 'npc/flower_girl_blue',
     'enemy_ash_wolf_red_hood': 'enemy/ash_wolf_red_hood', 'enemy_ash_wolf_blue_hood': 'enemy/ash_wolf_blue_hood',
+    # v1.9 / text 2.7.8: Pastor Evelyn, REAL art (user-supplied npc/evelyn.jpg), pre-cropped head-to-book (face and shoulders)
+    # as npc/evelyn_portrait.jpg: im.crop((205, 22, 655, 502)) of the 784x1168 original.
+    'evelyn': 'npc/evelyn_portrait',
 }
 def save(im, root, sub, name, q):
     os.makedirs(os.path.join(root, sub), exist_ok=True); im.save(os.path.join(root, sub, name + '.webp'), 'WEBP', quality=q, method=6)

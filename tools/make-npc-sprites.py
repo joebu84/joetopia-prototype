@@ -1295,6 +1295,18 @@ _DIST = {'district_spire': (255, 200, 80), 'district_chrome': (80, 220, 255), 'd
 for _k, _c in _DIST.items(): globals()[_k] = (lambda c: (lambda: _district(c)))(_c)
 V18_SPRITES = list(_DIST)
 
+# ---- v1.9 / text 2.7.8: Pastor Evelyn, missionary to the Toadstool Forest (real art: joetopia-art-src/npc/evelyn.jpg)
+def evelyn():  # red braid, pith helmet, khaki safari dress, belt pouches, black Bible
+    im, d = canvas(); shadow(d); skin = (235, 200, 175); khaki = (165, 150, 105); hair = (170, 70, 35); helmet = (200, 180, 130)
+    legs(d, skin, top=34, shoe=(185, 170, 130)); R(d, 10, 19, 21, 35, khaki); arms(d, skin, skin)
+    R(d, 10, 27, 21, 28, (215, 210, 195)); R(d, 9, 28, 11, 31, (215, 210, 195))  # belt + pouch
+    R(d, 19, 22, 24, 28, (25, 22, 20)); P(d, [(19, 22), (24, 22)], (200, 170, 70))  # Bible
+    R(d, 13, 18, 18, 19, skin); head(d, skin, 6, eyes=(70, 110, 90))
+    R(d, 20, 9, 21, 22, hair); P(d, [(20, 23), (21, 23)], hair)  # braid over the shoulder
+    R(d, 8, 5, 23, 6, helmet); R(d, 11, 1, 20, 5, helmet); R(d, 11, 4, 20, 4, (120, 105, 75))  # pith helmet + band
+    return im
+V19_SPRITES = ['evelyn']
+
 
 SPRITES = {'robert': robert, 'ramirez': ramirez, 'rob': rob, 'joseph': joseph, 'miranda': miranda,
            'alex': alex, 'sean': sean, 'alec': alec, 'lydia': lydia, 'lantern_poet': lantern_poet,
@@ -1303,6 +1315,7 @@ SPRITES = {'robert': robert, 'ramirez': ramirez, 'rob': rob, 'joseph': joseph, '
            **{k: globals()[k] for k in PLACEHOLDER_SPRITES},
            **{k: globals()[k] for k in V17_SPRITES},
            **{k: globals()[k] for k in V18_SPRITES},
+           **{k: globals()[k] for k in V19_SPRITES},
            'enc_guard': enc_guard, 'enc_preacher': enc_preacher, 'enc_egirl': enc_egirl,
            'enc_trader': enc_trader, 'enc_goblins': enc_goblins, 'enc_fans': enc_fans,
            **{f'street_{k}': globals()[f'street_{k}'] for k in ('punks', 'drunk', 'party_girls', 'beggar', 'geneticist', 'preacher',
