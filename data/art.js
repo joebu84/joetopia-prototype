@@ -105,6 +105,7 @@
       // Toadstool Forest (Forest.kt, ~20% per move in the forest): REAL art joetopia-art-src/forest/{troll,weirdo,trustworthy_human,unicorn,pixie}.jpg
       // (pixie = PG-13 crop: head, shoulders, upper wings only). The gnome is a PLACEHOLDER card. Item pictures: horn + wings cropped from the
       // jpgs, the rest are sprite cards. TO SWAP: drop joetopia-art-src/forest/<id>.jpg, tune FOREST_CROP, rerun tools/make-encounter-art.py.
+      street_lost_explorer: 'street_lost_explorer', street_crypt_explorer: 'street_crypt_explorer', street_under_explorer: 'street_under_explorer', street_explorers_guild: 'street_explorers_guild',  // v1.9 Lost Explorers (REAL art, encounter/lost_explorer*.jpg, face and shoulders)
       street_troll: 'street_troll', street_weirdo: 'street_weirdo', street_trustworthy_human: 'street_trustworthy_human', street_unicorn: 'street_unicorn', street_pixie: 'street_pixie', street_gnome: 'street_gnome', street_unicorn_horn: 'street_unicorn_horn', street_pixie_wings: 'street_pixie_wings', street_gnome_hat: 'street_gnome_hat', street_work_jeans: 'street_work_jeans', street_flannel_shirt: 'street_flannel_shirt', street_woodsman_axe: 'street_woodsman_axe', street_unicorn_wand: 'street_unicorn_wand', street_unicorn_sword: 'street_unicorn_sword', street_unicorn_heels: 'street_unicorn_heels',
       // Goblin Bangers: goblin_banger.jpg = RED crew (blue skin, red bandana, SMG); goblin_banger_blue.jpg = BLUE crew (red skin, blue bandana, revolver). Items = sprite cards.
       street_goblin_banger: 'street_goblin_banger', street_goblin_banger_blue: 'street_goblin_banger_blue', street_goblin_zapper: 'street_goblin_zapper', street_banger_bandana: 'street_banger_bandana', street_red_shiv: 'street_red_shiv', street_bike_chain: 'street_bike_chain', street_stem_bat: 'street_stem_bat', street_goblin_revolver: 'street_goblin_revolver', street_blue_bandana: 'street_blue_bandana', street_blue_shiv: 'street_blue_shiv', street_goblin_slingshot: 'street_goblin_slingshot', street_big_booma: 'street_big_booma', street_ballistic_hat: 'street_ballistic_hat',
@@ -161,6 +162,7 @@
       rogue_drone: 'street_drone', noble: 'street_noble', creep: 'street_creep',
       undercroft_pirates: 'street_pirates', sewer_rats: 'street_rats', drunken_sailor: 'street_sailor', kraken: 'street_kraken',
       scale_duelist: 'street_duel', bald_brawlers: 'street_bald_brawl', toll_guard: 'street_toll_path', spire_guards: 'street_runaway_chariot', wizard: 'street_wizard_couriers',
+      lost_explorer: 'street_lost_explorer', crypt_explorer: 'street_crypt_explorer', under_explorer: 'street_under_explorer', explorers_guild: 'street_explorers_guild',
       troll: 'street_troll', weirdo: 'street_weirdo', unicorn: 'street_unicorn', pixie: 'street_pixie', gnome: 'street_gnome',
       goblin_banger: 'street_goblin_banger', goblin_banger_blue: 'street_goblin_banger_blue',
       goblin_unaffiliated: 'street_goblin_unaffiliated', mother_bigfoot: 'street_bigfoot',

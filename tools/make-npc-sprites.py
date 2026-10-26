@@ -1305,7 +1305,36 @@ def evelyn():  # red braid, pith helmet, khaki safari dress, belt pouches, black
     R(d, 20, 9, 21, 22, hair); P(d, [(20, 23), (21, 23)], hair)  # braid over the shoulder
     R(d, 8, 5, 23, 6, helmet); R(d, 11, 1, 20, 5, helmet); R(d, 11, 4, 20, 4, (120, 105, 75))  # pith helmet + band
     return im
-V19_SPRITES = ['evelyn']
+def street_lost_explorer():  # shaved head, gold neck coils, torn green dress, white boots
+    im, d = canvas(); shadow(d); skin = (150, 100, 70); green = (60, 120, 70); gold = (225, 185, 60)
+    legs(d, skin, top=34, shoe=(235, 235, 230)); R(d, 10, 19, 21, 35, green); arms(d, skin, skin)
+    R(d, 10, 27, 21, 27, (110, 80, 50))  # canteen belt
+    R(d, 13, 18, 18, 19, gold); head(d, skin, 6, eyes=(50, 35, 25))
+    return im
+def street_crypt_explorer():  # dark ponytail, gold earrings, khaki, magnifying glass
+    im, d = canvas(); shadow(d); skin = (225, 185, 150); khaki = (175, 155, 110); hair = (40, 28, 22)
+    legs(d, skin, top=34, shoe=(90, 65, 40)); R(d, 10, 19, 21, 35, khaki); arms(d, skin, skin)
+    R(d, 13, 18, 18, 19, skin); head(d, skin, 6, eyes=(60, 45, 30))
+    R(d, 10, 3, 21, 6, hair); R(d, 14, 0, 17, 3, hair)  # hair + high ponytail
+    R(d, 22, 22, 25, 25, (200, 170, 70)); R(d, 23, 23, 24, 24, (190, 220, 235))  # magnifying glass
+    return im
+def street_under_explorer():  # blonde bob, sailor cap, round glasses, tablet
+    im, d = canvas(); shadow(d); skin = (240, 205, 180); navy = (40, 55, 95); hair = (230, 200, 110)
+    legs(d, skin, top=34, shoe=(30, 30, 35)); R(d, 10, 19, 21, 35, navy); arms(d, skin, skin)
+    R(d, 13, 18, 18, 19, skin); head(d, skin, 6, eyes=(40, 40, 40))
+    R(d, 9, 6, 11, 14, hair); R(d, 20, 6, 22, 14, hair); R(d, 10, 2, 21, 5, (240, 240, 240)); R(d, 10, 5, 21, 5, navy)  # bob + sailor cap
+    R(d, 21, 23, 25, 28, (20, 20, 25)); R(d, 22, 24, 24, 27, (80, 160, 220))  # tablet
+    return im
+def street_explorers_guild():  # dark curls, pith helmet with red feather, khaki, binoculars, holster
+    im, d = canvas(); shadow(d); skin = (215, 165, 130); khaki = (170, 150, 105); hair = (30, 22, 18); helmet = (200, 180, 130)
+    legs(d, skin, top=34, shoe=(95, 65, 40)); R(d, 10, 19, 21, 35, khaki); arms(d, skin, skin)
+    R(d, 10, 27, 21, 28, (95, 65, 40)); R(d, 19, 28, 21, 32, (95, 65, 40))  # belt + holster
+    R(d, 14, 21, 17, 23, (40, 40, 40))  # binoculars
+    R(d, 13, 18, 18, 19, skin); head(d, skin, 6, eyes=(70, 50, 35))
+    R(d, 8, 7, 10, 16, hair); R(d, 21, 7, 23, 16, hair)  # curls
+    R(d, 8, 5, 23, 6, helmet); R(d, 11, 1, 20, 5, helmet); R(d, 11, 4, 20, 4, (230, 230, 220)); R(d, 7, 0, 9, 4, (200, 40, 40))  # helmet + red feather
+    return im
+V19_SPRITES = ['evelyn', 'street_lost_explorer', 'street_crypt_explorer', 'street_under_explorer', 'street_explorers_guild']
 
 
 SPRITES = {'robert': robert, 'ramirez': ramirez, 'rob': rob, 'joseph': joseph, 'miranda': miranda,
