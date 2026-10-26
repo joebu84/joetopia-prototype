@@ -145,6 +145,7 @@
       { re: /Red-Taped Shiv/, id: 'street_red_shiv', small: true },
       { re: /Goblin Bike Chain/, id: 'street_bike_chain', small: true },
       { re: /Mushroom-Stem Bat/, id: 'street_stem_bat', small: true },
+      { re: /Fireplume/, id: 'fireplume', small: true },  // v1.10 PLACEHOLDER card
       { re: /Goblin Six-Shooter/, id: 'street_goblin_revolver', small: true },
       { re: /Da Big Booma/, id: 'street_big_booma', small: true },
       { re: /Ballistic Hat/, id: 'street_ballistic_hat', small: true },
