@@ -57,6 +57,8 @@
       // v1.12 / 2.9.0: Thistledown (REAL art: sunflower, cotton, Juniper, Father Foxtail, Old Burdock; generated stand-ins: the meadow village + villagers)
       thistledown: 'thistledown', sunflower: 'sunflower', street_td_cotton: 'street_td_cotton', street_td_explorer: 'street_td_explorer', street_td_foxtail: 'street_td_foxtail',
       street_td_veteran: 'street_td_veteran', street_td_constable: 'street_td_constable', street_td_villager_woman: 'street_td_villager_woman', street_td_villager_man: 'street_td_villager_man',
+      // v1.13 / 2.10.0 (REAL art): checkpoint soldiers, the Baaa-ndit, Lady Violet, Strawberry, Barley the Barman
+      street_td_checkpoint_bell: 'street_td_checkpoint_bell', street_td_checkpoint_crook: 'street_td_checkpoint_crook', street_td_baaandit: 'street_td_baaandit', street_td_violet: 'street_td_violet', street_td_strawberry: 'street_td_strawberry', street_td_barley: 'street_td_barley',
       enemy_ash_wolf_red_hood: 'enemy_ash_wolf_red_hood', enemy_ash_wolf_blue_hood: 'enemy_ash_wolf_blue_hood',
       // v1.8 / 2.7.7: Babylon district backdrop PLACEHOLDERS (scene banners, tools/make-crypt-eden-art.py)
       district_spire: 'district_spire', district_chrome: 'district_chrome', district_lantern: 'district_lantern', district_scale: 'district_scale', district_under: 'district_under', district_core: 'district_core', district_neon_abyss: 'district_neon_abyss', district_docks: 'district_docks',
@@ -176,7 +178,7 @@
       enlil: 'enlil_ka', marduk: 'marduk_ra', inanna: 'inanna_shar', ushapti: 'ushapti_broker', alpha: 'thornback_alpha',
       wolf: 'enemy_wolf', bandit: 'enemy_bandit', spider: 'enemy_spider', guard: 'enemy_guard', skeleton: 'enemy_skeleton', wraith: 'enemy_wraith', matriarch: 'enemy_matriarch', morvane: 'enemy_morvane',
       evil_spirit: 'enemy_evil_spirit', zombie_goblin: 'enemy_zombie_goblin', graverobbers: 'enemy_graverobbers', possessed_man: 'enemy_possessed_man', necromancer: 'enemy_necromancer', vampire: 'enemy_vampire',
-      flaming_sword: 'enemy_flaming_sword', serpent: 'enemy_serpent', td_constable_foe: 'street_td_constable', td_soldier: 'street_td_constable', red_hood_wolf: 'enemy_ash_wolf_red_hood', blue_hood_wolf: 'enemy_ash_wolf_blue_hood' },  // the guards fight shows the chariot driver
+      flaming_sword: 'enemy_flaming_sword', serpent: 'enemy_serpent', td_constable_foe: 'street_td_constable', td_soldier: 'street_td_checkpoint_bell', td_soldier_crook: 'street_td_checkpoint_crook', sheeple_baaandit: 'street_td_baaandit', red_hood_wolf: 'enemy_ash_wolf_red_hood', blue_hood_wolf: 'enemy_ash_wolf_blue_hood' },  // the guards fight shows the chariot driver
     objects: {               // map markers for shops, crowds and things to do
       shop: 'art/sprites/shop.png', crowd: 'art/sprites/crowd.png', fight: 'art/sprites/fight.png',
       event: 'art/sprites/event.png', drink: 'art/sprites/drink.png', dance: 'art/sprites/dance.png',

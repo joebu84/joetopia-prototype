@@ -50,6 +50,10 @@ ART = {  # art id -> source (relative to SRC); 'placeholder/' = generated stand-
     'sunflower': 'npc/sunflower', 'street_td_cotton': 'npc/cotton', 'street_td_explorer': 'npc/sheeple_explorer_library',
     'street_td_foxtail': 'npc/father_foxtail', 'street_td_veteran': 'npc/sheeple_veteran',  # Old Burdock (t266u)
     'street_td_constable': 'npc/sheeple_constable',  # Constable Rhubarb (t267u); also stands in for the Sheeple Soldiers in fights
+    # v1.13 (t269u-t274u): REAL art, full body: the two checkpoint soldiers, the Baaa-ndit, Lady Violet, Strawberry, Barley the Barman
+    'street_td_checkpoint_bell': 'npc/sheeple_soldier_bell', 'street_td_checkpoint_crook': 'npc/sheeple_soldier_crook',
+    'street_td_baaandit': 'enemy/baaandit', 'street_td_violet': 'npc/lady_violet', 'street_td_strawberry': 'npc/strawberry',
+    'street_td_barley': 'npc/barley_barman',
     # generated stand-ins (no real people): the meadow village and two villagers
     'thistledown': 'placeholder/thistledown', 'street_td_villager_woman': 'placeholder/td_villager_woman',
     'street_td_villager_man': 'placeholder/td_villager_man',
@@ -70,9 +74,10 @@ FACE_SRC = {'street_sheeple_drink': 'npc/sheeple_girl_face', 'street_sheeple_dan
             'street_explorers_guild': 'npc/explorers_guild_portrait'}
 FACE_AT = {  # full-body sources without a face crop: (face cy, face s, bust cy, bust s) as fractions (sq())
     'sunflower': (.14, .5, .22, .85), 'street_td_cotton': (.22, .36, .32, .7), 'street_td_explorer': (.21, .34, .33, .7),
-    'street_td_foxtail': (.16, .34, .27, .7), 'street_td_veteran': (.2, .36, .3, .72), 'street_td_constable': (.15, .36, .25, .72), 'street_td_villager_woman': (.22, .4, .32, .75), 'street_td_villager_man': (.2, .4, .3, .75)}
+    'street_td_foxtail': (.16, .34, .27, .7), 'street_td_veteran': (.2, .36, .3, .72), 'street_td_constable': (.15, .36, .25, .72), 'street_td_villager_woman': (.22, .4, .32, .75), 'street_td_villager_man': (.2, .4, .3, .75),
+    'street_td_checkpoint_bell': (.16, .36, .27, .72), 'street_td_checkpoint_crook': (.16, .36, .27, .72), 'street_td_baaandit': (.16, .36, .27, .72), 'street_td_violet': (.16, .36, .27, .72), 'street_td_strawberry': (.16, .36, .27, .72), 'street_td_barley': (.16, .36, .27, .72)}
 PAD = {'sunflower'}  # taller than 2:3: pad (never stretch) to 2:3 on a blurred copy of itself
-LETTERBOX = {'street_td_veteran', 'street_td_constable', 'evelyn', 'sunflower', 'street_td_cotton', 'street_td_explorer', 'street_td_foxtail', 'street_td_villager_woman', 'street_td_villager_man', 'street_flower_girl', 'street_flower_girl_blue', 'street_sheeple_drink', 'street_sheeple_dance', 'street_lost_explorer', 'street_crypt_explorer', 'street_under_explorer', 'street_explorers_guild'}  # web encounter banner: the WHOLE portrait centred on a blurred backdrop (no crop)
+LETTERBOX = {'street_td_checkpoint_bell', 'street_td_checkpoint_crook', 'street_td_baaandit', 'street_td_violet', 'street_td_strawberry', 'street_td_barley', 'street_td_veteran', 'street_td_constable', 'evelyn', 'sunflower', 'street_td_cotton', 'street_td_explorer', 'street_td_foxtail', 'street_td_villager_woman', 'street_td_villager_man', 'street_flower_girl', 'street_flower_girl_blue', 'street_sheeple_drink', 'street_sheeple_dance', 'street_lost_explorer', 'street_crypt_explorer', 'street_under_explorer', 'street_explorers_guild'}  # web encounter banner: the WHOLE portrait centred on a blurred backdrop (no crop)
 def letterbox(im, W, H):
     bg = wide(im, W, H).filter(ImageFilter.GaussianBlur(18)); bg = Image.blend(bg, Image.new('RGB', (W, H), (12, 10, 16)), .45)
     fg = im.copy(); fg.thumbnail((W, H), Image.LANCZOS); bg.paste(fg, ((W - fg.size[0]) // 2, (H - fg.size[1]) // 2)); return bg

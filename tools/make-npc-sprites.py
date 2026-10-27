@@ -1374,6 +1374,13 @@ def thistledown():  # thatched cottage on a meadow, round door, a wool tuft on t
     R(d, 7, 24, 24, 38, (215, 200, 165)); d.polygon([(4, 25), (15, 12), (27, 25)], fill=(200, 160, 70))
     d.ellipse([13, 30, 18, 40], fill=(90, 120, 60)); R(d, 9, 28, 11, 30, (120, 180, 220)); R(d, 20, 28, 22, 30, (120, 180, 220))
     d.ellipse([12, 13, 19, 18], fill=(245, 245, 240)); P(d, [(5, 37), (26, 37), (8, 40)], (250, 210, 40)); return im
+def street_td_checkpoint_bell(): return _ram((180, 140, 60), (240, 240, 235), horns=(170, 150, 120), prop=lambda d: (R(d, 9, 0, 22, 3, (190, 150, 60)), R(d, 13, 0, 18, 1, (60, 110, 220)), R(d, 4, 22, 9, 30, (245, 245, 245)), R(d, 23, 25, 26, 29, (200, 160, 60))))  # bronze helmet, blue plume, flower shield, bell
+def street_td_checkpoint_crook(): return _ram((180, 140, 60), (235, 225, 200), horns=(170, 150, 120), prop=lambda d: (R(d, 9, 0, 22, 3, (190, 150, 60)), R(d, 13, 0, 18, 1, (60, 110, 220)), R(d, 4, 22, 9, 30, (245, 245, 245)), R(d, 25, 4, 26, 40, (140, 100, 60)), R(d, 25, 3, 28, 4, (140, 100, 60))))  # crook
+def street_td_baaandit(): return _ram((70, 60, 55), (150, 150, 150), horns=(120, 100, 80), prop=lambda d: (R(d, 10, 9, 21, 10, (40, 40, 40)), R(d, 24, 18, 25, 32, (110, 110, 120)), R(d, 22, 15, 27, 19, (245, 245, 245))))  # mask, lead daisy
+def street_td_violet(): return _sheeple((150, 120, 200), (245, 240, 235), (250, 250, 250), (150, 90, 200))
+def street_td_strawberry(): return _sheeple((220, 60, 80), (240, 200, 170), (200, 40, 60), (250, 250, 250))
+def street_td_barley(): return _ram((120, 80, 50), (240, 225, 190), horns=None, beard=(240, 225, 190), prop=lambda d: (R(d, 11, 24, 20, 34, (245, 245, 240)), R(d, 23, 22, 27, 28, (230, 180, 120)), R(d, 23, 21, 27, 22, (240, 160, 190))))  # apron, berry beer
+V113_SPRITES = ['street_td_checkpoint_bell', 'street_td_checkpoint_crook', 'street_td_baaandit', 'street_td_violet', 'street_td_strawberry', 'street_td_barley']
 V112_SPRITES = ['thistledown', 'sunflower', 'street_td_constable', 'street_td_cotton', 'street_td_explorer', 'street_td_foxtail', 'street_td_veteran', 'street_td_villager_woman', 'street_td_villager_man']
 
 
@@ -1387,6 +1394,7 @@ SPRITES = {'robert': robert, 'ramirez': ramirez, 'rob': rob, 'joseph': joseph, '
            **{k: globals()[k] for k in V19_SPRITES},
            **{k: globals()[k] for k in V111_SPRITES},
            **{k: globals()[k] for k in V112_SPRITES},
+           **{k: globals()[k] for k in V113_SPRITES},
            'enc_guard': enc_guard, 'enc_preacher': enc_preacher, 'enc_egirl': enc_egirl,
            'enc_trader': enc_trader, 'enc_goblins': enc_goblins, 'enc_fans': enc_fans,
            **{f'street_{k}': globals()[f'street_{k}'] for k in ('punks', 'drunk', 'party_girls', 'beggar', 'geneticist', 'preacher',

@@ -81,7 +81,7 @@
     });
   }
 
-  $('liveBtn').onclick = () => { if (T.toggleStream()) render(); else toast('You need a streaming device (phone, drone, camera, wand-cam or meta glasses).'); };
+  $('liveBtn').onclick = () => { if (T.toggleStream()) render(); else if (T.signalBlocked && T.signalBlocked()) { toast('📶 One bar... no bars. Signal ' + T.signalPct() + '%: wear a Signal Booster or more devices (phone, glasses, earbuds, smartwatch...).'); render(); } else toast('You need a streaming device (phone, drone, camera, wand-cam or meta glasses).'); };
   $('gearBtn').onclick = () => { if (T.gear()) render(); else toast('Not during an encounter.'); };
   $('statsBtn').onclick = () => { if (T.stats()) render(); else toast('Not during an encounter.'); };
   $('mycoBtn').onclick = () => { if (T.myco()) render(); else toast('Not during an encounter.'); };
