@@ -32,6 +32,7 @@ ART = {  # art id -> source (relative to SRC); 'placeholder/' = generated stand-
     'district_docks': 'placeholder/district_docks',
     # real art (user-supplied), uncropped
     'street_flower_girl': 'npc/flower_girl', 'street_flower_girl_blue': 'npc/flower_girl_blue',
+    'street_sheeple_drink': 'npc/sheeple_girl_face', 'street_sheeple_dance': 'npc/sheeple_girl_rose_face',  # v1.11: FACE-ONLY crops
     'enemy_ash_wolf_red_hood': 'enemy/ash_wolf_red_hood', 'enemy_ash_wolf_blue_hood': 'enemy/ash_wolf_blue_hood',
     # v1.9 / text 2.7.8: Pastor Evelyn, REAL art (user-supplied npc/evelyn.jpg), pre-cropped head-to-book (face and shoulders)
     # as npc/evelyn_portrait.jpg: im.crop((205, 22, 655, 502)) of the 784x1168 original.
@@ -55,7 +56,7 @@ def wide(im, W, H):
     if eh <= h: y0 = (h - eh) / 2; return im.crop((0, round(y0), w, round(y0 + eh))).resize((W, H), Image.LANCZOS)
     ew = h * W / H; x0 = (w - ew) / 2; return im.crop((round(x0), 0, round(x0 + ew), h)).resize((W, H), Image.LANCZOS)
 from PIL import ImageFilter
-LETTERBOX = {'street_flower_girl', 'street_flower_girl_blue', 'street_lost_explorer', 'street_crypt_explorer', 'street_under_explorer', 'street_explorers_guild'}  # web encounter banner: the WHOLE portrait centred on a blurred backdrop (no crop)
+LETTERBOX = {'street_flower_girl', 'street_flower_girl_blue', 'street_sheeple_drink', 'street_sheeple_dance', 'street_lost_explorer', 'street_crypt_explorer', 'street_under_explorer', 'street_explorers_guild'}  # web encounter banner: the WHOLE portrait centred on a blurred backdrop (no crop)
 def letterbox(im, W, H):
     bg = wide(im, W, H).filter(ImageFilter.GaussianBlur(18)); bg = Image.blend(bg, Image.new('RGB', (W, H), (12, 10, 16)), .45)
     fg = im.copy(); fg.thumbnail((W, H), Image.LANCZOS); bg.paste(fg, ((W - fg.size[0]) // 2, (H - fg.size[1]) // 2)); return bg

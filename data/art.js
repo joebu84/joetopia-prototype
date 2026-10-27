@@ -53,6 +53,7 @@
       enemy_flaming_sword: 'enemy_flaming_sword', enemy_serpent: 'enemy_serpent', eden_garden: 'eden_garden', tree_knowledge: 'tree_knowledge',
       tree_life: 'tree_life', ending_thaddeus: 'ending_thaddeus', draconian_true: 'draconian_true', ushapti_true: 'ushapti_true',
       street_flower_girl: 'street_flower_girl', street_flower_girl_blue: 'street_flower_girl_blue',
+      street_sheeple_drink: 'street_sheeple_drink', street_sheeple_dance: 'street_sheeple_dance',
       enemy_ash_wolf_red_hood: 'enemy_ash_wolf_red_hood', enemy_ash_wolf_blue_hood: 'enemy_ash_wolf_blue_hood',
       // v1.8 / 2.7.7: Babylon district backdrop PLACEHOLDERS (scene banners, tools/make-crypt-eden-art.py)
       district_spire: 'district_spire', district_chrome: 'district_chrome', district_lantern: 'district_lantern', district_scale: 'district_scale', district_under: 'district_under', district_core: 'district_core', district_neon_abyss: 'district_neon_abyss', district_docks: 'district_docks',

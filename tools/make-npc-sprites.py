@@ -1335,6 +1335,17 @@ def street_explorers_guild():  # dark curls, pith helmet with red feather, khaki
     R(d, 8, 5, 23, 6, helmet); R(d, 11, 1, 20, 5, helmet); R(d, 11, 4, 20, 4, (230, 230, 220)); R(d, 7, 0, 9, 4, (200, 40, 40))  # helmet + red feather
     return im
 V19_SPRITES = ['evelyn', 'street_lost_explorer', 'street_crypt_explorer', 'street_under_explorer', 'street_explorers_guild']
+def _sheeple(fleece, top, pack, flower):  # v1.11 Sheeple girl: cream face, floppy ears, curly wool, fleece jacket, backpack with a flower
+    im, d = canvas(); shadow(d); skin = (245, 232, 215); wool = (250, 246, 236)
+    legs(d, (90, 80, 75), top=34, shoe=(70, 60, 55)); R(d, 10, 19, 21, 35, fleece); R(d, 13, 20, 18, 27, top); arms(d, fleece, fleece)
+    R(d, 5, 20, 9, 30, pack); R(d, 5, 18, 8, 20, flower)  # backpack + flower
+    R(d, 13, 18, 18, 19, skin); head(d, skin, 6, eyes=(45, 30, 25))
+    R(d, 9, 2, 22, 5, wool); R(d, 8, 4, 9, 8, wool); R(d, 22, 4, 23, 8, wool)  # curly wool
+    R(d, 5, 8, 8, 10, skin); R(d, 23, 8, 26, 10, skin)  # floppy ears
+    return im
+def street_sheeple_drink(): return _sheeple((235, 135, 45), (240, 150, 190), (200, 120, 160), (250, 220, 80))
+def street_sheeple_dance(): return _sheeple((30, 30, 34), (190, 30, 40), (40, 40, 44), (210, 30, 50))
+V111_SPRITES = ['street_sheeple_drink', 'street_sheeple_dance']
 
 
 SPRITES = {'robert': robert, 'ramirez': ramirez, 'rob': rob, 'joseph': joseph, 'miranda': miranda,
@@ -1345,6 +1356,7 @@ SPRITES = {'robert': robert, 'ramirez': ramirez, 'rob': rob, 'joseph': joseph, '
            **{k: globals()[k] for k in V17_SPRITES},
            **{k: globals()[k] for k in V18_SPRITES},
            **{k: globals()[k] for k in V19_SPRITES},
+           **{k: globals()[k] for k in V111_SPRITES},
            'enc_guard': enc_guard, 'enc_preacher': enc_preacher, 'enc_egirl': enc_egirl,
            'enc_trader': enc_trader, 'enc_goblins': enc_goblins, 'enc_fans': enc_fans,
            **{f'street_{k}': globals()[f'street_{k}'] for k in ('punks', 'drunk', 'party_girls', 'beggar', 'geneticist', 'preacher',
