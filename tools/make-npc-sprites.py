@@ -1347,6 +1347,35 @@ def street_sheeple_drink(): return _sheeple((235, 135, 45), (240, 150, 190), (20
 def street_sheeple_dance(): return _sheeple((30, 30, 34), (190, 30, 40), (40, 40, 44), (210, 30, 50))
 V111_SPRITES = ['street_sheeple_drink', 'street_sheeple_dance']
 
+# ---- v1.12 Thistledown Sheeple (real art: npc/sunflower, cotton, sheeple_explorer_library, father_foxtail, sheeple_veteran; placeholder villagers)
+def _ram(robe, wool, face=(235, 215, 190), horns=(170, 150, 120), beard=None, prop=None):
+    im, d = canvas(); shadow(d)
+    legs(d, (90, 80, 75), top=34, shoe=(50, 45, 40)); R(d, 10, 19, 21, 35, robe); arms(d, robe, (70, 60, 55))
+    R(d, 13, 18, 18, 19, face); head(d, face, 6, eyes=(45, 30, 25))
+    R(d, 9, 2, 22, 5, wool); R(d, 5, 8, 8, 10, face); R(d, 23, 8, 26, 10, face)
+    if horns: R(d, 6, 3, 9, 8, horns); R(d, 22, 3, 25, 8, horns)
+    if beard: R(d, 12, 15, 19, 19, beard)
+    if prop: prop(d)
+    return im
+def sunflower():  # green knit dress, black wool, blue visor
+    im = _sheeple((40, 120, 70), (50, 140, 80), (40, 120, 70), (250, 210, 40)); d = ImageDraw.Draw(im)
+    R(d, 10, 8, 21, 9, (80, 200, 255)); return im
+def street_td_cotton(): return _ram((110, 95, 70), (200, 175, 140), horns=None, prop=lambda d: (R(d, 5, 18, 9, 30, (90, 110, 70)), R(d, 9, 19, 12, 28, (90, 130, 190))))  # rucksack + blue scarf
+def street_td_explorer():
+    im = _sheeple((165, 150, 105), (175, 160, 115), (230, 230, 225), (250, 250, 250)); d = ImageDraw.Draw(im)
+    R(d, 8, 2, 23, 4, (200, 180, 130)); return im  # pith helmet
+def street_td_foxtail(): return _ram((25, 22, 28), (245, 245, 240), horns=(150, 130, 100), beard=(245, 245, 240), prop=lambda d: (R(d, 24, 6, 25, 40, (120, 90, 55)), R(d, 14, 27, 17, 28, (230, 180, 60))))  # cassock, crook, flower buckle
+def street_td_veteran(): return _ram((60, 90, 150), (240, 240, 235), horns=(160, 140, 110), beard=(240, 240, 235), prop=lambda d: (R(d, 10, 19, 13, 35, (190, 165, 120)), R(d, 20, 24, 23, 28, (200, 180, 140))))  # blue-and-tan cloak, rope coil
+def street_td_villager_woman(): return _sheeple((40, 120, 70), (235, 225, 200), (170, 120, 70), (220, 50, 50))
+def street_td_villager_man(): return _ram((120, 80, 50), (130, 90, 55), horns=(150, 120, 90))
+def street_td_constable(): return _ram((40, 55, 110), (30, 25, 25), horns=None, beard=(25, 20, 20), prop=lambda d: (R(d, 9, 0, 22, 3, (60, 60, 70)), R(d, 8, 17, 23, 21, (225, 215, 190)), R(d, 5, 24, 8, 29, (190, 115, 60))))  # kettle helmet, wool cape, copper handbell
+def thistledown():  # thatched cottage on a meadow, round door, a wool tuft on the roof
+    im, d = canvas(); shadow(d); R(d, 3, 38, 28, 44, (90, 160, 70))
+    R(d, 7, 24, 24, 38, (215, 200, 165)); d.polygon([(4, 25), (15, 12), (27, 25)], fill=(200, 160, 70))
+    d.ellipse([13, 30, 18, 40], fill=(90, 120, 60)); R(d, 9, 28, 11, 30, (120, 180, 220)); R(d, 20, 28, 22, 30, (120, 180, 220))
+    d.ellipse([12, 13, 19, 18], fill=(245, 245, 240)); P(d, [(5, 37), (26, 37), (8, 40)], (250, 210, 40)); return im
+V112_SPRITES = ['thistledown', 'sunflower', 'street_td_constable', 'street_td_cotton', 'street_td_explorer', 'street_td_foxtail', 'street_td_veteran', 'street_td_villager_woman', 'street_td_villager_man']
+
 
 SPRITES = {'robert': robert, 'ramirez': ramirez, 'rob': rob, 'joseph': joseph, 'miranda': miranda,
            'alex': alex, 'sean': sean, 'alec': alec, 'lydia': lydia, 'lantern_poet': lantern_poet,
@@ -1357,6 +1386,7 @@ SPRITES = {'robert': robert, 'ramirez': ramirez, 'rob': rob, 'joseph': joseph, '
            **{k: globals()[k] for k in V18_SPRITES},
            **{k: globals()[k] for k in V19_SPRITES},
            **{k: globals()[k] for k in V111_SPRITES},
+           **{k: globals()[k] for k in V112_SPRITES},
            'enc_guard': enc_guard, 'enc_preacher': enc_preacher, 'enc_egirl': enc_egirl,
            'enc_trader': enc_trader, 'enc_goblins': enc_goblins, 'enc_fans': enc_fans,
            **{f'street_{k}': globals()[f'street_{k}'] for k in ('punks', 'drunk', 'party_girls', 'beggar', 'geneticist', 'preacher',

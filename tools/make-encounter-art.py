@@ -88,12 +88,14 @@ def card(w, h, spr, scale, label=None, sy=None):
 # Real Undercroft art (joetopia-art-src/undercroft/<file>.jpg). Swap an image by dropping a new jpg there and re-running.
 UNDER_SRC = os.path.join(os.path.dirname(STREET_SRC), 'undercroft')
 UNDER_FILE = {'pirates': 'pirate'}
+# v1.12 (t258u/t260u): every humanoid PORTRAIT is now the whole picture (full body, no distortion, the source 2:3 aspect);
+# face / bust / event crops are unchanged.
 UNDER_CROP = {  # id: face (cx, cy, s), bust (cx, top, s), portrait box (x0, y0, x1, y1) or None = whole, event box or None = 16:9 from ev_top
     'kraken':       ((.66, .42, .30), (.60, .00, .66), None, (0, .06, 1, .06 + 1712 * 9 / 16 / 1152)),
     'pirates':      ((.50, .22, .32), (.50, .08, .85), None, None),
     'rats':         ((.25, .57, .34), (.33, .22, .64), None, (0, .12, 1, .12 + 1168 * 9 / 16 / 784)),
     'sailor':       ((.41, .22, .22), (.40, .00, .52), None, None),
-    'streetwalker': ((.40, .14, .17), (.40, .00, .22), (.22, .00, .58, .46), (.15, .00, .65, .00 + .50 * 1712 * 9 / 16 / 1152)),  # PG-13: upper body only
+    'streetwalker': ((.40, .14, .17), (.40, .00, .22), None, (.15, .00, .65, .00 + .50 * 1712 * 9 / 16 / 1152)),  # PG-13: upper body only
 }
 for sid, title in UNDER.items():
     name = 'street_' + sid; ujpg = os.path.join(UNDER_SRC, UNDER_FILE.get(sid, sid) + '.jpg')
@@ -171,10 +173,10 @@ LANTERN_SRC = os.path.join(os.path.dirname(STREET_SRC), 'lantern')
 LANTERN_CROP = {  # id: face (cx, cy, s), bust (cx, top, s), portrait box or None = whole, event box or None = 16:9 from the top
     'starving_artist': ((.50, .37, .26), (.50, .24, .72), None, (0, .22, 1, .22 + 784 * 9 / 16 / 1168)),
     # PG-13 (as with the Stranger): every copy is cropped head-to-waist, above the shorts; the overall bib stays the focus.
-    'tipsy_muse':      ((.50, .14, .20), (.49, .04, .40), (.20, .02, .80, .46), (0, .03, 1, .03 + 1152 * 9 / 16 / 1712)),
+    'tipsy_muse':      ((.50, .14, .20), (.49, .04, .40), None, (0, .03, 1, .03 + 1152 * 9 / 16 / 1712)),
     'acrobats':        ((.62, .66, .30), (.50, .00, .67), None, (0, .12, 1, .12 + 1168 * 9 / 16 / 784)),
 }
-LANTERN_SHADE = {'tipsy_muse': [(.405, .255, .475, .39, 170), (.585, .27, .645, .36, 120)]}
+LANTERN_SHADE = {}  # v1.12 (t259u: the outfits are appropriate; no covering): was tipsy_muse shading
 for sid, title in LANTERN.items():
     name = 'street_' + sid; sjpg = os.path.join(LANTERN_SRC, sid + '.jpg')
     if os.path.exists(sjpg):
@@ -213,7 +215,7 @@ CHROME_CROP = {
     'rude_worker': ((.51, .365, .33), (.5, .2, .75), None, (0, .2, 1, .5785)),
     'discarded_tech': ((.52, .55, .45), (.5, .3, .8), None, (0, .38, 1, .7576)),
     'courier': ((.50, .285, .3), (.55, .2, .75), None, (0, .23, 1, .6076)),
-    'toll_path': ((.53, .5, .28), (.53, .25, .5), (.25, 0, .75, 1), (0, .1, 1, .938)),
+    'toll_path': ((.53, .5, .28), (.53, .25, .5), None, (0, .1, 1, .938)),
 }  # id: face (cx, cy, s), bust (cx, top, s), portrait box or None = whole, event box or None = 16:9 from the top
 for sid, title in CHROME.items():
     name = 'street_' + sid; sjpg = os.path.join(CHROME_SRC, CHROME_FILE.get(sid, sid) + '.jpg')
@@ -252,14 +254,14 @@ SPIRE_FILE = {'runaway_chariot': 'chariot', 'lost_jewelry': 'jewelry', 'charity_
               'reality_pushup': 'togiru', 'reality_blind_date': 'blind_date_noble', 'reality_makeup': 'bathsheba', 'reality_fletcher': 'fletcher', 'reality_petyr': 'petyr',
               'wizard_couriers': 'wizard_courier', 'adrenochrome': 'wizard_courier'}  # encounter id -> source jpg name, when they differ
 SPIRE_CROP = {
-    'runaway_chariot': ((.503, .21, .1), (.5, .1, .36), (.2, 0, .8, .85), (0, .05, 1, .886)),
-    'reality_show': ((.5, .16, .22), (.5, .07, .6), (.12, .02, .88, .52), (0, .04, 1, .27)),
+    'runaway_chariot': ((.503, .21, .1), (.5, .1, .36), None, (0, .05, 1, .886)),
+    'reality_show': ((.5, .16, .22), (.5, .07, .6), None, (0, .04, 1, .27)),
     'charity_gala': ((.55, .31, .36), (.5, .2, .8), None, (0, .2, 1, .578)),
     'lost_jewelry': ((.5, .65, .55), (.5, .45, .8), None, (0, .5, 1, .878)),
     'reality_pushup': ((.47, .13, .28), (.5, .04, .7), None, (0, .03, 1, .407)),
     # PG-13 like the Stranger: the noble and Bathsheba are cut at the shoulders/upper chest (no cleavage or legs)
-    'reality_blind_date': ((.79, .23, .16), (.82, .02, .26), (.66, .02, .98, .43), 'COMPOSITE'),
-    'reality_makeup': ((.53, .36, .25), (.55, .18, .48), (.1, .12, .95, .49), (0, .13, 1, .508)),
+    'reality_blind_date': ((.79, .23, .16), (.82, .02, .26), None, 'COMPOSITE'),
+    'reality_makeup': ((.53, .36, .25), (.55, .18, .48), None, (0, .13, 1, .508)),
     'reality_fletcher': ((.48, .26, .22), (.5, .15, .6), None, (0, .12, 1, .497)),
     'reality_petyr': ((.55, .30, .3), (.5, .08, .8), None, (0, .05, 1, .427)),
     # landscape 1712x1152: face/bust on the wizard (left), whole picture as portrait, 16:9 banner keeps wizard, vial and the toga man
@@ -320,7 +322,7 @@ FOREST_CROP = {  # id: face (cx, cy, s), bust (cx, top, s), portrait box or None
     'unicorn': ((.53, .76, .14), (.62, .25, .55), None, (0, .10, 1, .938)),
     'gnome': ((.48, .30, .32), (.48, .14, .75), None, (0, .14, 1, .56)),  # PLACEHOLDER (generated), joetopia-art-src/placeholder/gnome.jpg
     # PG-13: everything stops above the collarbone (y < .25 of the 784x1168 source)
-    'pixie': ((.49, .16, .22), (.49, .02, .29), (.12, 0, .92, .25), (.16, 0, .82, .25)),
+    'pixie': ((.49, .16, .22), (.49, .02, .29), None, (.16, 0, .82, .25)),
     'unicorn_horn': ((.47, .63, .12), (.47, .52, .16), (.40, .50, .56, .78), (.30, .52, .66, .76)),
     'pixie_wings': ((.80, .29, .22), (.80, .19, .24), (.68, .19, .94, .41), (.62, .19, .98, .39)),
 }
@@ -355,16 +357,16 @@ DANCE_FILE.update({'dance_stranger_%d' % i: 'stranger_%d' % i for i in range(1, 
 # the top 38% of the original), 4 man in an open vest pointing, 5 man in a tunic reaching out. Sources 784x1168 (3: 784x444).
 H169 = 784 * 9 / 16 / 1168
 DANCE_CROP = {  # id: face (cx, cy, s), bust (cx, top, s), portrait box or None, event box (16:9 in source pixels)
-    'dance_water': ((.50, .21, .22), (.52, .08, .55), (0, .04, 1, .62), (0, .08, 1, .08 + 1152 * 9 / 16 / 1712)),
+    'dance_water': ((.50, .21, .22), (.52, .08, .55), None, (0, .08, 1, .08 + 1152 * 9 / 16 / 1712)),
     'dance_dj': ((.53, .30, .22), (.52, .07, .60), None, (0, .08, 1, .08 + 1264 * 9 / 16 / 1568)),
-    'dance_pickpocket': ((.47, .24, .20), (.47, .03, .36), (.12, .02, .88, .35), (.12, .04, .88, .04 + .76 * 784 * 9 / 16 / 1168)),
-    'dance_boyfriend': ((.37, .31, .20), (.40, .09, .50), (0, .08, .78, .62), (0, .08, 1, .08 + 784 * 9 / 16 / 1168)),
-    'dance_drinks': ((.47, .22, .18), (.55, .06, .55), (.10, .04, 1, .52), (0, .14, 1, .14 + 784 * 9 / 16 / 1168)),
-    'dance_stranger_1': ((.49, .24, .26), (.48, .06, .60), (0, .02, 1, .62), (0, .08, 1, .08 + H169)),
-    'dance_stranger_2': ((.30, .27, .24), (.38, .08, .60), (0, .04, 1, .62), (0, .10, 1, .10 + H169)),
+    'dance_pickpocket': ((.47, .24, .20), (.47, .03, .36), None, (.12, .04, .88, .04 + .76 * 784 * 9 / 16 / 1168)),
+    'dance_boyfriend': ((.37, .31, .20), (.40, .09, .50), None, (0, .08, 1, .08 + 784 * 9 / 16 / 1168)),
+    'dance_drinks': ((.47, .22, .18), (.55, .06, .55), None, (0, .14, 1, .14 + 784 * 9 / 16 / 1168)),
+    'dance_stranger_1': ((.49, .24, .26), (.48, .06, .60), None, (0, .08, 1, .08 + H169)),
+    'dance_stranger_2': ((.30, .27, .24), (.38, .08, .60), None, (0, .10, 1, .10 + H169)),
     'dance_stranger_3': ((.43, .62, .30), (.45, 0, .56), None, (0, 0, 1, 441 / 444)),
-    'dance_stranger_4': ((.45, .18, .24), (.45, .04, .60), (0, 0, 1, .62), (0, .04, 1, .04 + H169)),
-    'dance_stranger_5': ((.42, .18, .24), (.45, .04, .60), (0, 0, 1, .62), (0, .04, 1, .04 + H169)),
+    'dance_stranger_4': ((.45, .18, .24), (.45, .04, .60), None, (0, .04, 1, .04 + H169)),
+    'dance_stranger_5': ((.42, .18, .24), (.45, .04, .60), None, (0, .04, 1, .04 + H169)),
 }
 # Bar drinkers ("A stranger invites you to drink"): joetopia-art-src/bar/drinker_1..6.jpg. PG-13: 1 is ALREADY cropped to face + necklace
 # (922x599), 4 to face + hair only (455x350), 5 to face + hair down to the collar (830x616); 2, 3 and 6 are as-is (784x1168, 6: 1152x1712).
@@ -372,13 +374,13 @@ DANCE.update({'bar_drinker_%d' % i: 'A stranger invites you to drink' for i in r
 DANCE_FILE.update({'bar_drinker_%d' % i: '../bar/drinker_%d' % i for i in range(1, 7)})
 DANCE_CROP.update({
     'bar_drinker_1': ((.55, .62, .42), (.55, 0, .64), None, (0, 0, 1, 922 * 9 / 16 / 599)),
-    'bar_drinker_2': ((.62, .42, .30), (.55, .25, .60), (0, .15, 1, .75), (0, .28, 1, .28 + H169)),
-    'bar_drinker_3': ((.55, .29, .26), (.62, .05, .60), (0, 0, 1, .62), (0, .05, 1, .05 + H169)),
+    'bar_drinker_2': ((.62, .42, .30), (.55, .25, .60), None, (0, .28, 1, .28 + H169)),
+    'bar_drinker_3': ((.55, .29, .26), (.62, .05, .60), None, (0, .05, 1, .05 + H169)),
     'bar_drinker_4': ((.55, .55, .55), (.50, 0, .76), None, (0, .10, 1, .10 + 455 * 9 / 16 / 350)),
     'bar_drinker_5': ((.50, .55, .45), (.50, 0, .74), None, (0, .05, 1, .05 + 830 * 9 / 16 / 616)),
-    'bar_drinker_6': ((.47, .32, .26), (.50, .04, .60), (0, 0, 1, .62), (0, .06, 1, .06 + 1152 * 9 / 16 / 1712)),
+    'bar_drinker_6': ((.47, .32, .26), (.50, .04, .60), None, (0, .06, 1, .06 + 1152 * 9 / 16 / 1712)),
 })
-DANCE_SHADE = {'dance_boyfriend': [(.66, .42, 1.0, .70, 235)]}  # the girlfriend's torso goes into shadow behind him
+DANCE_SHADE = {}  # v1.12 (t259u): no shading  # the girlfriend's torso goes into shadow behind him
 for sid, title in DANCE.items():
     name = 'street_' + sid; sjpg = os.path.join(DANCE_SRC, DANCE_FILE[sid] + '.jpg')
     if os.path.exists(sjpg):

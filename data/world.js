@@ -89,6 +89,7 @@ window.JOETOPIA_WORLD = {
   "sanctum": {"name":"The Inner Sanctum","region":"Babylon Core","tier":0,"kind":"city","biome":"club","parent":"ziggurat"},
   "shrine": {"name":"The Mossy Shrine","region":"Deep Toadstool Forests","tier":3,"kind":"country","biome":"forest","parent":"forest"},
   "thaddeus_tomb": {"name":"King Thaddeus's Tomb","region":"The Royal Crypt","tier":4,"kind":"wilds","biome":"cave","parent":"crypt_hall"},
+  "thistledown": {"name":"Thistledown","region":"Forest Edge","tier":2,"kind":"country","biome":"farm","parent":"village"},
   "throne": {"name":"The Throne of Ash","region":"The Ash Wilds","tier":4,"kind":"wilds","biome":"castle","parent":"courtyard"},
   "tree_knowledge": {"name":"The Tree of the Knowledge of Good and Evil","region":"Eden","tier":3,"kind":"country","biome":"forest","parent":"eden_garden"},
   "tree_life": {"name":"The Tree of Life","region":"Eden","tier":3,"kind":"country","biome":"forest","parent":"eden_garden"},

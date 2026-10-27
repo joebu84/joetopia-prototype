@@ -7,13 +7,15 @@ vm.createContext(ctx); vm.runInContext(fs.readFileSync(path.join(root, 'engine/j
 const api = ctx.JoetopiaKt.com.grokbot.joetopia.game.JoetopiaApi;
 api.reset(1); api.debug('create', 'BOUNCER', 'Tester'); api.choose(0, ''); api.debug('rates', '0', '0'); api.debug('flowers', 'off', '');
 const extra = ['intro', 'courtyard', 'throne', 'ziggurat', 'sanctum', 'alley', 'megavip', 'backstage',
-  'crypt_stair', 'crypt_hall', 'crypt_ossuary', 'crypt_chapel', 'thaddeus_tomb', 'eden_gate', 'eden_garden', 'tree_knowledge', 'tree_life'];
+  'crypt_stair', 'crypt_hall', 'crypt_ossuary', 'crypt_chapel', 'thaddeus_tomb', 'eden_gate', 'eden_garden', 'tree_knowledge', 'tree_life', 'thistledown',
+  // v1.12: the district libraries are entered through an event (Juniper may be inside), so list them here
+  'd_chrome_library', 'd_lantern_library', 'd_scale_library', 'd_spire_library', 'd_under_library'];
 const seen = {}, parent = {}, q = ['village']; const out = {};
 function biome(n, kind) {
   if (/^d_[a-z]+$/.test(n) || ['neverland', 'docks', 'alley'].includes(n) || /_landmark$/.test(n)) return 'city';
   if (/_club$/.test(n) || /^(megarave|floor_|bar_|chill|creators|megavip|backstage|ziggurat|sanctum)/.test(n)) return 'club';
   if (['village', 'market'].includes(n)) return 'village';
-  if (n === 'crossroads') return 'farm';
+  if (n === 'crossroads' || n === 'thistledown') return 'farm';
   if (['forest', 'shrine'].includes(n)) return 'forest';
   if (['cave', 'lake'].includes(n)) return 'cave';
   if (['rave', 'vip', 'dealer'].includes(n)) return 'cavern_club';
