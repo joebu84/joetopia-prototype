@@ -54,6 +54,20 @@ ART = {  # art id -> source (relative to SRC); 'placeholder/' = generated stand-
     'street_td_checkpoint_bell': 'npc/sheeple_soldier_bell', 'street_td_checkpoint_crook': 'npc/sheeple_soldier_crook',
     'street_td_baaandit': 'enemy/baaandit', 'street_td_violet': 'npc/lady_violet', 'street_td_strawberry': 'npc/strawberry',
     'street_td_barley': 'npc/barley_barman',
+    'street_td_chesnut': 'npc/pastor_chesnut',
+    'street_td_daisy': 'npc/daisy', 'street_td_blackbriar': 'npc/general_blackbriar', 'street_td_tamarind': 'npc/tamarind', 'kale': 'npc/kale', 'street_td_cowslip': 'npc/cowslip',  # v1.15 AF cowslip; Z/Y2 (t358u, t359u): Daisy; General Blackbriar holding the Judgment Bell
+    'street_td_apricot': 'npc/apricot',  # v1.15 V (t320u): Apricot, the famous Sheeple dancer at the Woolly Tankard  # v1.15 U (t313u): Pastor Chesnut, Glade Tidings Church
+    # v1.15 U2-U6 (t314u-t318u): REAL art: Meadow Wolf (+ calmed), the Alpha, Meadow Rats, the fallen soldier, the lost lamb
+    'enemy_meadow_wolf': 'enemy/meadow_wolf', 'enemy_meadow_wolf_calm': 'enemy/meadow_wolf_calm', 'enemy_meadow_wolf_alpha': 'enemy/meadow_wolf_alpha',
+    'enemy_meadow_rats': 'enemy/meadow_rats', 'enemy_sunlight_moth': 'enemy/sunlight_moth', 'street_td_fallen_soldier': 'npc/fallen_soldier_body', 'street_td_lost_lamb': 'npc/lost_lamb_briar',
+    'street_td_couple': 'npc/sheeple_couple', 'street_td_leave_soldier': 'npc/sheeple_soldier_leave',  # v1.15 (t278u, t279u): pub encounters
+    # v1.15 batch 2 (t280u-t284u): REAL art: the Ghostly Ram, the Firefox, the Giga Goose, its nest, the two lambs
+    'street_td_ghost_ram': 'enemy/ghost_ram', 'street_td_firefox': 'enemy/firefox', 'street_td_giga_goose': 'enemy/giga_goose',
+    'street_td_goose_nest': 'npc/giga_goose_nest', 'street_td_lambs': 'npc/sheeple_lambs',
+    # v1.15 F-I (t286u, t287u): REAL art: Phoebe the TikTok Pastor (Babylon) and the Fire Dragonfly (Thistledown stream)
+    'phoebe': 'npc/phoebe', 'street_td_fire_dragonfly': 'enemy/fire_dragonfly', 'street_td_strange_sheeple': 'npc/strange_sheeple_ushapti',
+    'enemy_ushapti_probe': 'enemy/ushapti_probe', 'enemy_ushapti_beam_pistol': 'enemy/ushapti_beam_pistol', 'enemy_ushapti_wizard': 'enemy/ushapti_wizard',
+    'roger_male': 'npc/roger_male', 'roger_female': 'npc/roger_female', 'roger_combat': 'enemy/roger_combat',  # v1.15 P2: Roger the Ushapti Trickster, revealed (full body)
     # generated stand-ins (no real people): the meadow village and two villagers
     'thistledown': 'placeholder/thistledown', 'street_td_villager_woman': 'placeholder/td_villager_woman',
     'street_td_villager_man': 'placeholder/td_villager_man',
@@ -73,11 +87,23 @@ FACE_SRC = {'street_sheeple_drink': 'npc/sheeple_girl_face', 'street_sheeple_dan
             'street_crypt_explorer': 'encounter/lost_explorer_crypt_portrait', 'street_under_explorer': 'encounter/lost_explorer_undercroft_portrait',
             'street_explorers_guild': 'npc/explorers_guild_portrait'}
 FACE_AT = {  # full-body sources without a face crop: (face cy, face s, bust cy, bust s) as fractions (sq())
+    'phoebe': (.14, .32, .25, .65), 'street_td_fire_dragonfly': (.37, .4, .38, .9), 'street_td_strange_sheeple': (.21, .34, .3, .72),
+    'enemy_ushapti_probe': (.33, .5, .45, .9), 'enemy_ushapti_beam_pistol': (.28, .55, .42, .95), 'enemy_ushapti_wizard': (.30, .45, .40, .9), 'roger_male': (.27, .34, .3, .5), 'roger_female': (.255, .3, .3, .5), 'roger_combat': (.43, .24, .52, .6),
+    'street_td_ghost_ram': (.2, .4, .3, .75), 'street_td_firefox': (.52, .45, .52, .8), 'street_td_giga_goose': (.25, .45, .4, .85), 'street_td_goose_nest': (.6, .6, .6, .9), 'street_td_lambs': (.42, .6, .5, .9),
+    'street_td_chesnut': (.29, .32, .4, .72), 'street_td_apricot': (.2, .3, .3, .66), 'street_td_daisy': (.17, .3, .3, .66), 'street_td_blackbriar': (.15, .26, .3, .66), 'street_td_tamarind': (.15, .28, .3, .66), 'kale': (.2, .3, .32, .7), 'street_td_cowslip': (.3, .32, .36, .9),
+    'enemy_meadow_wolf': (.35, .45, .45, .85), 'enemy_meadow_wolf_calm': (.35, .45, .45, .85), 'enemy_meadow_wolf_alpha': (.33, .45, .45, .85),
+    'enemy_meadow_rats': (.45, .55, .5, .9), 'enemy_sunlight_moth': (.4, .45, .45, .85), 'street_td_fallen_soldier': (.5, .55, .55, .9), 'street_td_lost_lamb': (.45, .45, .5, .85),
+    'street_td_couple': (.33, .9, .4, 1), 'street_td_leave_soldier': (.3, .42, .38, .75),
     'sunflower': (.14, .5, .22, .85), 'street_td_cotton': (.22, .36, .32, .7), 'street_td_explorer': (.21, .34, .33, .7),
     'street_td_foxtail': (.16, .34, .27, .7), 'street_td_veteran': (.2, .36, .3, .72), 'street_td_constable': (.15, .36, .25, .72), 'street_td_villager_woman': (.22, .4, .32, .75), 'street_td_villager_man': (.2, .4, .3, .75),
     'street_td_checkpoint_bell': (.16, .36, .27, .72), 'street_td_checkpoint_crook': (.16, .36, .27, .72), 'street_td_baaandit': (.16, .36, .27, .72), 'street_td_violet': (.16, .36, .27, .72), 'street_td_strawberry': (.16, .36, .27, .72), 'street_td_barley': (.16, .36, .27, .72)}
 PAD = {'sunflower'}  # taller than 2:3: pad (never stretch) to 2:3 on a blurred copy of itself
-LETTERBOX = {'street_td_checkpoint_bell', 'street_td_checkpoint_crook', 'street_td_baaandit', 'street_td_violet', 'street_td_strawberry', 'street_td_barley', 'street_td_veteran', 'street_td_constable', 'evelyn', 'sunflower', 'street_td_cotton', 'street_td_explorer', 'street_td_foxtail', 'street_td_villager_woman', 'street_td_villager_man', 'street_flower_girl', 'street_flower_girl_blue', 'street_sheeple_drink', 'street_sheeple_dance', 'street_lost_explorer', 'street_crypt_explorer', 'street_under_explorer', 'street_explorers_guild'}  # web encounter banner: the WHOLE portrait centred on a blurred backdrop (no crop)
+LETTERBOX = {'street_td_cowslip', 'kale', 'enemy_sunlight_moth', 'street_td_tamarind', 'street_td_daisy', 'street_td_blackbriar', 'street_td_apricot', 'street_td_chesnut', 'enemy_meadow_wolf', 'enemy_meadow_wolf_calm', 'enemy_meadow_wolf_alpha', 'enemy_meadow_rats', 'street_td_fallen_soldier', 'street_td_lost_lamb', 'roger_male', 'roger_female', 'roger_combat', 'enemy_ushapti_probe', 'enemy_ushapti_wizard', 'enemy_ushapti_beam_pistol', 'street_td_strange_sheeple', 'street_td_ghost_ram', 'street_td_giga_goose', 'street_td_lambs', 'street_td_checkpoint_bell', 'street_td_checkpoint_crook', 'street_td_baaandit', 'street_td_violet', 'street_td_strawberry', 'street_td_barley', 'street_td_veteran', 'street_td_constable', 'evelyn', 'sunflower', 'street_td_cotton', 'street_td_explorer', 'street_td_foxtail', 'street_td_villager_woman', 'street_td_villager_man', 'street_flower_girl', 'street_flower_girl_blue', 'street_sheeple_drink', 'street_sheeple_dance', 'street_lost_explorer', 'street_crypt_explorer', 'street_under_explorer', 'street_explorers_guild'}  # web encounter banner: the WHOLE portrait centred on a blurred backdrop (no crop)
+# v1.15: portrait sources whose event banner is a full-width 16:9 band starting at this fraction of the height (a crop, never a stretch)
+WIDE_TOP = {'phoebe': .05, 'street_td_fire_dragonfly': .12, 'street_td_couple': 230 / 1712, 'street_td_leave_soldier': 230 / 1712, 'street_td_firefox': .4, 'street_td_goose_nest': .33}
+def band(im, top, W, H):
+    w, h = im.size; bh = round(w * H / W); y0 = max(0, min(h - bh, round(top * h))); return im.crop((0, y0, w, y0 + bh)).resize((W, H), Image.LANCZOS)
+LETTERBOX_APK = {'street_td_cowslip', 'kale', 'enemy_sunlight_moth', 'street_td_tamarind', 'street_td_daisy', 'street_td_blackbriar', 'street_td_apricot', 'street_td_chesnut', 'enemy_meadow_wolf', 'enemy_meadow_wolf_calm', 'enemy_meadow_wolf_alpha', 'enemy_meadow_rats', 'street_td_fallen_soldier', 'street_td_lost_lamb'}
 def letterbox(im, W, H):
     bg = wide(im, W, H).filter(ImageFilter.GaussianBlur(18)); bg = Image.blend(bg, Image.new('RGB', (W, H), (12, 10, 16)), .45)
     fg = im.copy(); fg.thumbnail((W, H), Image.LANCZOS); bg.paste(fg, ((W - fg.size[0]) // 2, (H - fg.size[1]) // 2)); return bg
@@ -96,6 +122,13 @@ for nid, src in ART.items():
         e = wide(im, 800, 450)
         for root in (APK, TXT): save(e, root, 'events', nid, 72)
     if nid in LETTERBOX: save(letterbox(im, 512, 288), WEB, 'events', nid, 80)
+    if nid in LETTERBOX_APK:  # v1.15 U: whole figure on a blurred backdrop for the apps too (never stretched)
+        e = letterbox(im, 800, 450)
+        for root in (APK, TXT): save(e, root, 'events', nid, 72)
+    if nid in WIDE_TOP:
+        save(band(im, WIDE_TOP[nid], 512, 288), WEB, 'events', nid, 80)
+        e = band(im, WIDE_TOP[nid], 800, 450)
+        for root in (APK, TXT): save(e, root, 'events', nid, 72)
     print(nid, im.size, 'landscape' if land else 'portrait')
     if nid in FACE_AT:
         a = Image.open(os.path.join(SRC, src + '.jpg')).convert('RGB')

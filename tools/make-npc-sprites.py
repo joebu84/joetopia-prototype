@@ -1380,6 +1380,121 @@ def street_td_baaandit(): return _ram((70, 60, 55), (150, 150, 150), horns=(120,
 def street_td_violet(): return _sheeple((150, 120, 200), (245, 240, 235), (250, 250, 250), (150, 90, 200))
 def street_td_strawberry(): return _sheeple((220, 60, 80), (240, 200, 170), (200, 40, 60), (250, 250, 250))
 def street_td_barley(): return _ram((120, 80, 50), (240, 225, 190), horns=None, beard=(240, 225, 190), prop=lambda d: (R(d, 11, 24, 20, 34, (245, 245, 240)), R(d, 23, 22, 27, 28, (230, 180, 120)), R(d, 23, 21, 27, 22, (240, 160, 190))))  # apron, berry beer
+def street_td_couple():  # v1.15: the big laughing ram in a red cloak (left) and the blonde ewe with daisies in a purple dress (right), pink berry beers
+    im = _ram((160, 45, 40), (175, 170, 160), face=(110, 70, 50), horns=(60, 45, 35), prop=lambda d: (R(d, 2, 26, 6, 32, (140, 100, 60)), R(d, 2, 25, 6, 26, (240, 160, 190))))
+    d = ImageDraw.Draw(im); R(d, 24, 4, 30, 9, (240, 210, 110)); R(d, 25, 10, 29, 14, (120, 80, 60)); R(d, 24, 15, 30, 30, (120, 70, 160))
+    R(d, 25, 3, 26, 4, (250, 250, 250)); R(d, 28, 4, 29, 5, (250, 250, 250)); R(d, 26, 2, 27, 3, (250, 210, 40)); return im
+def street_td_leave_soldier(): return _ram((50, 80, 160), (60, 40, 30), face=(225, 195, 165), horns=(200, 165, 70), prop=lambda d: (R(d, 13, 20, 18, 30, (245, 242, 235)), R(d, 23, 24, 27, 30, (140, 100, 60)), R(d, 23, 23, 27, 24, (240, 160, 190))))  # v1.15: blue knit shawl, white shirt, gold horns, berry beer
+def street_td_chesnut():  # v1.15 U: Pastor Chesnut: black cassock + white collar, big curly wool wig with sheep ears, wool mitts, sparkling mic
+    wool = (245, 242, 232); im = _ram((22, 20, 24), wool, face=(232, 200, 170), horns=None,
+              prop=lambda d: (R(d, 15, 18, 16, 19, (250, 250, 250)), R(d, 8, 1, 23, 4, wool), R(d, 8, 4, 10, 9, wool), R(d, 21, 4, 23, 9, wool),
+                              R(d, 4, 7, 8, 11, (235, 220, 205)), R(d, 23, 7, 27, 11, (235, 220, 205)),
+                              R(d, 9, 26, 12, 29, (240, 235, 220)), R(d, 19, 26, 22, 29, (240, 235, 220)), R(d, 18, 22, 19, 27, (40, 40, 45)),
+                              P(d, [(17, 21), (20, 21), (16, 24), (21, 25), (18, 20)], (120, 190, 255)), P(d, [(19, 20), (17, 23), (20, 24)], (255, 220, 120))))
+    return im
+def street_td_apricot():  # v1.15 V: Apricot, Sheeple ballerina: orange curls, white daisy tutu, on pointe
+    im = _sheeple((245, 150, 60), (250, 250, 245), (250, 250, 250), (250, 210, 40))
+    d = ImageDraw.Draw(im); R(d, 9, 24, 23, 26, (250, 250, 245)); P(d, [(10, 25), (14, 25), (18, 25), (22, 25)], (250, 210, 40)); return im
+def street_td_ghost_ram():  # v1.15 batch 2: translucent glowing old ram, white beard, curled horns, Victorian suit + cape
+    im = _ram((215, 225, 240, 170), (240, 245, 255, 180), face=(225, 235, 250, 190), horns=(235, 240, 250, 200), beard=(250, 250, 255, 210),
+              prop=lambda d: (R(d, 8, 19, 9, 38, (200, 215, 240, 120)), R(d, 22, 19, 23, 38, (200, 215, 240, 120)), R(d, 14, 20, 17, 21, (250, 250, 255, 220))))
+    return im
+def street_td_firefox():  # v1.15 batch 2: undead fox wreathed in blue spirit-fire
+    im, d = canvas(); shadow(d); f, g, eye = (40, 110, 230), (140, 200, 255), (230, 250, 255)
+    d.ellipse([7, 28, 25, 40], fill=f); d.ellipse([10, 18, 22, 30], fill=f); d.polygon([(10, 20), (11, 12), (15, 19)], fill=f); d.polygon([(22, 20), (21, 12), (17, 19)], fill=f)
+    d.polygon([(14, 26), (18, 26), (16, 30)], fill=g); P(d, [(13, 23), (19, 23)], eye); R(d, 9, 40, 11, 44, f); R(d, 21, 40, 23, 44, f)
+    d.polygon([(24, 34), (31, 26), (28, 38)], fill=g); P(d, [(8, 16), (24, 14), (6, 26), (27, 22), (16, 10)], g); return im
+def street_td_giga_goose():  # v1.15 batch 2: a huge white goose, wings spread, orange beak and feet
+    im, d = canvas(); shadow(d); w, o = (245, 245, 240), (240, 140, 40)
+    d.ellipse([8, 22, 24, 38], fill=w); R(d, 14, 8, 18, 24, w); d.ellipse([12, 4, 20, 12], fill=w); R(d, 20, 7, 25, 9, o); P(d, [(17, 7)], (20, 20, 30))
+    d.polygon([(8, 26), (0, 12), (2, 30)], fill=(230, 230, 225)); d.polygon([(24, 26), (31, 12), (29, 30)], fill=(230, 230, 225))
+    R(d, 12, 38, 13, 43, o); R(d, 19, 38, 20, 43, o); R(d, 9, 43, 14, 44, o); R(d, 18, 43, 23, 44, o); return im
+def street_td_goose_nest():  # v1.15 batch 2: a big twig nest with two white eggs and a golden one
+    im, d = canvas(); shadow(d); tw = (120, 85, 50)
+    d.ellipse([2, 30, 30, 44], fill=tw); d.ellipse([5, 31, 27, 39], fill=(85, 60, 35)); P(d, [(3 + i * 3, 33 + i % 3) for i in range(9)], (160, 120, 75))
+    d.ellipse([7, 29, 13, 37], fill=(245, 245, 240)); d.ellipse([18, 29, 24, 37], fill=(245, 245, 240)); d.ellipse([12, 31, 19, 38], fill=(240, 200, 60)); return im
+def street_td_lambs():  # v1.15 batch 2: two little lambs (Pip in blue overalls, Thimble in a lilac dress)
+    im, d = canvas(); shadow(d); wool, face = (250, 248, 240), (240, 215, 190)
+    for x, c in ((2, (90, 130, 190)), (17, (190, 150, 220))):
+        d.ellipse([x, 16, x + 12, 28], fill=wool); d.ellipse([x + 3, 19, x + 9, 27], fill=face); P(d, [(x + 5, 22), (x + 7, 22)], (40, 30, 30))
+        R(d, x + 2, 28, x + 10, 38, c); R(d, x + 3, 38, x + 4, 44, face); R(d, x + 8, 38, x + 9, 44, face)
+    P(d, [(18, 16), (20, 15), (22, 15), (24, 16)], (240, 190, 220)); return im
+def phoebe():  # v1.15 (t286u): blonde TikTok Pastor, daisy crown, cream-and-gold toga, glowing holo-mic
+    im, d = canvas(); shadow(d); hair, skin, toga, gold = (240, 205, 110), (240, 205, 175), (245, 235, 200), (215, 175, 70)
+    R(d, 10, 4, 21, 20, hair); R(d, 12, 7, 19, 15, skin); P(d, [(14, 10), (17, 10)], (60, 90, 140)); P(d, [(15, 13), (16, 13)], (200, 110, 110))
+    P(d, [(10, 4), (13, 3), (16, 3), (19, 3), (21, 4)], (255, 255, 255)); P(d, [(11, 4), (14, 3), (17, 3), (20, 4)], (250, 210, 40))
+    R(d, 14, 16, 17, 18, skin); R(d, 10, 18, 21, 44, toga); R(d, 10, 26, 21, 27, gold); P(d, [(12, 19), (13, 21), (14, 23), (15, 25)], gold)
+    R(d, 22, 19, 24, 22, skin); R(d, 25, 17, 26, 24, (160, 120, 60)); d.ellipse([24, 12, 29, 17], fill=(140, 200, 255)); P(d, [(23, 11), (30, 13), (27, 10)], (180, 230, 255))
+    R(d, 12, 44, 14, 46, gold); R(d, 17, 44, 19, 46, gold); return im
+def street_td_fire_dragonfly():  # v1.15 (t287u): huge dragonfly, green-bronze body, four flame-edged wings
+    im, d = canvas(); shadow(d); body, eye, wing, fire = (90, 110, 60), (40, 60, 80), (230, 225, 200), (255, 170, 40)
+    for box in ([1, 10, 15, 16], [17, 10, 31, 16], [2, 17, 15, 22], [17, 17, 30, 22]):
+        d.ellipse(box, fill=wing, outline=fire)
+    d.ellipse([12, 9, 20, 15], fill=eye); R(d, 14, 14, 17, 22, body); R(d, 15, 22, 16, 40, body); P(d, [(15, 41), (16, 42)], body); return im
+def street_td_strange_sheeple():  # v1.15 (t289u): grey Ushapti in a curly wool wig with ram horns, white toga, yellow shawl, bee brooch
+    im, d = canvas(); shadow(d); grey, wool, horn, toga, shawl = (170, 175, 180), (245, 243, 235), (190, 160, 110), (240, 240, 235), (215, 180, 50)
+    d.ellipse([9, 2, 23, 14], fill=wool); d.ellipse([5, 5, 11, 12], outline=horn, width=2); d.ellipse([21, 5, 27, 12], outline=horn, width=2)
+    d.ellipse([11, 7, 21, 19], fill=grey); d.ellipse([12, 10, 15, 14], fill=(15, 15, 20)); d.ellipse([17, 10, 20, 14], fill=(15, 15, 20))
+    R(d, 14, 19, 17, 21, grey); R(d, 9, 21, 22, 44, toga); R(d, 8, 21, 23, 30, shawl); R(d, 9, 30, 11, 38, shawl); R(d, 20, 30, 22, 38, shawl)
+    P(d, [(18, 24), (19, 24)], (60, 40, 10)); P(d, [(18, 23), (19, 25)], (240, 200, 40)); return im
+def _ushapti_true(tool):  # v1.15 L/M: grey Ushapti in a silver loincloth with a tool (probe: black with blue rings; pistol: purple)
+    im, d = canvas(); shadow(d); grey, silver = (165, 170, 175), (200, 205, 215)
+    d.ellipse([10, 3, 22, 17], fill=grey); d.ellipse([11, 8, 15, 13], fill=(15, 15, 20)); d.ellipse([17, 8, 21, 13], fill=(15, 15, 20))
+    R(d, 14, 17, 17, 19, grey); R(d, 11, 19, 20, 31, grey); R(d, 11, 31, 20, 35, silver); R(d, 11, 35, 13, 45, grey); R(d, 18, 35, 20, 45, grey)
+    R(d, 7, 20, 9, 30, grey); R(d, 22, 20, 24, 30, grey)
+    if tool == 'probe': R(d, 24, 12, 26, 30, (20, 20, 25)); P(d, [(24, 15), (25, 15), (24, 19), (25, 19)], (60, 150, 255))
+    else: R(d, 22, 18, 29, 21, (150, 60, 220)); P(d, [(29, 19)], (230, 170, 255))
+    return im
+def enemy_ushapti_probe(): return _ushapti_true('probe')
+def enemy_ushapti_beam_pistol(): return _ushapti_true('pistol')
+def enemy_ushapti_wizard():  # v1.15 N: grey Ushapti, gold/lapis nemes, gold collar, blue-gold kilt, cobra staff, green orb
+    im, d = canvas(); shadow(d); grey, gold, lapis, orb = (175, 178, 182), (230, 180, 50), (40, 70, 170), (90, 255, 90)
+    d.polygon([(8, 16), (12, 2), (20, 2), (24, 16)], fill=lapis); P(d, [(9, 12), (10, 8), (11, 5), (21, 5), (22, 8), (23, 12)], gold)
+    d.ellipse([11, 5, 21, 17], fill=grey); d.ellipse([12, 9, 15, 13], fill=(15, 15, 20)); d.ellipse([17, 9, 20, 13], fill=(15, 15, 20)); P(d, [(16, 4)], (60, 200, 200))
+    R(d, 14, 17, 17, 19, grey); R(d, 11, 19, 20, 31, grey); R(d, 10, 19, 21, 22, gold); R(d, 11, 31, 20, 38, lapis); R(d, 15, 31, 16, 38, gold)
+    R(d, 11, 38, 13, 45, grey); R(d, 18, 38, 20, 45, grey); R(d, 11, 41, 13, 45, gold); R(d, 18, 41, 20, 45, gold)
+    R(d, 7, 20, 9, 30, grey); R(d, 22, 20, 24, 27, grey)
+    R(d, 4, 6, 5, 45, gold); d.ellipse([2, 2, 7, 8], fill=gold); P(d, [(4, 4)], (20, 20, 20))
+    d.ellipse([23, 15, 29, 21], fill=orb); P(d, [(25, 17), (26, 18)], (220, 255, 220)); return im
+def _meadow_wolf(collar=None, calm=False):  # v1.15 U2/U3: curly white wool wolf (the Alpha adds a thorn-and-berry collar)
+    im, d = canvas(); shadow(d); fur = (240, 238, 228); dark = (200, 196, 185)
+    R(d, 9, 24, 23, 34, fur); R(d, 10, 34, 12, 44, dark); R(d, 20, 34, 22, 44, dark); R(d, 14, 33, 16, 43, fur); R(d, 17, 33, 19, 43, fur)
+    R(d, 10, 12, 21, 23, fur); P(d, [(10, 9), (11, 10), (11, 11), (21, 9), (20, 10), (20, 11)], dark)
+    R(d, 13, 19, 18, 23, (250, 248, 242)); R(d, 15, 21, 16, 22, BLK); P(d, [(12, 15), (13, 15), (18, 15), (19, 15)], (60, 140, 90) if calm else (200, 60, 50))
+    if collar: R(d, 10, 23, 21, 25, (70, 110, 50)); P(d, [(11, 24), (14, 24), (17, 24), (20, 24)], collar)
+    return im
+def enemy_meadow_wolf(): return _meadow_wolf()
+def enemy_meadow_wolf_calm(): return _meadow_wolf(calm=True)
+def enemy_meadow_wolf_alpha(): return _meadow_wolf(collar=(170, 30, 60))
+def enemy_meadow_rats():  # v1.15 U4: three round, curly-wool rats
+    im, d = canvas(); shadow(d); wool = (235, 230, 215)
+    for x, y in ((3, 34), (12, 30), (20, 36)):
+        d.ellipse([x, y, x + 9, y + 8], fill=wool); P(d, [(x + 1, y + 3)], (200, 60, 60)); d.line([(x + 9, y + 6), (x + 12, y + 8)], fill=(220, 150, 150))
+    return im
+def street_td_fallen_soldier():  # v1.15 U5: a blue cloak and a bell lying in the brambles
+    im, d = canvas(); shadow(d); R(d, 4, 36, 28, 42, (60, 85, 150)); P(d, [(6, 37), (12, 39), (20, 38), (25, 40)], (40, 40, 45))
+    d.ellipse([20, 30, 27, 37], fill=(150, 90, 50)); R(d, 2, 42, 30, 44, (60, 110, 50)); return im
+def street_td_lost_lamb():  # v1.15 U6: one little lamb huddled in the briars
+    im, d = canvas(); shadow(d); wool, face = (250, 248, 240), (240, 215, 190)
+    d.ellipse([10, 24, 22, 36], fill=wool); d.ellipse([13, 27, 19, 35], fill=face); P(d, [(15, 30), (17, 30)], (40, 30, 30))
+    R(d, 12, 36, 20, 42, (230, 200, 120)); P(d, [(4 + i * 4, 40 + i % 2 * 2) for i in range(7)], (60, 110, 50)); return im
+def street_td_blackbriar():  # v1.15 X: Captain Blackbriar, Fleece Regiment: black wool, red coat, iron horns, bell
+    return _ram((150, 25, 30), (35, 35, 40), horns=(90, 90, 100), prop=lambda d: (R(d, 22, 26, 25, 30, (200, 170, 60)), R(d, 10, 22, 21, 23, (230, 200, 90))))
+def street_td_tamarind():  # v1.15 AA: Tamarind, the Woolly Tankard's bouncer: big brown ram, black vest
+    return _ram((30, 30, 34), (120, 80, 50), horns=(200, 180, 140), prop=lambda d: R(d, 13, 24, 18, 25, (200, 200, 205)))
+def street_td_daisy():  # v1.15 Y: Daisy, Sheeple widow-to-be in the clover: white wool, yellow dress, daisy
+    return _sheeple((250, 248, 240), (245, 215, 80), (200, 170, 60), (250, 250, 250))
+def street_td_cowslip():  # v1.15 AD: Cowslip, the milkmaid: cream wool, blue apron, milk bucket
+    im = _sheeple((245, 235, 210), (90, 130, 200), (150, 110, 70), (250, 220, 60))
+    d = ImageDraw.Draw(im); R(d, 23, 30, 28, 37, (170, 170, 180)); R(d, 24, 30, 27, 31, (250, 250, 245)); return im
+def kale():  # v1.15 AB: Kale, the Lantern district street artist (reuses the painter sprite)
+    return street_starving_artist()
+def enemy_sunlight_moth():  # v1.15 AF: a glowing golden moth
+    im, d = canvas(); shadow(d); w, b = (250, 210, 80), (200, 140, 40)
+    d.polygon([(16, 22), (2, 10), (4, 30)], fill=w); d.polygon([(16, 22), (30, 10), (28, 30)], fill=w)
+    d.ellipse([13, 14, 19, 36], fill=b); P(d, [(14, 13), (18, 13), (12, 10), (20, 10)], (90, 60, 30)); P(d, [(6, 18), (26, 18), (8, 26), (24, 26)], (255, 245, 200)); return im
+V115B_SPRITES = ['street_td_blackbriar', 'street_td_tamarind', 'street_td_daisy', 'street_td_cowslip', 'kale', 'enemy_sunlight_moth']
+V115_SPRITES = ['street_td_apricot', 'enemy_meadow_wolf', 'enemy_meadow_wolf_calm', 'enemy_meadow_wolf_alpha', 'enemy_meadow_rats', 'street_td_fallen_soldier', 'street_td_lost_lamb', 'street_td_chesnut', 'enemy_ushapti_probe', 'enemy_ushapti_wizard', 'enemy_ushapti_beam_pistol', 'street_td_strange_sheeple', 'phoebe', 'street_td_fire_dragonfly', 'street_td_couple', 'street_td_leave_soldier', 'street_td_ghost_ram', 'street_td_firefox', 'street_td_giga_goose', 'street_td_goose_nest', 'street_td_lambs']
 V113_SPRITES = ['street_td_checkpoint_bell', 'street_td_checkpoint_crook', 'street_td_baaandit', 'street_td_violet', 'street_td_strawberry', 'street_td_barley']
 V112_SPRITES = ['thistledown', 'sunflower', 'street_td_constable', 'street_td_cotton', 'street_td_explorer', 'street_td_foxtail', 'street_td_veteran', 'street_td_villager_woman', 'street_td_villager_man']
 
@@ -1395,6 +1510,8 @@ SPRITES = {'robert': robert, 'ramirez': ramirez, 'rob': rob, 'joseph': joseph, '
            **{k: globals()[k] for k in V111_SPRITES},
            **{k: globals()[k] for k in V112_SPRITES},
            **{k: globals()[k] for k in V113_SPRITES},
+           **{k: globals()[k] for k in V115_SPRITES},
+           **{k: globals()[k] for k in V115B_SPRITES},
            'enc_guard': enc_guard, 'enc_preacher': enc_preacher, 'enc_egirl': enc_egirl,
            'enc_trader': enc_trader, 'enc_goblins': enc_goblins, 'enc_fans': enc_fans,
            **{f'street_{k}': globals()[f'street_{k}'] for k in ('punks', 'drunk', 'party_girls', 'beggar', 'geneticist', 'preacher',

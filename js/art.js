@@ -177,7 +177,8 @@
   }
   // Art id for a street encounter kind (STREET mode), or null.
   function streetArtId(kind) {
-    if (!kind) return null; const id = 'street_' + kind;
+    if (!kind) return null; if (/^art:/.test(kind)) { const d = kind.slice(4); return A.characters && A.characters[d] ? d : A.characters && A.characters.roger_male && /^roger_/.test(d) ? 'roger_male' : null; }  // P2: a direct art id (Roger revealed)
+    const id = 'street_' + kind;
     return A.characters && A.characters[id] ? id : (A.streetArt || {})[kind] || null;
   }
   // Picture for something that happened in the map log (temptress ban, the creep watching you), or null.

@@ -29,7 +29,7 @@
       if (scene.mode === 'TALK') encFrom = /^enc_/.test(st.talk || '') ? st.talk : null;
       else if (scene.mode === 'STREET') encFrom = JArt.streetArtId(st.streetArt || st.street);
       else if (!/^COMBAT/.test(scene.mode)) encFrom = null;
-      else if (st.combat) { const a = JArt.enemyArtId(st.combat.enemyId, st.combat.enemy); if (a && /^street_/.test(a)) encFrom = a; } // Undercroft ambush, Kraken
+      else if (st.combat) { const a = JArt.enemyArtId(st.combat.enemyId, st.combat.enemy); if (a && (/^street_/.test(a) || a === 'roger_combat')) encFrom = a; } // Undercroft ambush, Kraken
       JUI.showScene(scene, st, { onPick, lastName, encArt: /^COMBAT/.test(scene.mode) || scene.mode === 'STREET' ? encFrom : null });
     }
   }
@@ -118,8 +118,7 @@
   function menuCall(which) { if (!st || !st.menus) { JUI.toast('Not now.'); return; } if (K.openMenu(which)) sync(); else JUI.toast('Not now.'); }
   $('#btnGear').onclick = () => menuCall('gear');
   $('#btnStats').onclick = () => menuCall('stats');
-  $('#btnQuests').onclick = () => menuCall('journal');
-  $('#btnMyco').onclick = () => menuCall('myco');
+  $('#btnKnow').onclick = () => menuCall('knowledge');
   document.querySelectorAll('.dd > .mb').forEach(b => b.addEventListener('click', e => {
     e.stopPropagation(); const dd = b.parentElement; const was = dd.classList.contains('open'); JUI.closeDD();
     if (!was) { fillMenu(dd.dataset.dd); dd.classList.add('open'); const f = dd.querySelector('.item:not(:disabled)'); if (f) f.focus(); }
@@ -139,7 +138,7 @@
     } else if (which === 'stream') {
       JUI.fillDD($('#ddStream'), [
         { info: `👁 Views: ${st.views} (${st.viewsTier})` }, { info: `📶 Signal: ${st.signal}% · ${st.streaming ? '🔴 LIVE now' : 'offline'}` },
-        { label: st.streaming ? '⏹ End the stream' : '🔴 Go LIVE', disabled: !exploring || (!st.streaming && !st.canStream), on: toggleStream },
+        { label: st.streaming ? '⏹ End the stream' : '🔴 Go Live', disabled: !exploring || (!st.streaming && !st.canStream), on: toggleStream },
         { info: 'Views grow from things you do on stream; new faces and new tricks pay best.' },
       ]);
     } else if (which === 'save') {
@@ -157,13 +156,13 @@
         { label: '🚶 Walk speed: ' + (settings.speed === 'fast' ? 'Fast' : 'Normal'), on: () => { settings.speed = settings.speed === 'fast' ? 'normal' : 'fast'; saveSettings(); } },
         { hr: 1 },
         { label: '🗑 Delete save & start over', on: () => { if (confirm('Delete your saved game?')) { localStorage.removeItem('joetopia-save'); localStorage.removeItem(POSKEY); K.reset(-1); map = null; sync(); } } },
-        { info: 'Keys: arrows/WASD move · Enter/Space act · Esc back · I gear · C stats · J quests · M mushrooms · V stream · H here' },
+        { info: 'Keys: arrows/WASD move · Enter/Space act · Esc back · I gear · C stats · K/J/M knowledge · V stream · H here' },
       ]);
     }
   }
   function updateMenus() {
     const m = !!(st && st.menus);
-    ['#btnGear', '#btnStats', '#btnQuests', '#btnMyco'].forEach(s => $(s).disabled = !m);
+    ['#btnGear', '#btnStats', '#btnKnow'].forEach(s => $(s).disabled = !m);
     $('#btnStream').classList.toggle('live', !!(st && st.streaming));
     $('#btnHere').disabled = !(scene && scene.mode === 'EXPLORE');
   }
@@ -200,7 +199,7 @@
     if (KEYDIR[e.key]) { e.preventDefault(); needRelease = false; held.add(KEYDIR[e.key]); path = []; pendingObj = null; if (!moving) step(KEYDIR[e.key]); return; }
     if ([' ', 'Enter', 'e', 'E', 'z', 'Z'].includes(e.key)) { e.preventDefault(); interact(); return; }
     if (e.key === 'Escape' || e.key === 'x' || e.key === 'X') { e.preventDefault(); escape(); return; }
-    const sc = { i: '#btnGear', I: '#btnGear', c: '#btnStats', C: '#btnStats', j: '#btnQuests', J: '#btnQuests', m: '#btnMyco', M: '#btnMyco' }[e.key];
+    const sc = { i: '#btnGear', I: '#btnGear', c: '#btnStats', C: '#btnStats', k: '#btnKnow', K: '#btnKnow', j: '#btnKnow', J: '#btnKnow', m: '#btnKnow', M: '#btnKnow' }[e.key];
     if (sc) { $(sc).click(); return; }
     if (e.key === 'v' || e.key === 'V') { if (st && (st.canStream || st.streaming)) toggleStream(); return; }
     if (e.key === 'h' || e.key === 'H') { e.stopPropagation(); escape(); }

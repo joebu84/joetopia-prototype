@@ -37,7 +37,7 @@
     //   busts      battle picture vs. that person   art/busts/<stem>.webp   (square, 256px)
     // Add a character: drop the four files in, add a line here. Override one picture by setting
     // e.g. npcs.robert = 'art/npcs/robert_v2.png' after the loop below.
-    characters: { robert: 'robert', ramirez: 'ramirez', rob: 'rob', joseph: 'joseph', miranda: 'miranda',
+    characters: { phoebe: 'phoebe', robert: 'robert', ramirez: 'ramirez', rob: 'rob', joseph: 'joseph', miranda: 'miranda',
       alex: 'alex', sean: 'sean', alec: 'alec', lydia_talk: 'lydia',
       // district hosts with real art (joetopia-art-src/npc/<file>.jpg, crops in tools/make-encounter-art.py NPC_ART)
       lantern_poet: 'lantern_poet',  // Miriam Inkwell, Lantern Row
@@ -59,6 +59,19 @@
       street_td_veteran: 'street_td_veteran', street_td_constable: 'street_td_constable', street_td_villager_woman: 'street_td_villager_woman', street_td_villager_man: 'street_td_villager_man',
       // v1.13 / 2.10.0 (REAL art): checkpoint soldiers, the Baaa-ndit, Lady Violet, Strawberry, Barley the Barman
       street_td_checkpoint_bell: 'street_td_checkpoint_bell', street_td_checkpoint_crook: 'street_td_checkpoint_crook', street_td_baaandit: 'street_td_baaandit', street_td_violet: 'street_td_violet', street_td_strawberry: 'street_td_strawberry', street_td_barley: 'street_td_barley',
+      // v1.15 / 2.10.2 (REAL art): the Woolly Tankard's couple (Pumpkin & Daisy) and Private Fennel, a soldier on leave
+      street_td_couple: 'street_td_couple', street_td_leave_soldier: 'street_td_leave_soldier',
+      // v1.15 U (REAL art): Pastor Chesnut of Glade Tidings Church
+      street_td_chesnut: 'street_td_chesnut', street_td_apricot: 'street_td_apricot',
+      // v1.15 V-AF (REAL art faces/portraits; generated map sprites): Blackbriar, Tamarind, Daisy, Cowslip, Kale, the Sunlight Moth; Milkweed reuses the fallen soldier
+      street_td_blackbriar: 'street_td_blackbriar', street_td_tamarind: 'street_td_tamarind', street_td_daisy: 'street_td_daisy', street_td_cowslip: 'street_td_cowslip', kale: 'kale', enemy_sunlight_moth: 'enemy_sunlight_moth', street_td_milkweed_body: 'street_td_fallen_soldier',
+      // v1.15 U2-U6 (REAL art): Meadow Wolf (+ calmed), the Alpha, Meadow Rats, the fallen soldier, the lost lamb
+      enemy_meadow_wolf: 'enemy_meadow_wolf', enemy_meadow_wolf_calm: 'enemy_meadow_wolf_calm', enemy_meadow_wolf_alpha: 'enemy_meadow_wolf_alpha', enemy_meadow_rats: 'enemy_meadow_rats',
+      street_td_fallen_soldier: 'street_td_fallen_soldier', street_td_lost_lamb: 'street_td_lost_lamb',
+      // v1.15 batch 2 (REAL art): Ghostly Ram, Firefox, Giga Goose, the goose's nest, the lambs Pip & Thimble
+      street_td_ghost_ram: 'street_td_ghost_ram', street_td_firefox: 'street_td_firefox', street_td_giga_goose: 'street_td_giga_goose', street_td_fire_dragonfly: 'street_td_fire_dragonfly', street_td_strange_sheeple: 'street_td_strange_sheeple', street_td_goose_nest: 'street_td_goose_nest', street_td_lambs: 'street_td_lambs',
+      enemy_ushapti_probe: 'enemy_ushapti_probe', enemy_ushapti_beam_pistol: 'enemy_ushapti_beam_pistol', enemy_ushapti_wizard: 'enemy_ushapti_wizard',
+      roger_male: 'roger_male', roger_female: 'roger_female', roger_combat: 'roger_combat',  // v1.15 P2 (REAL art): Roger revealed, by disguise
       enemy_ash_wolf_red_hood: 'enemy_ash_wolf_red_hood', enemy_ash_wolf_blue_hood: 'enemy_ash_wolf_blue_hood',
       // v1.8 / 2.7.7: Babylon district backdrop PLACEHOLDERS (scene banners, tools/make-crypt-eden-art.py)
       district_spire: 'district_spire', district_chrome: 'district_chrome', district_lantern: 'district_lantern', district_scale: 'district_scale', district_under: 'district_under', district_core: 'district_core', district_neon_abyss: 'district_neon_abyss', district_docks: 'district_docks',
@@ -164,7 +177,7 @@
     enemies: {},             // battle sprite per enemy id, e.g. wolf: 'art/enemies/wolf.png'
     // Fights whose enemy is one of the characters above: enemy id (or street-event name) -> character id.
     // Its bust is the enemy picture. Fights that start from a road encounter use that encounter's bust too.
-    enemyArt: { city_guard: 'enc_guard', goblin: 'enc_goblins', 'off-duty city guard': 'enc_guard',
+    enemyArt: { ushapti_roger: 'roger_combat', city_guard: 'enc_guard', goblin: 'enc_goblins', 'off-duty city guard': 'enc_guard',
       street_punk: 'street_punks', angry_drunk: 'street_drunk', mad_geneticist: 'street_geneticist',
       rogue_drone: 'street_drone', noble: 'street_noble', creep: 'street_creep',
       undercroft_pirates: 'street_pirates', sewer_rats: 'street_rats', drunken_sailor: 'street_sailor', kraken: 'street_kraken',
@@ -178,7 +191,7 @@
       enlil: 'enlil_ka', marduk: 'marduk_ra', inanna: 'inanna_shar', ushapti: 'ushapti_broker', alpha: 'thornback_alpha',
       wolf: 'enemy_wolf', bandit: 'enemy_bandit', spider: 'enemy_spider', guard: 'enemy_guard', skeleton: 'enemy_skeleton', wraith: 'enemy_wraith', matriarch: 'enemy_matriarch', morvane: 'enemy_morvane',
       evil_spirit: 'enemy_evil_spirit', zombie_goblin: 'enemy_zombie_goblin', graverobbers: 'enemy_graverobbers', possessed_man: 'enemy_possessed_man', necromancer: 'enemy_necromancer', vampire: 'enemy_vampire',
-      flaming_sword: 'enemy_flaming_sword', serpent: 'enemy_serpent', td_constable_foe: 'street_td_constable', td_soldier: 'street_td_checkpoint_bell', td_soldier_crook: 'street_td_checkpoint_crook', sheeple_baaandit: 'street_td_baaandit', red_hood_wolf: 'enemy_ash_wolf_red_hood', blue_hood_wolf: 'enemy_ash_wolf_blue_hood' },  // the guards fight shows the chariot driver
+      flaming_sword: 'enemy_flaming_sword', serpent: 'enemy_serpent', ushapti_probe: 'enemy_ushapti_probe', ushapti_beam_pistol: 'enemy_ushapti_beam_pistol', ushapti_wizard: 'enemy_ushapti_wizard', td_constable_foe: 'street_td_constable', td_soldier: 'street_td_checkpoint_bell', td_soldier_crook: 'street_td_checkpoint_crook', sheeple_baaandit: 'street_td_baaandit', td_meadow_wolf: 'enemy_meadow_wolf', td_meadow_wolf_pair: 'enemy_meadow_wolf', td_meadow_alpha: 'enemy_meadow_wolf_alpha', td_meadow_alpha_pack1: 'enemy_meadow_wolf_alpha', td_meadow_alpha_pack2: 'enemy_meadow_wolf_alpha', td_meadow_rats: 'enemy_meadow_rats', red_hood_wolf: 'enemy_ash_wolf_red_hood', blue_hood_wolf: 'enemy_ash_wolf_blue_hood' },  // the guards fight shows the chariot driver
     objects: {               // map markers for shops, crowds and things to do
       shop: 'art/sprites/shop.png', crowd: 'art/sprites/crowd.png', fight: 'art/sprites/fight.png',
       event: 'art/sprites/event.png', drink: 'art/sprites/drink.png', dance: 'art/sprites/dance.png',
